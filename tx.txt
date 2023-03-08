@@ -1,0 +1,42 @@
+Makefile
+TLCL-13.07.pdf
+a.out
+git.sh
+libft
+main.c
+main.o
+mini
+my_file.txt
+output.txt
+test.c
+tx.txt
+Makefile
+TLCL-13.07.pdf
+a.out
+git.sh
+libft
+main.c
+main.o
+mini
+my_file.txt
+output.txt
+test.c
+tx.txt
+total 4320
+drwxr-xr-x  17 nouakhro  candidates      578 Mar  8 16:10 .
+drwxr-xr-x   7 nouakhro  candidates      238 Mar  7 00:47 ..
+drwxr-xr-x  12 nouakhro  candidates      408 Mar  8 10:30 .git
+-rw-r--r--   1 nouakhro  candidates    20480 Mar  3 22:05 .main.c.swp
+drwxr-xr-x   3 nouakhro  candidates      102 Mar  2 18:35 .vscode
+-rw-r--r--   1 nouakhro  candidates     1182 Mar  3 12:30 Makefile
+-rw-r--r--@  1 nouakhro  candidates  2119958 Mar  5 00:42 TLCL-13.07.pdf
+-rwxr-xr-x   1 nouakhro  candidates    12644 Mar  7 18:59 a.out
+-rw-r--r--   1 nouakhro  candidates      580 Mar  8 11:19 git.sh
+drwxr-xr-x  83 nouakhro  candidates     2822 Mar  4 15:11 libft
+-rw-r--r--   1 nouakhro  candidates     6608 Mar  8 16:10 main.c
+-rw-r--r--   1 nouakhro  candidates     3812 Mar  8 16:10 main.o
+-rwxr-xr-x   1 nouakhro  candidates    17676 Mar  8 16:10 mini
+-rw-r--r--   1 nouakhro  candidates        0 Mar  6 16:58 my_file.txt
+-rw-r--r--   1 nouakhro  candidates      726 Mar  6 11:35 output.txt
+-rw-r--r--   1 nouakhro  candidates     1947 Mar  7 18:59 test.c
+-rw-r--r--   1 nouakhro  candidates      198 Mar  8 16:11 tx.txt

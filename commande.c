@@ -6,11 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 14:19:24 by nouakhro          #+#    #+#             */
-<<<<<<< Updated upstream
-/*   Updated: 2023/03/09 16:30:37 by nouakhro         ###   ########.fr       */
-=======
-/*   Updated: 2023/03/09 16:15:56 by nouakhro         ###   ########.fr       */
->>>>>>> Stashed changes
+/*   Updated: 2023/03/09 16:46:58 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +14,18 @@
 
 void    exicut_echo(t_all *my_struct)
 {
-    int len;
-    len = 0;
-    while(my_struct->cmd[len])
-        len++;
-    printf("%d\n",len);
-    // int i;
-    // int j;
-    // i = 0;
-    // j = 1;
-    // while(j <)
+    // int len;
+    // len = 0;
+    // while(my_struct->cmd[len])
+    //     len++;
+    // my_struct->command_len = len;
+    // printf("[%d]\n",my_struct->command_len);
+    // // int i;
+    // // int j;
+    // // i = 0;
+    // // j = 1;
+    // // while(j <)
+    
 }
 
 void exicut_commande(t_all my_struct, int i)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hdagdagu <hdagdagu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:07:52 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/03/09 14:24:37 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/03/09 15:48:07 by hdagdagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,11 @@ int main()
     {
         i = 0;
         j = 0;
-        my_struct.commande_line = readline("escanour > ");
+        my_struct.cmd = readline("escanour > ");
         my_struct.my_path = ft_split(getenv("PATH"), ':');
-        my_struct.my_command = ft_split(my_struct.commande_line, ' ');
-        if(ft_strlen(my_struct.commande_line) > 0)
-            add_history(my_struct.commande_line);
+        my_struct.my_command = ft_split(my_struct.cmd, ' ');
+        if(ft_strlen(my_struct.cmd) > 0)
+            add_history(my_struct.cmd);
         i = fork();
         if(i == 0)
         {
@@ -57,7 +57,7 @@ int main()
         waitpid(-1, &i, 0);
         if(!ft_strncmp(my_struct.my_command[0], "cd", ft_strlen("cd")))
         {
-            if(ft_strlen(my_struct.commande_line) == 2 || my_struct.my_command[1][0] == '~')
+            if(ft_strlen(my_struct.cmd) == 2 || my_struct.my_command[1][0] == '~')
                 chdir(getenv("HOME"));
             else
                 chdir(my_struct.my_command[1]);

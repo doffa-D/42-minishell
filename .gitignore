@@ -1,7 +1,5 @@
 git.sh
 tx.txt
 main.o
-mini
+minishell
 test.c
-libft
-*.o

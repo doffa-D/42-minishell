@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hdagdagu <hdagdagu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 14:20:41 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/03/09 14:24:48 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/03/09 15:48:22 by hdagdagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ typedef struct s_all
 	char *my_curent_path;
 	char **my_command;
 	char *read_all;
-	const char *commande_line;
+	const char *cmd;
+	int command_len;
 }               t_all;
 
 void exicut_commande(t_all my_struct, int i);

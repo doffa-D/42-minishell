@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_all.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hdagdagu <hdagdagu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 14:18:50 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/03/09 14:22:09 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/03/09 15:48:07 by hdagdagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,5 @@ void free_all(t_all my_struct)
             }
             free(my_struct.my_command);
         }
-        free((char *)my_struct.commande_line);
+        free((char *)my_struct.cmd);
 }

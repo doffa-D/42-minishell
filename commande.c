@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 14:19:24 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/03/09 16:07:09 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/03/09 16:30:37 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ void exicut_commande(t_all my_struct, int i)
     {
 		exit(1);
     }
-    else if(!ft_strncmp(my_struct.my_command[0], "echo", ft_strlen("echo")))
-        exicut_echo(&my_struct);
+    // else if(!ft_strncmp(my_struct.my_command[0], "echo", ft_strlen("echo")))
+    //     exicut_echo(&my_struct);
 	else if(!ft_strncmp(my_struct.cmd, my_struct.cmd, ft_strlen(my_struct.cmd)))
     {
         check_rediractions(my_struct);

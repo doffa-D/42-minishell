@@ -5,8 +5,13 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
+<<<<<<< HEAD
 /*   Created: 2023/03/09 16:08:06 by nouakhro          #+#    #+#             */
 /*   Updated: 2023/03/09 16:47:05 by nouakhro         ###   ########.fr       */
+=======
+/*   Created: 2023/03/09 14:20:41 by nouakhro          #+#    #+#             */
+/*   Updated: 2023/03/09 16:43:02 by nouakhro         ###   ########.fr       */
+>>>>>>> nourdin
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +29,6 @@
 typedef struct s_all
 {
 
-	size_t  linght_path;
 	char **my_path;
 	char **my_command;
 	char *read_all;

@@ -6,7 +6,7 @@
 /*   By: hdagdagu <hdagdagu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 14:20:41 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/03/09 15:48:22 by hdagdagu         ###   ########.fr       */
+/*   Updated: 2023/03/09 15:49:50 by hdagdagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,6 @@ typedef struct s_all
 
 	size_t  linght_path;
 	char **my_path;
-	char **my_all_path;
-	char *my_curent_path;
 	char **my_command;
 	char *read_all;
 	const char *cmd;

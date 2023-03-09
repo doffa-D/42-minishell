@@ -6,7 +6,7 @@
 /*   By: hdagdagu <hdagdagu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 14:19:24 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/03/09 15:48:07 by hdagdagu         ###   ########.fr       */
+/*   Updated: 2023/03/09 15:50:08 by hdagdagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,14 @@ void    exicut_echo(t_all *my_struct)
     len = 0;
     while(my_struct->cmd[len])
         len++;
-    printf("%d\n",)
+    my_struct->command_len = len;
+    printf("[%d]\n",my_struct->command_len);
     // int i;
     // int j;
     // i = 0;
     // j = 1;
     // while(j <)
+    
 }
 
 void exicut_commande(t_all my_struct, int i)

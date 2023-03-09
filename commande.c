@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commande.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hdagdagu <hdagdagu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 14:19:24 by nouakhro          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2023/03/09 15:50:08 by hdagdagu         ###   ########.fr       */
-=======
-/*   Updated: 2023/03/09 16:04:01 by nouakhro         ###   ########.fr       */
->>>>>>> 70f341826ec3c81f3c49c0ecd52c9bc33781e516
+/*   Updated: 2023/03/09 16:20:55 by hdagdagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,21 +14,17 @@
 
 void    exicut_echo(t_all *my_struct)
 {
-    int len;
-    len = 0;
-    while(my_struct->cmd[len])
-        len++;
-<<<<<<< HEAD
-    my_struct->command_len = len;
-    printf("[%d]\n",my_struct->command_len);
-=======
-    printf("%d\n",len);
->>>>>>> 70f341826ec3c81f3c49c0ecd52c9bc33781e516
-    // int i;
-    // int j;
-    // i = 0;
-    // j = 1;
-    // while(j <)
+    // int len;
+    // len = 0;
+    // while(my_struct->cmd[len])
+    //     len++;
+    // my_struct->command_len = len;
+    // printf("[%d]\n",my_struct->command_len);
+    // // int i;
+    // // int j;
+    // // i = 0;
+    // // j = 1;
+    // // while(j <)
     
 }
 

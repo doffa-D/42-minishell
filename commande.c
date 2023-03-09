@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 14:19:24 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/03/09 16:04:01 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/03/09 16:07:09 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,12 @@ void    exicut_echo(t_all *my_struct)
     len = 0;
     while(my_struct->cmd[len])
         len++;
-    printf("%d\n",len);
+    printf("%d\n",len); 
+
+
+
+
+    
     // int i;
     // int j;
     // i = 0;

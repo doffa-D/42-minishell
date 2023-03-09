@@ -6,25 +6,25 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 14:19:24 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/03/09 16:48:42 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/03/09 16:51:20 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "minishell.h"
 
 void    exicut_echo(t_all *my_struct)
 {
-    // int len;
-    // len = 0;
-    // while(my_struct->cmd[len])
-    //     len++;
-    // my_struct->command_len = len;
-    // printf("[%d]\n",my_struct->command_len);
-    // // int i;
-    // // int j;
-    // // i = 0;
-    // // j = 1;
-    // // while(j <)
+    int len;
+    len = 0;
+    while(my_struct->cmd[len])
+        len++;
+    printf("%d\n",len);
+
+
+
+
+
     
 }
 

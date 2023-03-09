@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 14:20:41 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/03/09 16:08:06 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/03/09 16:43:02 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,7 @@
 typedef struct s_all
 {
 
-	size_t  linght_path;
 	char **my_path;
-	char **my_all_path;
-	char *my_curent_path;
 	char **my_command;
 	char *read_all;
 	const char *cmd;

@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:07:52 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/03/09 16:08:01 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/03/09 16:43:22 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ int main()
     int i = 0;
     int j;
     my_struct.my_path = 0;
-    my_struct.my_curent_path = " ";
     while (1)
     {
         i = 0;

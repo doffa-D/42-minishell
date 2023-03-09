@@ -4,3 +4,4 @@ main.o
 mini
 test.c
 libft
+*.o

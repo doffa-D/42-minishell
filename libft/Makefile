@@ -6,7 +6,7 @@
 #    By: hdagdagu <hdagdagu@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/01 12:21:10 by hdagdagu          #+#    #+#              #
-#    Updated: 2022/10/13 22:47:39 by hdagdagu         ###   ########.fr        #
+#    Updated: 2023/03/09 16:39:37 by hdagdagu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,15 +70,15 @@ AR = ar rcs
 all: $(NAME)
 
 bonus: $(BONUSOBJ)
-	$(AR) $(NAME) $^
+	@$(AR) $(NAME) $^
 
 $(NAME): $(OBJ)
-	$(AR) $@ $^
+	@$(AR) $@ $^
 %.o:%.c
-	$(CC) $(CFLAGS) -c $^ -o $@ 
+	@$(CC) $(CFLAGS) -c $^ -o $@ 
 
 fclean:
-	rm -rf $(NAME) $(OBJ) $(BONUSOBJ)
+	@rm -rf $(NAME) $(OBJ) $(BONUSOBJ)
 clean:
-	rm -rf $(OBJ) $(BONUSOBJ)
+	@rm -rf $(OBJ) $(BONUSOBJ)
 re:fclean $(NAME)

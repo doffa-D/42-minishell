@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:07:52 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/03/09 16:43:22 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/03/11 14:39:54 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int main()
     int i = 0;
     int j;
     my_struct.my_path = 0;
+        my_struct.my_command = 0;
     while (1)
     {
         i = 0;
@@ -34,7 +35,6 @@ int main()
         {
         	get_the_path(my_struct);
             i = 0;
-            // exit_the_program(my_struct);
             while (my_struct.my_path[i])
             {
         	    if(!access(my_struct.my_path[i], F_OK))
@@ -44,6 +44,8 @@ int main()
                 }
                 i++;
             }
+            if(i == 0)
+                exit(0);
             if(j != 1)
             {
                 printf("%s command not found\n", my_struct.my_command[0]);
@@ -54,14 +56,13 @@ int main()
                i = 0;
         }
         waitpid(-1, &i, 0);
-        if(!ft_strncmp(my_struct.my_command[0], "cd", ft_strlen("cd")))
+        if(ft_strlen(my_struct.cmd) && !ft_strncmp(my_struct.my_command[0], "cd", ft_strlen("cd")))
         {
             if(ft_strlen(my_struct.cmd) == 2 || my_struct.my_command[1][0] == '~')
                 chdir(getenv("HOME"));
             else
                 chdir(my_struct.my_command[1]);
         }
-        // exit_the_program(my_struct);
         free_all(my_struct);
     }
 }

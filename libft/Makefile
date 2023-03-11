@@ -6,7 +6,7 @@
 #    By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/02 14:47:33 by nouakhro          #+#    #+#              #
-#    Updated: 2022/10/15 13:07:08 by nouakhro         ###   ########.fr        #
+#    Updated: 2023/03/11 14:55:54 by nouakhro         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,7 +56,7 @@ FILS_BOUNUS = 	ft_lstadd_front.c\
 				ft_lstmap.c
 
 GC = gcc
-GCFLAGS = -Wall -Werror -Wextra -std=c90
+GCFLAGS = -Wall -Werror -Wextra
 OBJE= $(FILS:.c=.o)
 OBJE_BOUNUS = $(FILS_BOUNUS:.c=.o)
 NAME = libft.a
@@ -64,18 +64,18 @@ NAME = libft.a
 all: $(NAME)
 
 $(NAME) : $(OBJE)
-	ar -rcs $@ $^
+	@ar -rcs $@ $^
 
 %.o:%.c
-	$(GC) $(GCFLAGS) -c $^
+	@$(GC) $(GCFLAGS) -c $^
 
 clean :
-	rm -rf $(OBJE) $(OBJE_BOUNUS)
+	@rm -rf $(OBJE) $(OBJE_BOUNUS)
 
 fclean : clean
-	rm -rf $(NAME)
+	@rm -rf $(NAME)
 	
 re:fclean $(NAME) 
 
 bonus : $(OBJE_BOUNUS)
-	ar -rcs $(NAME) $^
+	@ar -rcs $(NAME) $^

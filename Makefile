@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+         #
+#    By: hdagdagu <hdagdagu@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/03 12:19:16 by nouakhro          #+#    #+#              #
-#    Updated: 2023/03/09 16:08:03 by nouakhro         ###   ########.fr        #
+#    Updated: 2023/03/10 18:02:23 by hdagdagu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,8 @@ SRC = main.c\
 		utils.c\
 		free_all.c\
 		check_rediraction.c\
-		commande.c
+		commande.c \
+		handle_echo.c \
 
 OBJE = $(SRC:.c=.o)
 

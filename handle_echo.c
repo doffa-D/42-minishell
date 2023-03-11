@@ -6,7 +6,7 @@
 /*   By: hdagdagu <hdagdagu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 18:00:54 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/03/10 18:01:25 by hdagdagu         ###   ########.fr       */
+/*   Updated: 2023/03/11 14:31:55 by hdagdagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,14 +85,18 @@ void	exicut_echo(t_all *my_struct)
 	my_struct->command_len = len;
 	i = 0;
 	j = 1;
+	if (!ft_strncmp(my_struct->my_command[1], "-n", ft_strlen("-n")))
+		j++;
 	while (my_struct->my_command[j])
 	{
 		i = 0;
 		check_dollar(my_struct, i, j);
-		printf(" ");
+		if (my_struct->my_command[j + 1])
+			printf(" ");
 		j++;
 	}
-	printf("\n");
+	if (ft_strncmp(my_struct->my_command[1], "-n", ft_strlen("-n")))
+		printf("\n");
 }
 
 int	quote_check(t_all *my_struct)

@@ -3,76 +3,69 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hdagdagu <hdagdagu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/07 16:38:31 by hdagdagu          #+#    #+#             */
-/*   Updated: 2022/10/11 16:29:34 by hdagdagu         ###   ########.fr       */
+/*   Created: 2022/10/05 23:55:59 by nouakhro          #+#    #+#             */
+/*   Updated: 2022/10/15 13:03:14 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include"libft.h"
 
-char	**ft_alloc(char *s, char **dst, char c)
+char	**complate(const char *sp, char c, size_t j)
 {
-	int		j;
-	char	*tmp_s;
+	char		**splt;
+	const char	*b;
+	int			i;
 
-	tmp_s = s;
+	b = sp;
+	splt = ft_calloc((j + 1), sizeof(char *));
 	j = 0;
-	while (*tmp_s != 0)
+	while (*sp)
 	{
-		while (*s == c)
-			s++;
-		tmp_s = s;
-		while (*tmp_s && *tmp_s != c)
-			++tmp_s;
-		if (*tmp_s == c || s < tmp_s)
+		i = 0;
+		while (sp[i] == c)
 		{
-			dst[j] = ft_substr(s, 0, ft_strlen(s) - ft_strlen(tmp_s));
-			if (dst[j] == 0)
-				return (0);
-			s = tmp_s;
-			j++;
+			sp++;
+			b++;
 		}
-	}
-	return (dst);
-}
-
-int	ft_count(const char *s, char c)
-{
-	int	j;
-	int	i;
-
-	j = 0;
-	i = 0;
-	if (s == 0)
-		return (0);
-	while (s[i])
-	{
-		while (s[i] && s[i] == c)
-			i++;
-		while (s[i] && s[i] != c)
+		while (*sp != c && *sp)
 		{
-			if (s[i + 1] == c || !s[i + 1])
-				j++;
 			i++;
+			sp++;
 		}
+		splt[j] = ft_substr(b, 0, i);
+		b = sp;
+		j++;
 	}
-	return (j);
+	return (splt);
 }
 
 char	**ft_split(char const *s, char c)
 {
-	char	**dst;
-	int		j;
+	size_t		j;
+	int			i;
+	char		**splt;
+	char		set[2];
 
-	j = 0;
-	if (s == 0)
+	if (!s)
 		return (0);
-	j = ft_count(s, c);
-	dst = (char **)ft_calloc(sizeof(char *), (j + 1));
-	if (dst == 0)
+	i = 0;
+	j = 1;
+	set[0] = c;
+	set[1] = 0;
+	s = ft_strtrim(s, set);
+	if (!s)
 		return (0);
-	ft_alloc((char *)s, dst, c);
-	return (dst);
+	while (s[i] != 0)
+	{
+		if (s[i] == c)
+			j++;
+		while (s[i] == c)
+			i++;
+		i++;
+	}
+	splt = complate(s, c, j);
+	free((char *)s);
+	return (splt);
 }

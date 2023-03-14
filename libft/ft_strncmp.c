@@ -3,29 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hdagdagu <hdagdagu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/29 19:30:07 by hdagdagu          #+#    #+#             */
-/*   Updated: 2022/10/11 15:32:04 by hdagdagu         ###   ########.fr       */
+/*   Created: 2022/09/29 20:09:22 by nouakhro          #+#    #+#             */
+/*   Updated: 2022/10/14 00:16:13 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_strncmp(const char *ss1, const char *s2, size_t n)
+int	ft_strncmp(const char *frst, const char *scnd, size_t length)
 {
 	size_t			i;
-	unsigned char	*s1;
+	unsigned char	*ferst;
+	unsigned char	*secnd;
 
-	s1 = (unsigned char *)ss1;
 	i = 0;
-	while (i < n && (s1[i] != 0 || s2[i] != 0))
+	ferst = (unsigned char *)frst;
+	secnd = (unsigned char *)scnd;
+	while ((ferst[i] || secnd[i]) && i < length)
 	{
-		if (s1[i] > s2[i] || (s1[i] && !s2[i]))
-			return (1);
-		else if (s1[i] < s2[i] || (!s1[i] && s2[i]))
+		if (ferst[i] == secnd[i])
+			i++;
+		else if (ferst[i] < secnd[i])
 			return (-1);
-		i++;
+		else if (ferst[i] > secnd[i])
+			return (1);
 	}
 	return (0);
 }

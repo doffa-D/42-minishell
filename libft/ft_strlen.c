@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 12:51:21 by nouakhro          #+#    #+#             */
-/*   Updated: 2022/10/04 16:45:03 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/03/12 16:23:23 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ size_t	ft_strlen(const char	*str)
 {
 	int	i;
 
+	if(!str)
+		return 0;
 	i = 0;
 	while (str[i])
 		i++;

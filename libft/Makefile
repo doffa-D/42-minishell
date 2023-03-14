@@ -6,7 +6,7 @@
 #    By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/02 14:47:33 by nouakhro          #+#    #+#              #
-#    Updated: 2023/03/11 14:55:54 by nouakhro         ###   ########.fr        #
+#    Updated: 2023/03/11 17:24:52 by nouakhro         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -64,18 +64,18 @@ NAME = libft.a
 all: $(NAME)
 
 $(NAME) : $(OBJE)
-	@ar -rcs $@ $^
+	ar -rcs $@ $^
 
 %.o:%.c
-	@$(GC) $(GCFLAGS) -c $^
+	$(GC) $(GCFLAGS) -c $^
 
 clean :
-	@rm -rf $(OBJE) $(OBJE_BOUNUS)
+	rm -rf $(OBJE) $(OBJE_BOUNUS)
 
 fclean : clean
-	@rm -rf $(NAME)
+	rm -rf $(NAME)
 	
 re:fclean $(NAME) 
 
 bonus : $(OBJE_BOUNUS)
-	@ar -rcs $(NAME) $^
+	ar -rcs $(NAME) $^

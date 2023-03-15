@@ -6,7 +6,7 @@
 #    By: hdagdagu <hdagdagu@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/03 12:19:16 by nouakhro          #+#    #+#              #
-#    Updated: 2023/03/10 18:02:23 by hdagdagu         ###   ########.fr        #
+#    Updated: 2023/03/15 11:10:02 by hdagdagu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,7 @@ SRC = main.c\
 		check_rediraction.c\
 		commande.c \
 		handle_echo.c \
+		fix_arg.c \
 
 OBJE = $(SRC:.c=.o)
 

@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:07:52 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/03/13 15:33:05 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/03/15 10:58:20 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,13 @@ void handler(int sig, siginfo_t *info, void *i)
     (void) i;
     (void) info;
     if(sig == SIGINT)
-        return ;
+    {
+        // return;
+        perror("test\n");
+        rl_on_new_line();
+        // rl_replace_line();
+        // rl_redisplay();
+    }
 }
 int cd_commade(t_all my_struct, int loop)
 {
@@ -33,7 +39,6 @@ int cd_commade(t_all my_struct, int loop)
             chdir(my_struct.my_all_path[loop - (ft_atoi(&my_struct.my_command[1][1])) + 1]);
         else if(ft_strlen(my_struct.cmd) == 2 || my_struct.my_command[1][0] == '-')
             chdir(my_struct.my_all_path[loop]);
-
         else
             chdir(my_struct.my_command[1]);
         loop++;

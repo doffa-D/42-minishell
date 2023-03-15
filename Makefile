@@ -6,7 +6,7 @@
 #    By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/03 12:19:16 by nouakhro          #+#    #+#              #
-#    Updated: 2023/03/11 18:06:49 by nouakhro         ###   ########.fr        #
+#    Updated: 2023/03/14 15:45:06 by nouakhro         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,17 +28,17 @@ LIBFT = libft
 all : $(NAME)
 
 $(NAME) : $(OBJE)
-	@make -C $(LIBFT)
-	@$(CC) $(CCFLAGS) $(OBJE) libft/libft.a -lreadline -o $(NAME)
-	@make clean
+	make -C $(LIBFT)
+	$(CC) $(CCFLAGS) $(OBJE) libft/libft.a -lreadline -o $(NAME)
+	make clean
 
 %.o : %.c
-	@$(CC) $(CCFLAGS) -c $<
+	$(CC) $(CCFLAGS) -c $<
 
 clean :
-	@rm -f $(OBJE)
-	@make clean -C $(LIBFT)
+	rm -f $(OBJE)
+	make clean -C $(LIBFT)
 fclean : clean
-	@make fclean -C $(LIBFT)
-	@rm -f $(NAME)
+	make fclean -C $(LIBFT)
+	rm -f $(NAME)
 re:fclean $(NAME)

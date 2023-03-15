@@ -6,7 +6,7 @@
 /*   By: hdagdagu <hdagdagu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 18:00:54 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/03/11 14:31:55 by hdagdagu         ###   ########.fr       */
+/*   Updated: 2023/03/14 12:31:32 by hdagdagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,32 +97,4 @@ void	exicut_echo(t_all *my_struct)
 	}
 	if (ft_strncmp(my_struct->my_command[1], "-n", ft_strlen("-n")))
 		printf("\n");
-}
-
-int	quote_check(t_all *my_struct)
-{
-	int	i;
-	int	j;
-	int	count_1;
-	int	count;
-
-	i = -1;
-	count_1 = 0;
-	count = 0;
-	while (my_struct->my_command[++i])
-	{
-		j = -1;
-		while (my_struct->my_command[i][++j])
-		{
-			if (my_struct->my_command[i][j] == 34)
-				count_1++;
-			else if (my_struct->my_command[i][j] == 39)
-				count++;
-		}
-	}
-	if (count_1 % 2 == 1 && count_1 > 0)
-		return (0);
-	if (count % 2 == 1 && count > 0)
-		return (0);
-	return (1);
 }

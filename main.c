@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:07:52 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/03/15 10:58:20 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/03/15 17:58:19 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,12 @@ void handler(int sig, siginfo_t *info, void *i)
         // return;
         perror("test\n");
         rl_on_new_line();
+        rl_replace_line("corrected command", 0);
         // rl_replace_line();
-        // rl_redisplay();
+        rl_redisplay();
     }
+    if(sig == SIGQUIT)
+        return ;
 }
 int cd_commade(t_all my_struct, int loop)
 {
@@ -50,9 +53,10 @@ int somting_in_readline(t_all my_struct, char *cwd_path, char *old_path, int loo
 {
     int i = 0;
     int j = 0;
-    
+    // (void)old_path;
     my_struct.my_path = ft_split(getenv("PATH"), ':');
-    my_struct.my_command = ft_split(my_struct.cmd, ' ');
+    my_struct.fix_cmd = ft_split(my_struct.cmd, ' ');
+    fix_arg(&my_struct);
     add_history(my_struct.cmd);
     ft_bzero(cwd_path, sizeof(cwd_path));
     getcwd(cwd_path, sizeof(cwd_path));
@@ -128,10 +132,17 @@ int main()
         perror("Error setting up signal handler");
         exit(1);
     }
+    if (sigaction(SIGQUIT, &sa, NULL) == -1)
+    {
+        perror("Error setting up signal handler");
+        exit(1);
+    }
     while (1)
     {
         i = 0;
         my_struct.cmd = readline("escanour > ");
+        if(!my_struct.cmd)
+            exit(0);
         if(ft_strlen(my_struct.cmd) != 0)
             loop = somting_in_readline(my_struct, cwd_path, old_path, loop);
             

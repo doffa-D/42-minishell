@@ -6,7 +6,7 @@
 #    By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/03 12:19:16 by nouakhro          #+#    #+#              #
-#    Updated: 2023/03/14 15:45:06 by nouakhro         ###   ########.fr        #
+#    Updated: 2023/03/15 11:47:24 by nouakhro         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,7 @@ SRC = main.c\
 		check_rediraction.c\
 		commande.c \
 		handle_echo.c \
+		fix_arg.c \
 
 OBJE = $(SRC:.c=.o)
 

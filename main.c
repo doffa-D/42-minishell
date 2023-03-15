@@ -6,7 +6,7 @@
 /*   By: hdagdagu <hdagdagu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:07:52 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/03/15 11:03:14 by hdagdagu         ###   ########.fr       */
+/*   Updated: 2023/03/15 11:39:17 by hdagdagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,13 @@ int somting_in_readline(t_all my_struct, char *cwd_path, char *old_path, int loo
 {
     int i = 0;
     int j = 0;
-    
+    (void)old_path;
     my_struct.my_path = ft_split(getenv("PATH"), ':');
-   
+    my_struct.fix_cmd = ft_split(my_struct.cmd, ' ');
+    fix_arg(&my_struct);
     add_history(my_struct.cmd);
     ft_bzero(cwd_path, sizeof(cwd_path));
     getcwd(cwd_path, sizeof(cwd_path));
-    printf("test\n");
     if(ft_strlen(cwd_path) > ft_strlen(old_path))
         my_struct.linght_path = ft_strlen(cwd_path);
     else if(ft_strlen(cwd_path) < ft_strlen(old_path))

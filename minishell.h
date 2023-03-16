@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hdagdagu <hdagdagu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 14:20:41 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/03/14 12:43:13 by hdagdagu         ###   ########.fr       */
+/*   Updated: 2023/03/16 15:40:39 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,6 @@ void			free_all(t_all my_struct);
 void			exicut_echo(t_all *my_struct);
 int				quote_check(char *cmd);
 void			fix_arg(t_all *my_struct);
+void			rl_replace_line (const char *text, int clear_undo);
 
 #endif

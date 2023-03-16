@@ -6,23 +6,19 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:07:52 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/03/15 17:58:19 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/03/16 16:02:59 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"minishell.h"
 
-void handler(int sig, siginfo_t *info, void *i)
+void handler(int sig)
 {
-    (void) i;
-    (void) info;
     if(sig == SIGINT)
     {
-        // return;
-        perror("test\n");
+        printf("\n");
         rl_on_new_line();
-        rl_replace_line("corrected command", 0);
-        // rl_replace_line();
+        rl_replace_line("", 0);
         rl_redisplay();
     }
     if(sig == SIGQUIT)
@@ -53,7 +49,6 @@ int somting_in_readline(t_all my_struct, char *cwd_path, char *old_path, int loo
 {
     int i = 0;
     int j = 0;
-    // (void)old_path;
     my_struct.my_path = ft_split(getenv("PATH"), ':');
     my_struct.fix_cmd = ft_split(my_struct.cmd, ' ');
     fix_arg(&my_struct);
@@ -109,12 +104,8 @@ int somting_in_readline(t_all my_struct, char *cwd_path, char *old_path, int loo
 }
 int main()
 {
-    struct sigaction sa;
     t_all my_struct;
     int i = 0;
-    // int j;
-    sa.sa_sigaction = handler;
-    sa.sa_flags = SA_RESTART;
     int loop = -1;
     char cwd_path[PATH_MAX];
     char old_path[PATH_MAX];
@@ -127,16 +118,8 @@ int main()
     my_struct.my_curent_path = ft_strjoin(my_struct.my_curent_path, cwd_path);
     my_struct.my_curent_path = ft_strjoin(my_struct.my_curent_path, " ");
     my_struct.my_all_path = ft_split(my_struct.my_curent_path, ' ');
-    if (sigaction(SIGINT, &sa, NULL) == -1)
-    {
-        perror("Error setting up signal handler");
-        exit(1);
-    }
-    if (sigaction(SIGQUIT, &sa, NULL) == -1)
-    {
-        perror("Error setting up signal handler");
-        exit(1);
-    }
+    signal(SIGINT, &handler);
+    signal(SIGQUIT, &handler);
     while (1)
     {
         i = 0;

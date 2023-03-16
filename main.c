@@ -6,7 +6,7 @@
 /*   By: hdagdagu <hdagdagu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:07:52 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/03/15 11:39:17 by hdagdagu         ###   ########.fr       */
+/*   Updated: 2023/03/16 18:13:46 by hdagdagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void handler(int sig, siginfo_t *info, void *i)
 }
 int cd_commade(t_all my_struct, int loop)
 {
-    if(ft_strlen(my_struct.cmd) && !ft_strncmp(my_struct.my_command[0], "cd", ft_strlen(my_struct.my_command[0])))
+    if(my_struct.my_command[0] && ft_strlen(my_struct.cmd) && !ft_strncmp(my_struct.my_command[0], "cd", ft_strlen(my_struct.my_command[0])))
     {
         if(ft_strlen(my_struct.cmd) == 2 || my_struct.my_command[1][0] == '~')
         {
@@ -56,8 +56,8 @@ int somting_in_readline(t_all my_struct, char *cwd_path, char *old_path, int loo
         my_struct.linght_path = ft_strlen(cwd_path);
     else if(ft_strlen(cwd_path) < ft_strlen(old_path))
         my_struct.linght_path = ft_strlen(old_path);
-    if(!ft_strncmp(my_struct.my_command[0], "cd", ft_strlen(my_struct.my_command[0]))\
-    && ft_strncmp(cwd_path, old_path , my_struct.linght_path))
+    
+    if(my_struct.my_command[0] && !ft_strncmp(my_struct.my_command[0], "cd", ft_strlen(my_struct.my_command[0])) && ft_strncmp(cwd_path, old_path , my_struct.linght_path))
         my_struct.i = 1;
     if (loop != -1 && my_struct.i == 1)
     {
@@ -71,23 +71,30 @@ int somting_in_readline(t_all my_struct, char *cwd_path, char *old_path, int loo
     if(i == 0)
     {
         j = 0;
-    	get_the_path(my_struct);
-        i = 0;
-        i = 0;
-        while (my_struct.my_path[i])
+    	if(!get_the_path(my_struct))
         {
-    	    if(!access(my_struct.my_path[i], F_OK))
+            i = 0;
+            i = 0;
+            while (my_struct.my_path[i])
             {
-             	j = 1;
-                break;
+                if(access(my_struct.my_path[i], F_OK) == 0)
+                {
+                    printf("[[[%s]]]\n",my_struct.my_path[i]);
+                    j = 1;
+                    break;
+                }
+                i++;
             }
-            i++;
         }
-        if(i == 0)
-            exit(0);
+        // if(i == 0)
+        //     exit(0);
+    // printf("test[%d]\n",j);
         if(j != 1)
         {
-            printf("%s command not found\n", my_struct.my_command[0]);
+            if(my_struct.my_command[0])
+                printf("%s command not found\n", my_struct.my_command[0]);
+            else
+                printf(" command not found\n");
             exit(0);
         }
         else

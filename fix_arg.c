@@ -6,7 +6,7 @@
 /*   By: hdagdagu <hdagdagu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 12:31:35 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/03/16 18:08:53 by hdagdagu         ###   ########.fr       */
+/*   Updated: 2023/03/17 15:36:37 by hdagdagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,15 +144,12 @@ char    *dollar_handle(char *cmd,int *dollar)
     x = 0;
     char *dst = malloc(ft_strlen(cmd));
     char *dst2 = malloc(ft_strlen(cmd));
-    if(ft_strchr(cmd,34) || ft_strchr(cmd,39))
-        printf("sss\n");
     while(cmd[i])
     {
-        if(cmd[i] == '$' && (cmd[i+1] != 34 || cmd[i+1] != 39))
+        if(cmd[i] == '$' && (cmd[i+1] != 34 || cmd[i+1] != 39) && j == 0)
         {
             j = i;
             i++;
-            *dollar = 1;
         }
         else if(cmd[i+1] == 34 || cmd[i+1] == 39)
         {
@@ -164,21 +161,25 @@ char    *dollar_handle(char *cmd,int *dollar)
     while(j <= i)
     {
         dst[x] = cmd[j];
+        printf("[%c]\n",cmd[j]);
         x++;
         j++;
     }
+    printf("=[ %s . %d ]=",dst,i);
     dst[j] = '\0';
 	if (getenv(&dst[1]) != NULL)
     {
+        *dollar = 1;
         dst2 = ft_strjoin(getenv(&dst[1]),skip_quote(&cmd[i+1]));
-        printf("%s\n",dst2);
+        free(dst);
         return(dst2);
     }
     else if(cmd[i+2])
     {
-        printf("=[%s]\n",skip_quote(&cmd[i+1]));
+        free(dst);
         return skip_quote(&cmd[i+1]);
     }
+    free(dst);
     return 0;
 }
 
@@ -199,13 +200,11 @@ void    fix_arg(t_all *my_struct)
                 cmd = dollar_handle(my_struct->fix_cmd[i],&my_struct->dollar);
                 if(cmd != 0)
                 {
-                    printf("ddd[%s]\n",cmd);
                     my_struct->my_command[j] = cmd;
                 }
                 else
                 {
                     my_struct->my_command[j] = 0;
-                    // printf("[%s] %d\n",my_struct->my_command[j],j);
                 }
             }
             else
@@ -214,7 +213,19 @@ void    fix_arg(t_all *my_struct)
         }
         else if (quote_check(my_struct->fix_cmd[i]) == 1)
         {
-            my_struct->my_command[j] = my_struct->fix_cmd[i];
+            if(ft_strchr(my_struct->fix_cmd[i],'$'))
+            {
+                if (getenv(&my_struct->fix_cmd[i][1]) != NULL)
+                {
+                
+                    my_struct->dollar = 1;
+                    my_struct->my_command[j] = getenv(&my_struct->fix_cmd[i][1]);
+                }
+                else
+                    my_struct->my_command[j] = 0;
+            }
+            else
+                my_struct->my_command[j] = my_struct->fix_cmd[i];
             j++;
         }
         else if(quote_check(my_struct->fix_cmd[i]) == 0)
@@ -225,24 +236,16 @@ void    fix_arg(t_all *my_struct)
                 j++;
             }
             else
+            {
                 printf("error\n");
+                break;
+            }
         }
         i++;
     }
     my_struct->my_command[j] = 0;
-                printf("fffff\n");
-    // j = 0;
-    // while(my_struct->my_command[j])
-    // {
-    //     printf("%s\n",my_struct->my_command[j]);
-    //     j++;
-    // }
-    // exit(0);
+    exit(0);
+    j = 0;
+    while(my_struct->my_command[j])
+        printf("%s\n",my_struct->my_command[j++]);
 }
-
-// void    fix_arg(t_all *my_struct)
-// {
-//     int i;
-//     i = 0;
-//     while
-// }

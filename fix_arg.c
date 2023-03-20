@@ -6,11 +6,12 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 12:31:35 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/03/16 18:38:45 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/03/20 19:15:51 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <string.h>
 
 int	quote_check(char *cmd)
 {
@@ -87,99 +88,181 @@ int checker(char *cmd)
 }
 
 
-char    *upload(char *cmd,int x)
+int	count_qoute(const char *s)
+{
+	int	j;
+	int	i;
+
+	j = 0;
+	i = 0;
+	if (s == 0)
+		return (0);
+	while (s[i])
+	{
+		while (s[i] && (s[i] == 39 || s[i] == 34 || s[i] == '$' ))
+			i++;
+		while (s[i] && (s[i] != 39 || s[i] != 34 || s[i] != '$'))
+		{
+			if ((s[i + 1] == 39 || s[i + 1] == 34 || s[i + 1] == '$') || !s[i + 1])
+				j++;
+			i++;
+		}
+	}
+	return (j);
+}
+
+int	count_dollar(const char *s)
+{
+	int	j;
+	int	i;
+
+	j = 0;
+	i = 0;
+	if (s == 0)
+		return (0);
+	while (s[i])
+	{
+		while (s[i] && s[i] == '$')
+			i++;
+		while (s[i] && s[i] != '$')
+		{
+			if (s[i + 1] == '$' || !s[i + 1])
+				j++;
+			i++;
+		}
+	}
+	return (j);
+}
+
+char *check_inve(char **split,int i, t_all *my_sturct)
+{
+    (void)my_sturct;
+    int x;
+    x = 0;
+        int q = 0;
+    while (split[x])
+        q += ft_strlen(split[x++]);
+    char *backup = ft_calloc(q, sizeof(char));
+    while(--i >= 0)
+    {
+        if(ft_strchr(split[i],'$'))
+        {
+            if(getenv(&split[i][1]) != NULL)
+            {
+                printf("(%p)\n", my_sturct->my_path[0]);
+        		ft_strlcat(backup, getenv(&split[i][1]),ft_strlen(backup) + 1);
+                // getenv(&split[i][1]);
+                printf("(%p)\n", my_sturct->my_path[0]);
+                exit(0);
+            }
+        }
+        else
+		    ft_strlcat(backup, split[i], ft_strlen(split[i]) + ft_strlen(backup) + 1);
+    }
+    // backup[];
+    return backup;
+}
+
+char *split_dollar(char *cmd, t_all *my_sturct)
+{
+    char **split;
+    char *dst;
+    int i;
+    int x;
+    x = 0;
+    i = ft_strlen(cmd)-1;
+    split = calloc(sizeof(char *)*count_dollar(cmd) + 2 , 1);
+    while(i >= 0)
+    {
+        if(cmd[i] == '$' || i == 0)
+        {
+            split[x] = ft_strdup(&cmd[i]);
+            cmd[i] = '\0';
+            x++;
+        }
+        i--;
+    }
+    dst = check_inve(split,x, my_sturct);
+    return (dst);
+}
+
+char    *dollar_handle(char *cmd, t_all *my_struct)
+{
+    cmd = split_dollar(cmd, my_struct);
+    return cmd;
+}
+
+char    *upload(char *cmd,int x, t_all *my_struct)
 {
     int i;
-    i = 0;
     int j;
+    char *final;
+    char **dst;
+
+    final = malloc(sizeof(char) * ft_strlen(cmd) + 1);
+    i = 0;
     j = 0;
-    char *dst = malloc(sizeof(char) * ft_strlen(cmd)+1);
-    if(x == 2)
+    if(x == 1)
+    {
+        while(cmd[i])
+        {
+            if(cmd[i] == 39)
+                i++;
+            else
+            {
+                final[j] = cmd[i];
+                i++;
+                j++;
+            }
+        }
+        final[j]='\0';
+    }
+    else if(x == 2)
     {
         while(cmd[i])
         {
             if(cmd[i] == 34)
-            {
                 i++;
-            }
             else
             {
-                dst[j] = cmd[i];
+                final[j] = cmd[i];
                 i++;
                 j++;
             }
         }
+        final[j]='\0';
     }
-    else if(x == 1)
-    {
-
-        while(cmd[i])
-        {
-            if(cmd[i] == 39)
-            {
-                i++;
-            }
-            else
-            {
-                dst[j] = cmd[i];
-                i++;
-                j++;
-
-            }
-        }
-    }
-    dst[j] = '\0';
-    return dst;
-
-}
-
-char    *dollar_handle(char *cmd,int *dollar)
-{
-    int i;
-    int j;
-    int x;
-    i = 0;
+    dst = calloc(sizeof(char*) * count_qoute(final) + 1,1);
+    i = ft_strlen(final);
     j = 0;
-    x = 0;
-    char *dst = malloc(ft_strlen(cmd));
-    char *dst2 = malloc(ft_strlen(cmd));
-    while(cmd[i])
+    while(--i >= 0)
     {
-        if(cmd[i] == '$' && (cmd[i+1] != 34 || cmd[i+1] != 39))
+        if((final[i] == 39 || final[i] == '$' || i == 0) && x == 2)
         {
-            j = i;
-            i++;
-            *dollar = 1;
+            dst[j] = ft_strdup(&final[i]);
+            final[i] = '\0';
+            j++;
         }
-        else if(cmd[i+1] == 34 || cmd[i+1] == 39)
+        else if((final[i] == 34 || final[i] == '$' || i == 0) && x == 1)
         {
-            break;
+            dst[j] = ft_strdup(&final[i]);
+            final[i] = '\0';
+            j++;
         }
-        else
-            i++;
     }
-    while(j <= i)
-    {
-        dst[x] = cmd[j];
-        x++;
-        j++;
-    }
-    dst[j] = '\0';
-	if (getenv(&dst[1]) != NULL)
-    {
-        dst2 = ft_strjoin(getenv(&dst[1]),skip_quote(&cmd[i+1]));
-        return(dst2);
-    }
-    else if(cmd[i+2])
-    {
-        return skip_quote(&cmd[i+1]);
-    }
-    return 0;
+    ft_bzero(final,ft_strlen(final));
+    final = check_inve(dst,j, my_struct);
+    while(dst[j])
+        free(dst[j--]);
+    free(dst);
+
+    return final;
 }
 
 void    fix_arg(t_all *my_struct)
 {
     int i;
+    // int k = 0;
     int j;
     j = 0;
     i = 0;
@@ -187,11 +270,12 @@ void    fix_arg(t_all *my_struct)
     my_struct->my_command = malloc(sizeof(char *) * (count_2d(my_struct)+1));
     while(my_struct->fix_cmd[i])
     {
-        if(quote_check(my_struct->fix_cmd[i]) == 2)
+        printf("(%p)\n", my_struct->my_path[0]);
+        if((quote_check(my_struct->fix_cmd[i]) == 2 || quote_check(my_struct->fix_cmd[i]) == 1) && checker(my_struct->fix_cmd[i]) == 0)
         {
             if(ft_strchr(my_struct->fix_cmd[i],'$'))
             {
-                cmd = dollar_handle(my_struct->fix_cmd[i],&my_struct->dollar);
+                cmd = dollar_handle(skip_quote(my_struct->fix_cmd[i]), my_struct);
                 if(cmd != 0)
                     my_struct->my_command[j] = cmd;
                 else
@@ -201,25 +285,27 @@ void    fix_arg(t_all *my_struct)
                 my_struct->my_command[j] = skip_quote(my_struct->fix_cmd[i]);
             j++;
         }
-        else if (quote_check(my_struct->fix_cmd[i]) == 1)
-        {
-            my_struct->my_command[j] = my_struct->fix_cmd[i];
-            j++;
-        }
-        else if(quote_check(my_struct->fix_cmd[i]) == 0)
+        else
         {
             if(checker(my_struct->fix_cmd[i]) == 1 || checker(my_struct->fix_cmd[i]) == 2)
             {
-                my_struct->my_command[j] = upload(my_struct->fix_cmd[i],checker(my_struct->fix_cmd[i]));
+                my_struct->my_command[j] = upload(my_struct->fix_cmd[i],checker(my_struct->fix_cmd[i]),my_struct);
+
                 j++;
             }
             else
             {
                 printf("error\n");
-                exit(0);
+                break;
             }
         }
         i++;
     }
+
     my_struct->my_command[j] = 0;
+    // j = 0;
+    // while(my_struct->my_command[j])
+    //     printf("\033[0;31m[%s]\033[0;37m\n",my_struct->my_command[j++]);
+
+    // exit(0);
 }

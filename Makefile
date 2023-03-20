@@ -6,7 +6,7 @@
 #    By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/03 12:19:16 by nouakhro          #+#    #+#              #
-#    Updated: 2023/03/17 15:05:49 by nouakhro         ###   ########.fr        #
+#    Updated: 2023/03/20 17:41:04 by nouakhro         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,3 +43,6 @@ fclean : clean
 	make fclean -C $(LIBFT)
 	rm -f $(NAME)
 re:fclean $(NAME)
+
+run : re
+	clear && ./minishell

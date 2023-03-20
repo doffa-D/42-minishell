@@ -3,28 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hdagdagu <hdagdagu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 14:20:11 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/03/16 18:08:56 by hdagdagu         ###   ########.fr       */
+/*   Updated: 2023/03/20 19:13:22 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"minishell.h"
 
-int get_the_path(t_all my_struct)
+int get_the_path(t_all *my_struct)
 {
     int i = 0;
-    while (my_struct.my_path[i])
+    while (my_struct->my_path[i])
     {
-        if(my_struct.my_command[0])
-        {
-            my_struct.my_path[i] = ft_strjoin(my_struct.my_path[i], "/");
-	        my_struct.my_path[i] = ft_strjoin(my_struct.my_path[i], my_struct.my_command[0]);
+        // if(my_struct.my_command[0])
+        // {
+        //     if(my_struct.my_command[0] && !ft_strchr(my_struct.my_command[0],'/'))
+        //         my_struct.my_path[i] = ft_strjoin(my_struct.my_path[i], "/");
+            
+            printf("test\n");
+            printf("path :[%s]\n", my_struct->my_path[i]);
+        //     // exit(0);
+	        // my_struct.my_path[i]= ft_strjoin(my_struct.my_path[i], "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki");
+        //     printf("path :[%s]\n", my_struct.my_command[0]);
             i++;
-        }
-		else
-            return 1;
+        // }
+		// else
+        //     return 1;
     }
     return 0;
 }

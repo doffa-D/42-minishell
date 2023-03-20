@@ -6,12 +6,11 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 12:31:35 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/03/20 19:15:51 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/03/20 19:52:44 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <string.h>
 
 int	quote_check(char *cmd)
 {
@@ -134,9 +133,8 @@ int	count_dollar(const char *s)
 	return (j);
 }
 
-char *check_inve(char **split,int i, t_all *my_sturct)
+char *check_inve(char **split,int i)
 {
-    (void)my_sturct;
     int x;
     x = 0;
         int q = 0;
@@ -149,21 +147,17 @@ char *check_inve(char **split,int i, t_all *my_sturct)
         {
             if(getenv(&split[i][1]) != NULL)
             {
-                printf("(%p)\n", my_sturct->my_path[0]);
         		ft_strlcat(backup, getenv(&split[i][1]),ft_strlen(backup) + 1);
-                // getenv(&split[i][1]);
-                printf("(%p)\n", my_sturct->my_path[0]);
-                exit(0);
             }
         }
         else
 		    ft_strlcat(backup, split[i], ft_strlen(split[i]) + ft_strlen(backup) + 1);
     }
-    // backup[];
+    
     return backup;
 }
 
-char *split_dollar(char *cmd, t_all *my_sturct)
+char *split_dollar(char *cmd)
 {
     char **split;
     char *dst;
@@ -182,17 +176,17 @@ char *split_dollar(char *cmd, t_all *my_sturct)
         }
         i--;
     }
-    dst = check_inve(split,x, my_sturct);
+    dst = check_inve(split,x);
     return (dst);
 }
 
-char    *dollar_handle(char *cmd, t_all *my_struct)
+char    *dollar_handle(char *cmd)
 {
-    cmd = split_dollar(cmd, my_struct);
+    cmd = split_dollar(cmd);
     return cmd;
 }
 
-char    *upload(char *cmd,int x, t_all *my_struct)
+char    *upload(char *cmd,int x)
 {
     int i;
     int j;
@@ -251,7 +245,7 @@ char    *upload(char *cmd,int x, t_all *my_struct)
         }
     }
     ft_bzero(final,ft_strlen(final));
-    final = check_inve(dst,j, my_struct);
+    final = check_inve(dst,j);
     while(dst[j])
         free(dst[j--]);
     free(dst);
@@ -262,7 +256,6 @@ char    *upload(char *cmd,int x, t_all *my_struct)
 void    fix_arg(t_all *my_struct)
 {
     int i;
-    // int k = 0;
     int j;
     j = 0;
     i = 0;
@@ -270,12 +263,11 @@ void    fix_arg(t_all *my_struct)
     my_struct->my_command = malloc(sizeof(char *) * (count_2d(my_struct)+1));
     while(my_struct->fix_cmd[i])
     {
-        printf("(%p)\n", my_struct->my_path[0]);
         if((quote_check(my_struct->fix_cmd[i]) == 2 || quote_check(my_struct->fix_cmd[i]) == 1) && checker(my_struct->fix_cmd[i]) == 0)
         {
             if(ft_strchr(my_struct->fix_cmd[i],'$'))
             {
-                cmd = dollar_handle(skip_quote(my_struct->fix_cmd[i]), my_struct);
+                cmd = dollar_handle(skip_quote(my_struct->fix_cmd[i]));
                 if(cmd != 0)
                     my_struct->my_command[j] = cmd;
                 else
@@ -289,7 +281,7 @@ void    fix_arg(t_all *my_struct)
         {
             if(checker(my_struct->fix_cmd[i]) == 1 || checker(my_struct->fix_cmd[i]) == 2)
             {
-                my_struct->my_command[j] = upload(my_struct->fix_cmd[i],checker(my_struct->fix_cmd[i]),my_struct);
+                my_struct->my_command[j] = upload(my_struct->fix_cmd[i],checker(my_struct->fix_cmd[i]));
 
                 j++;
             }
@@ -303,9 +295,9 @@ void    fix_arg(t_all *my_struct)
     }
 
     my_struct->my_command[j] = 0;
-    // j = 0;
-    // while(my_struct->my_command[j])
-    //     printf("\033[0;31m[%s]\033[0;37m\n",my_struct->my_command[j++]);
+    j = 0;
+    while(my_struct->my_command[j])
+        printf("\033[0;31m[%s]\033[0;37m\n",my_struct->my_command[j++]);
 
-    // exit(0);
+    exit(0);
 }

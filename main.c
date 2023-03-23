@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:07:52 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/03/23 13:08:02 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/03/23 13:12:59 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int cd_commade(t_all my_struct, int loop)
 {
     if(my_struct.my_command[0] && ft_strlen(my_struct.cmd) && !ft_strncmp(my_struct.my_command[0], "cd", ft_strlen(my_struct.my_command[0])))
     {
-        printf("test[%s]\n", my_struct.my_command[1]);
+        // printf("test[%s]\n", my_struct.my_command[1]);
         if((ft_strlen(my_struct.cmd) == 2 || my_struct.my_command[1][0] == '~'))
         {
             chdir(getenv("HOME"));
@@ -52,6 +52,7 @@ int somting_in_readline(t_all my_struct, char *cwd_path, char *old_path, int loo
     int j = 0;
     my_struct.my_path = ft_split(getenv("PATH"), ':');
     my_struct.fix_cmd = ft_split(my_struct.cmd, ' ');
+
     fix_arg(&my_struct);
     add_history(my_struct.cmd);
     ft_bzero(cwd_path, sizeof(cwd_path));
@@ -91,17 +92,22 @@ int somting_in_readline(t_all my_struct, char *cwd_path, char *old_path, int loo
         }
         if(j != 1)
         {
-            if(my_struct.my_command[0])
-                printf("%s command not found\n", my_struct.my_command[0]);
-            else
-                printf(" command not found\n");
+            if(my_struct.my_command[0] && !ft_strchr(my_struct.my_command[0],'/'))
+                printf("%s: command not found\n", my_struct.my_command[0]);
+            else if(ft_strchr(my_struct.my_command[0],'/'))
+            {
+                if(!chdir(my_struct.my_command[0]))
+                    printf("%s: is a directory\n", my_struct.my_command[0]);
+                else
+                    printf("%s: No such file or directory\n", my_struct.my_command[0]);
+            }
             exit(0);
         }
         else
             exicut_commande(my_struct, i);
     }
     waitpid(-1, &i, 0);
-    // loop = cd_commade(my_struct, loop);
+    loop = cd_commade(my_struct, loop);
     // free_all(my_struct);
     return loop;
 }

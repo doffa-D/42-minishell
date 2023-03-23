@@ -6,7 +6,7 @@
 /*   By: hdagdagu <hdagdagu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:07:52 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/03/20 13:56:34 by hdagdagu         ###   ########.fr       */
+/*   Updated: 2023/03/22 19:39:43 by hdagdagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ int somting_in_readline(t_all my_struct, char *cwd_path, char *old_path, int loo
     (void)old_path;
     my_struct.my_path = ft_split(getenv("PATH"), ':');
     my_struct.fix_cmd = ft_split(my_struct.cmd, ' ');
+
     fix_arg(&my_struct);
     ft_bzero(cwd_path, sizeof(cwd_path));
     getcwd(cwd_path, sizeof(cwd_path));
@@ -90,7 +91,7 @@ int somting_in_readline(t_all my_struct, char *cwd_path, char *old_path, int loo
         if(j != 1 )
         {
             if(my_struct.my_command[0] && !ft_strchr(my_struct.my_command[0],'/'))
-                printf("%s command not found\n", my_struct.my_command[0]);
+                printf("%s: command not found\n", my_struct.my_command[0]);
             else if(ft_strchr(my_struct.my_command[0],'/'))
             {
                 if(!chdir(my_struct.my_command[0]))

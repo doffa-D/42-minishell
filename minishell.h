@@ -6,7 +6,7 @@
 /*   By: hdagdagu <hdagdagu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 14:20:41 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/03/16 18:06:43 by hdagdagu         ###   ########.fr       */
+/*   Updated: 2023/03/22 14:26:24 by hdagdagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ typedef struct s_all
 	const char	*cmd;
 	int			command_len;
 	int			i;
-	int 		dollar;
+	int 		error;
+	char 		*whitout_qout;
 }				t_all;
 
 void			exicut_commande(t_all my_struct, int i);

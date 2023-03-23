@@ -3,17 +3,17 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: hdagdagu <hdagdagu@student.42.fr>          +#+  +:+       +#+         #
+#    By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/03 12:19:16 by nouakhro          #+#    #+#              #
-#    Updated: 2023/03/15 11:10:02 by hdagdagu         ###   ########.fr        #
+#    Updated: 2023/03/20 17:41:04 by nouakhro         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
 CCFLAGS = -Wall -Werror -Wextra
 
-SRC = main.c\
+SRC = 	main.c\
 		utils.c\
 		free_all.c\
 		check_rediraction.c\
@@ -29,17 +29,20 @@ LIBFT = libft
 all : $(NAME)
 
 $(NAME) : $(OBJE)
-	@make -C $(LIBFT)
-	@$(CC) $(CCFLAGS) $(OBJE) libft/libft.a -lreadline -o $(NAME)
-	@make clean
+	make -C $(LIBFT)
+	$(CC) $(CCFLAGS) $(OBJE) libft/libft.a -lreadline -L  readline/lib -I readline/include -o $(NAME)
+	make clean
 
 %.o : %.c
-	@$(CC) $(CCFLAGS) -c $<
+	$(CC) $(CCFLAGS) -c $<
 
 clean :
-	@rm -f $(OBJE)
-	@make clean -C $(LIBFT)
+	rm -f $(OBJE)
+	make clean -C $(LIBFT)
 fclean : clean
-	@make fclean -C $(LIBFT)
-	@rm -f $(NAME)
+	make fclean -C $(LIBFT)
+	rm -f $(NAME)
 re:fclean $(NAME)
+
+run : re
+	clear && ./minishell

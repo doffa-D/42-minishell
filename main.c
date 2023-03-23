@@ -3,27 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hdagdagu <hdagdagu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:07:52 by nouakhro          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/03/22 19:39:43 by hdagdagu         ###   ########.fr       */
+=======
+/*   Updated: 2023/03/20 19:52:04 by nouakhro         ###   ########.fr       */
+>>>>>>> origin/nourdin
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"minishell.h"
 
-void handler(int sig, siginfo_t *info, void *i)
+void handler(int sig)
 {
-    (void) i;
-    (void) info;
     if(sig == SIGINT)
+    {
+        printf("\n");
+        rl_on_new_line();
+        rl_replace_line("", 0);
+        rl_redisplay();
+    }
+    if(sig == SIGQUIT)
         return ;
 }
 int cd_commade(t_all my_struct, int loop)
 {
     if(my_struct.my_command[0] && ft_strlen(my_struct.cmd) && !ft_strncmp(my_struct.my_command[0], "cd", ft_strlen(my_struct.my_command[0])))
     {
-        if(ft_strlen(my_struct.cmd) == 2 || my_struct.my_command[1][0] == '~')
+        printf("test[%s]\n", my_struct.my_command[1]);
+        if((ft_strlen(my_struct.cmd) == 2 || my_struct.my_command[1][0] == '~'))
         {
             chdir(getenv("HOME"));
             if(my_struct.my_command[1] && my_struct.my_command[1][1] == '/' && my_struct.my_command[1][2])
@@ -33,7 +43,6 @@ int cd_commade(t_all my_struct, int loop)
             chdir(my_struct.my_all_path[loop - (ft_atoi(&my_struct.my_command[1][1])) + 1]);
         else if(ft_strlen(my_struct.cmd) == 2 || my_struct.my_command[1][0] == '-')
             chdir(my_struct.my_all_path[loop]);
-
         else
             chdir(my_struct.my_command[1]);
         loop++;
@@ -45,11 +54,11 @@ int somting_in_readline(t_all my_struct, char *cwd_path, char *old_path, int loo
 {
     int i = 0;
     int j = 0;
-    (void)old_path;
     my_struct.my_path = ft_split(getenv("PATH"), ':');
     my_struct.fix_cmd = ft_split(my_struct.cmd, ' ');
 
     fix_arg(&my_struct);
+    add_history(my_struct.cmd);
     ft_bzero(cwd_path, sizeof(cwd_path));
     getcwd(cwd_path, sizeof(cwd_path));
     if(ft_strlen(cwd_path) > ft_strlen(old_path))
@@ -87,9 +96,9 @@ int somting_in_readline(t_all my_struct, char *cwd_path, char *old_path, int loo
         }
         // if(i == 0)
         //     exit(0);
-
-        if(j != 1 )
+        if(j != 1)
         {
+<<<<<<< HEAD
             if(my_struct.my_command[0] && !ft_strchr(my_struct.my_command[0],'/'))
                 printf("%s: command not found\n", my_struct.my_command[0]);
             else if(ft_strchr(my_struct.my_command[0],'/'))
@@ -99,25 +108,26 @@ int somting_in_readline(t_all my_struct, char *cwd_path, char *old_path, int loo
                 else
                     printf("%s: No such file or directory\n", my_struct.my_command[0]);
             }
+=======
+            if(my_struct.my_command[0])
+                printf("%s command not found\n", my_struct.my_command[0]);
+            else
+                printf(" command not found\n");
+>>>>>>> origin/nourdin
             exit(0);
         }
         else
             exicut_commande(my_struct, i);
-           i = 0;
     }
     waitpid(-1, &i, 0);
-    loop = cd_commade(my_struct, loop);
+    // loop = cd_commade(my_struct, loop);
     // free_all(my_struct);
     return loop;
 }
 int main()
 {
-    // struct sigaction sa;
     t_all my_struct;
     int i = 0;
-    // int j;
-    // sa.sa_sigaction = handler;
-    // sa.sa_flags = SA_RESTART;
     int loop = -1;
     char cwd_path[PATH_MAX];
     char old_path[PATH_MAX];
@@ -130,21 +140,16 @@ int main()
     my_struct.my_curent_path = ft_strjoin(my_struct.my_curent_path, cwd_path);
     my_struct.my_curent_path = ft_strjoin(my_struct.my_curent_path, " ");
     my_struct.my_all_path = ft_split(my_struct.my_curent_path, ' ');
-    // if (sigaction(SIGINT, &sa, NULL) == -1)
-    // {
-    //     perror("Error setting up signal handler");
-    //     exit(1);
-    // }
+    signal(SIGINT, &handler);
+    signal(SIGQUIT, &handler);
     while (1)
     {
         i = 0;
         my_struct.cmd = readline("escanour > ");
+        if(!my_struct.cmd)
+            exit(0);
         if(ft_strlen(my_struct.cmd) != 0)
-        {
-        add_history(my_struct.cmd);
-
             loop = somting_in_readline(my_struct, cwd_path, old_path, loop);
-        }
             
     }
 }

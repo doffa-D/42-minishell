@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hdagdagu <hdagdagu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 14:20:41 by nouakhro          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/03/22 14:26:24 by hdagdagu         ###   ########.fr       */
+=======
+/*   Updated: 2023/03/20 19:42:50 by nouakhro         ###   ########.fr       */
+>>>>>>> origin/nourdin
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +43,12 @@ typedef struct s_all
 
 void			exicut_commande(t_all my_struct, int i);
 void			check_rediractions(t_all my_struct);
-int				get_the_path(t_all my_struct);
+int			    get_the_path(t_all my_struct);
 void			exit_the_program(t_all my_struct);
 void			free_all(t_all my_struct);
 void			exicut_echo(t_all *my_struct);
 int				quote_check(char *cmd);
 void			fix_arg(t_all *my_struct);
+void			rl_replace_line (const char *text, int clear_undo);
 
 #endif

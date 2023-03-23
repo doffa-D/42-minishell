@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fix_arg.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hdagdagu <hdagdagu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 12:31:35 by hdagdagu          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2023/03/22 17:44:40 by hdagdagu         ###   ########.fr       */
-=======
-/*   Updated: 2023/03/20 19:52:44 by nouakhro         ###   ########.fr       */
->>>>>>> origin/nourdin
+/*   Updated: 2023/03/23 13:16:36 by hdagdagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,11 +111,7 @@ char *check_inve(char **split,int i)
         {
             if(getenv(&split[i][1]) != NULL)
             {
-<<<<<<< HEAD
                 backup = ft_strjoin(backup,getenv(&split[i][1]));
-=======
-        		ft_strlcat(backup, getenv(&split[i][1]),ft_strlen(backup) + 1);
->>>>>>> origin/nourdin
             }
         }
         else
@@ -235,18 +227,10 @@ void    fix_arg(t_all *my_struct)
     if(my_struct->error == 1)
         printf("error\n");
     my_struct->my_command[j] = 0;
-<<<<<<< HEAD
     // j = 0;
     // while(my_struct->my_command[j])
     // {
     //     printf("{{{%s}}}\n",my_struct->my_command[j]);
     //     j++;
     // }
-=======
-    j = 0;
-    while(my_struct->my_command[j])
-        printf("\033[0;31m[%s]\033[0;37m\n",my_struct->my_command[j++]);
-
-    exit(0);
->>>>>>> origin/nourdin
 }

@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hdagdagu <hdagdagu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:07:52 by nouakhro          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2023/03/22 19:39:43 by hdagdagu         ###   ########.fr       */
-=======
-/*   Updated: 2023/03/20 19:52:04 by nouakhro         ###   ########.fr       */
->>>>>>> origin/nourdin
+/*   Updated: 2023/03/23 13:16:35 by hdagdagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +94,6 @@ int somting_in_readline(t_all my_struct, char *cwd_path, char *old_path, int loo
         //     exit(0);
         if(j != 1)
         {
-<<<<<<< HEAD
             if(my_struct.my_command[0] && !ft_strchr(my_struct.my_command[0],'/'))
                 printf("%s: command not found\n", my_struct.my_command[0]);
             else if(ft_strchr(my_struct.my_command[0],'/'))
@@ -108,12 +103,6 @@ int somting_in_readline(t_all my_struct, char *cwd_path, char *old_path, int loo
                 else
                     printf("%s: No such file or directory\n", my_struct.my_command[0]);
             }
-=======
-            if(my_struct.my_command[0])
-                printf("%s command not found\n", my_struct.my_command[0]);
-            else
-                printf(" command not found\n");
->>>>>>> origin/nourdin
             exit(0);
         }
         else

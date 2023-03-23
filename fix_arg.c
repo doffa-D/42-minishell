@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 12:31:35 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/03/20 19:52:44 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/03/21 12:29:14 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,7 @@ char *check_inve(char **split,int i)
             }
         }
         else
-		    ft_strlcat(backup, split[i], ft_strlen(split[i]) + ft_strlen(backup) + 1);
+		    ft_strlcat(backup, split[i],ft_strlen(backup) + 1);
     }
     
     return backup;
@@ -295,9 +295,9 @@ void    fix_arg(t_all *my_struct)
     }
 
     my_struct->my_command[j] = 0;
-    j = 0;
-    while(my_struct->my_command[j])
-        printf("\033[0;31m[%s]\033[0;37m\n",my_struct->my_command[j++]);
+    // j = 0;
+    // while(my_struct->my_command[j])
+    //     printf("\033[0;31m[%s]\033[0;37m\n",my_struct->my_command[j++]);
 
-    exit(0);
+    // exit(0);
 }

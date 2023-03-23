@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:07:52 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/03/20 19:52:04 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/03/23 13:08:02 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,6 @@ int somting_in_readline(t_all my_struct, char *cwd_path, char *old_path, int loo
                 i++;
             }
         }
-        // if(i == 0)
-        //     exit(0);
         if(j != 1)
         {
             if(my_struct.my_command[0])
@@ -110,7 +108,7 @@ int somting_in_readline(t_all my_struct, char *cwd_path, char *old_path, int loo
 int main()
 {
     t_all my_struct;
-    int i = 0;
+    // int i = 0;
     int loop = -1;
     char cwd_path[PATH_MAX];
     char old_path[PATH_MAX];
@@ -125,14 +123,14 @@ int main()
     my_struct.my_all_path = ft_split(my_struct.my_curent_path, ' ');
     signal(SIGINT, &handler);
     signal(SIGQUIT, &handler);
+    int i = 0;
     while (1)
     {
-        i = 0;
         my_struct.cmd = readline("escanour > ");
         if(!my_struct.cmd)
             exit(0);
         if(ft_strlen(my_struct.cmd) != 0)
             loop = somting_in_readline(my_struct, cwd_path, old_path, loop);
-            
+        i++;
     }
 }

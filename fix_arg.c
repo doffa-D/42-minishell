@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 12:31:35 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/03/23 13:11:31 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/04/11 18:03:54 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,7 +152,7 @@ char *split_dollar(char *cmd)
     split = calloc(sizeof(char *)* counter_malloc(cmd) + 1 , 1);
     while(i >= 0)
     {
-        if(cmd[i] == '$' || i == 0 || cmd[i] == 34 || cmd[i] == 39)
+        if(i == 0 || cmd[i-1] == 34 || cmd[i-1] == 39)
         {
             split[x] = ft_strdup(&cmd[i]);
             cmd[i] = '\0';
@@ -160,6 +160,13 @@ char *split_dollar(char *cmd)
         }
         i--;
     }
+    x--;
+    while(split[x])
+    {
+        printf("%s\n",split[x]);
+        x--;
+    }
+    exit(0);
     dst = check_inve(split,x);
     return (dst);
 }
@@ -177,6 +184,7 @@ void    fill(t_all *my_struct)
     while(my_struct->fix_cmd[i])
     {
         my_struct->fix_cmd[i] = checker(my_struct->fix_cmd[i], my_struct);
+        // printf("%s\n", my_struct->fix_cmd[i]);
         i++;
     }             
 }
@@ -198,9 +206,10 @@ void    fix_arg(t_all *my_struct)
     i = 0;
     char *cmd;
     my_struct->my_command = malloc(sizeof(char *) * (count_2d(my_struct)+1));
-    fill(my_struct);
+    // fill(my_struct);
     while(my_struct->fix_cmd[i] && my_struct->error == 0)
     {
+        printf("{{{%s}}}\n",my_struct->fix_cmd[j]);
         // printf("[[%d]]\n",my_struct->error);
         if(mini_checker(my_struct->fix_cmd[i]) == 0 || mini_checker(my_struct->fix_cmd[i]) == -1)
         {
@@ -230,7 +239,8 @@ void    fix_arg(t_all *my_struct)
     // j = 0;
     // while(my_struct->my_command[j])
     // {
-    //     printf("{{{%s}}}\n",my_struct->my_command[j]);
+        // printf("{{{%s}}}\n",my_struct->my_command[j]);
     //     j++;
     // }
+    // exit(0);
 }

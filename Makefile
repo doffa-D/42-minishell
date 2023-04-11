@@ -6,12 +6,12 @@
 #    By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/03 12:19:16 by nouakhro          #+#    #+#              #
-#    Updated: 2023/03/20 17:41:04 by nouakhro         ###   ########.fr        #
+#    Updated: 2023/04/11 17:14:59 by nouakhro         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
-CCFLAGS = -Wall -Werror -Wextra
+CCFLAGS = -Wall -Werror -Wextra 
 
 SRC = 	main.c\
 		utils.c\
@@ -30,7 +30,7 @@ all : $(NAME)
 
 $(NAME) : $(OBJE)
 	make -C $(LIBFT)
-	$(CC) $(CCFLAGS) $(OBJE) libft/libft.a -lreadline -L  readline/lib -I readline/include -o $(NAME)
+	$(CC) $(CCFLAGS) $(OBJE) libft/libft.a -lreadline -L  readline/lib -I readline/include  -o $(NAME)
 	make clean
 
 %.o : %.c

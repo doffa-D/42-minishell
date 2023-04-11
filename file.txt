@@ -1,0 +1,15 @@
+Makefile
+a.out
+check_rediraction.c
+commande.c
+file.txt
+fix_arg.c
+free_all.c
+handle_echo.c
+libft
+main.c
+minishell
+minishell.h
+readline
+test.c
+utils.c

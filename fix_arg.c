@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 12:31:35 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/04/13 17:37:29 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/04/13 17:42:20 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -246,9 +246,9 @@ void    fix_arg(t_all *my_struct)
                 // printf("[%s]\n[%d]\n", my_struct->the_commande, j);
                 c = j;
             }
-            if(my_struct->fix_cmd[i][j] == '$' && my_struct->fix_cmd[i][j + 1])
+            if(my_struct->fix_cmd[i][j] == '$')
             {
-                if(my_struct->fix_cmd[i][j + 1] != 39 && my_struct->fix_cmd[i][j + 1] != 34)
+                if(my_struct->fix_cmd[i][j + 1] && my_struct->fix_cmd[i][j + 1] != 39 && my_struct->fix_cmd[i][j + 1] != 34)
                 {
                     c++;
                     var = j + 1;
@@ -270,23 +270,15 @@ void    fix_arg(t_all *my_struct)
                     }
                     c = j;
                 }
-                else if(status == OUTSIDE && (my_struct->fix_cmd[i][j + 1] == 39 || my_struct->fix_cmd[i][j + 1] == 34))
-                {
-                    c++;
-                    printf("cdscs\n");
-                    variable = ft_substr(my_struct->fix_cmd[i], j + 1, (c - (j + 1)));
-                    if(getenv(variable))
-                        my_struct->the_commande = ft_strjoin(my_struct->the_commande, getenv(variable));
-                }
             }
             j++;
         }
-        // if(status == OUTSIDE)
-        // {
-        //     if(status == OUTSIDE)
-        //         c++;
-        //     my_struct->the_commande = ft_strjoin_v2(my_struct->the_commande, ft_substr(my_struct->fix_cmd[i], c, j - c));
-        // }
+        if(status == OUTSIDE)
+        {
+            if(status == OUTSIDE)
+                c++;
+            my_struct->the_commande = ft_strjoin_v2(my_struct->the_commande, ft_substr(my_struct->fix_cmd[i], c, j - c));
+        }
         my_struct->the_commande = ft_strjoin(my_struct->the_commande, splite);
         i++;
     }

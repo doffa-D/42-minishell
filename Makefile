@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+         #
+#    By: hdagdagu <hdagdagu@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/03 12:19:16 by nouakhro          #+#    #+#              #
-#    Updated: 2023/04/13 17:49:29 by nouakhro         ###   ########.fr        #
+#    Updated: 2023/04/13 18:08:22 by hdagdagu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,7 @@ all : $(NAME)
 
 $(NAME) : $(OBJE)
 	make -C $(LIBFT)
-	$(CC) $(CCFLAGS) $(OBJE) libft/libft.a -lreadline -L  readline/lib -I readline/include -o $(NAME)
+	$(CC) $(CCFLAGS) $(OBJE) libft/libft.a -lreadline -L  /Users/hdagdagu/.brew/opt/readline/lib -I /Users/hdagdagu/.brew/opt/readline/include -o $(NAME)
 	make clean
 
 %.o : %.c

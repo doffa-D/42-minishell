@@ -6,12 +6,19 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 15:13:46 by nouakhro          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/04/11 16:00:12 by nouakhro         ###   ########.fr       */
+=======
+/*   Updated: 2023/03/21 17:28:46 by hdagdagu         ###   ########.fr       */
+>>>>>>> main
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"libft.h"
+<<<<<<< HEAD
 #include"../minishell.h"
+=======
+>>>>>>> main
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {

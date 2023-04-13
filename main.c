@@ -6,7 +6,7 @@
 /*   By: hdagdagu <hdagdagu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:07:52 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/04/13 18:02:47 by hdagdagu         ###   ########.fr       */
+/*   Updated: 2023/04/13 18:04:25 by hdagdagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ int somting_in_readline(t_all my_struct)
     free(my_struct.the_commande);
     free(my_struct.tmp_cmd);
     fix_arg(&my_struct);
+    printf("ssss\n");
     add_history(my_struct.cmd);
     // ft_bzero(cwd_path, sizeof(cwd_path));
     // getcwd(cwd_path, sizeof(cwd_path));

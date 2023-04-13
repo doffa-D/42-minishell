@@ -6,12 +6,11 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 15:13:46 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/04/11 16:00:12 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/04/13 17:52:27 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"libft.h"
-#include"../minishell.h"
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {

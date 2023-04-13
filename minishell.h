@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: hdagdagu <hdagdagu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/13 17:45:24 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/04/13 17:45:26 by hdagdagu         ###   ########.fr       */
+/*   Created: 2023/03/09 14:20:41 by nouakhro          #+#    #+#             */
+/*   Updated: 2023/04/13 17:55:37 by hdagdagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@
 # include <stdio.h>
 # include <signal.h>
 
-//sa
-
 typedef struct s_all
 {
 	size_t		linght_path;
@@ -32,9 +30,10 @@ typedef struct s_all
 	char		**fix_cmd;
 	char		*read_all;
 	char		*test;
-	char	*cmd;
-	const char	*arg;
-	const char	*the_commande;
+	char		*the_commande;
+	char		*cmd;
+	// int			status;
+	char		*tmp_cmd;
 	int			command_len;
 	int			i;
 	int 		error;

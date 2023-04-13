@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 14:20:11 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/04/11 17:07:49 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/04/13 17:50:04 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ int get_the_path(t_all my_struct)
 		else
             return 1;
     }
-        printf("cccccc\n");
     return 0;
 }
 

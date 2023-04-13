@@ -6,65 +6,71 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 14:18:08 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/03/09 14:24:33 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/03/23 12:47:24 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"minishell.h"
+#include<string.h>
 
+
+//ssir fhm hadchi mz1
 void check_rediractions(t_all my_struct)
 {
     int j = 1;
     while (my_struct.my_command[j])
     {
-        if(my_struct.my_command[j] && \
-        !ft_strncmp(my_struct.my_command[j], ">>", \
-        ft_strlen(my_struct.my_command[j])) \
-        && ft_strlen(my_struct.my_command[j]) == 2)
+        if(!ft_strncmp(my_struct.my_command[j], "<<", ft_strlen(my_struct.my_command[j])) && ft_strlen(my_struct.my_command[j]) == 2)
         {
+            
             if(my_struct.my_command[j + 1])
             {
-                int fd = open(my_struct.my_command[j + 1] ,O_RDWR | O_APPEND);
-                dup2(fd, STDOUT_FILENO);
-                while (my_struct.my_command[j])
+                int fd_by_pipe[2];
+                char *beffer = 0;
+                char *herdoc = "";
+                pipe(fd_by_pipe);
+                while(1)
                 {
-                    my_struct.my_command[j] = 0;
-                    j++;
+                    beffer = readline("> ");
+                    if(strstr(beffer, my_struct.my_command[j + 1]))
+                        break;
+                    herdoc = ft_strjoin(herdoc, beffer);
+                    herdoc = ft_strjoin(herdoc, "\n");
                 }
-                break;
+                ft_putstr_fd(herdoc, fd_by_pipe[1]);
+                dup2(fd_by_pipe[0], STDIN_FILENO);
+                close(fd_by_pipe[1]);
+                my_struct.my_command[j] = 0;
             }
         }
-        if(my_struct.my_command[j] && \
-        !ft_strncmp(my_struct.my_command[j],">", \
-        ft_strlen(my_struct.my_command[j])))
+        else if(!ft_strncmp(my_struct.my_command[j], ">>", ft_strlen(my_struct.my_command[j])) && ft_strlen(my_struct.my_command[j]) == 2)
         {
             if(my_struct.my_command[j + 1])
             {
-                int fd = open(my_struct.my_command[j + 1] ,O_RDWR | O_TRUNC);
-                printf("%s", "");
+                int fd = open(my_struct.my_command[j + 1] ,O_CREAT| O_RDWR| O_APPEND, 0777);
                 dup2(fd, STDOUT_FILENO);
-                while (my_struct.my_command[j])
-                {
-                    my_struct.my_command[j] = 0;
-                    j++;
-                }
-                break;
+                my_struct.my_command[j] = 0;
+                close(fd);
             }
         }
-        else if(my_struct.my_command[j] && \
-        !ft_strncmp(my_struct.my_command[j], "<", \
-        ft_strlen(my_struct.my_command[j])))
+        else if(!ft_strncmp(my_struct.my_command[j],">", ft_strlen(my_struct.my_command[j])))
         {
             if(my_struct.my_command[j + 1])
             {
-                int fd = open(my_struct.my_command[j + 1],O_RDWR);
+                int fd = open(my_struct.my_command[j + 1] ,O_CREAT| O_RDWR| O_TRUNC, 0777);
+                dup2(fd, STDOUT_FILENO);
+                my_struct.my_command[j] = 0;
+                close(fd);
+            }
+        }
+        else if(!ft_strncmp(my_struct.my_command[j], "<", ft_strlen(my_struct.my_command[j])))
+        {
+            if(my_struct.my_command[j + 1])
+            {
+                int fd = open(my_struct.my_command[j + 1],O_CREAT| O_RDWR, 0777);
                 dup2(fd, STDIN_FILENO);
-                while (my_struct.my_command[j])
-                {
-                    my_struct.my_command[j] = 0;
-                    j++;
-                }
-                break;
+                my_struct.my_command[j] = 0;
+                close(fd);
             }
         }
         j++;

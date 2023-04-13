@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstclear.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hdagdagu <hdagdagu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/09 17:03:34 by hdagdagu          #+#    #+#             */
-/*   Updated: 2022/10/12 16:20:43 by hdagdagu         ###   ########.fr       */
+/*   Created: 2022/10/11 19:13:17 by nouakhro          #+#    #+#             */
+/*   Updated: 2022/10/13 15:18:21 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,15 @@
 
 void	ft_lstclear(t_list **lst, void (*del)(void*))
 {
-	t_list	*ptr;
+	t_list	*head;
 
-	if (!del || !lst)
+	if (!lst || !del)
 		return ;
-	ptr = *lst;
+	head = *lst;
 	while (*lst)
 	{
+		head = head->next;
 		ft_lstdelone(*lst, del);
-		ptr = (*lst)->next;
-		*lst = ptr;
+		*lst = head;
 	}
 }

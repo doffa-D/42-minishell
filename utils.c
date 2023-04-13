@@ -6,21 +6,27 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 14:20:11 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/03/09 16:08:08 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/04/13 00:02:22 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"minishell.h"
 
-void get_the_path(t_all my_struct)
+int get_the_path(t_all my_struct)
 {
     int i = 0;
     while (my_struct.my_path[i])
     {
-        my_struct.my_path[i] = ft_strjoin(my_struct.my_path[i], "/");
-	    my_struct.my_path[i] = ft_strjoin(my_struct.my_path[i], my_struct.my_command[0]);
-		    i++;
+        if(my_struct.my_command[0])
+        {
+            my_struct.my_path[i] = ft_strjoin(my_struct.my_path[i], "/");
+	        my_struct.my_path[i] = ft_strjoin(my_struct.my_path[i], my_struct.my_command[0]);
+            i++;
+        }
+		else
+            return 1;
     }
+    return 0;
 }
 
 void exit_the_program(t_all my_struct)

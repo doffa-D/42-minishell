@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstiter.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hdagdagu <hdagdagu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/10 12:09:19 by hdagdagu          #+#    #+#             */
-/*   Updated: 2022/10/11 17:17:20 by hdagdagu         ###   ########.fr       */
+/*   Created: 2022/10/12 18:28:06 by nouakhro          #+#    #+#             */
+/*   Updated: 2022/10/12 20:11:07 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include"libft.h"
 
-void	ft_lstiter(t_list *lst, void (*f)(void *))
+void	ft_lstiter(t_list	*lst, void (*f)(void *))
 {
 	while (lst)
 	{

@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hdagdagu <hdagdagu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/09 14:20:41 by nouakhro          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2023/03/22 14:26:24 by hdagdagu         ###   ########.fr       */
-=======
-/*   Updated: 2023/03/20 19:42:50 by nouakhro         ###   ########.fr       */
->>>>>>> origin/nourdin
+/*   Created: 2023/04/13 17:45:24 by hdagdagu          #+#    #+#             */
+/*   Updated: 2023/04/13 17:45:26 by hdagdagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +20,8 @@
 # include <stdio.h>
 # include <signal.h>
 
+//sa
+
 typedef struct s_all
 {
 	size_t		linght_path;
@@ -34,7 +32,9 @@ typedef struct s_all
 	char		**fix_cmd;
 	char		*read_all;
 	char		*test;
-	const char	*cmd;
+	char	*cmd;
+	const char	*arg;
+	const char	*the_commande;
 	int			command_len;
 	int			i;
 	int 		error;
@@ -50,5 +50,6 @@ void			exicut_echo(t_all *my_struct);
 int				quote_check(char *cmd);
 void			fix_arg(t_all *my_struct);
 void			rl_replace_line (const char *text, int clear_undo);
+char	*ft_strjoin_v2(char const *s1, char const *s2);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fix_arg.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hdagdagu <hdagdagu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 12:31:35 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/04/13 18:05:58 by hdagdagu         ###   ########.fr       */
+/*   Updated: 2023/04/13 17:53:09 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@ char	*ft_strjoin_v2(char const *s1, char const *s2)
 		j++;
 	}
 	b[i] = 0;
-    // free((char *)s1);
-    // free((char *)s2);
+    free((char *)s1);
+    free((char *)s2);
 	return (b);
 }
 

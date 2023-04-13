@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 14:19:24 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/04/13 17:50:15 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/04/13 17:51:37 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	exicut_commande(t_all my_struct, int i)
 {
 	// if (quote_check(&my_struct) == 0)
 	// 	printf("error\n");
-	if (!ft_strncmp(my_structss.my_command[0], "cd", ft_strlen("cd")))
+	if (!ft_strncmp(my_struct.my_command[0], "cd", ft_strlen("cd")))
 		exit(1);
 	// else if (!ft_strncmp(my_struct.my_command[0], "echo", ft_strlen("echo")))
 	// {

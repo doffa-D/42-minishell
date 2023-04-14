@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 12:31:35 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/04/13 17:53:09 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/04/14 01:32:17 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -243,31 +243,46 @@ void    fix_arg(t_all *my_struct)
                 else
                     status = IN_COTE;
                 my_struct->the_commande = ft_strjoin_v2(my_struct->the_commande, ft_substr(my_struct->fix_cmd[i], c, j - c));
-                // printf("[%s]\n[%d]\n", my_struct->the_commande, j);
                 c = j;
             }
-            if(my_struct->fix_cmd[i][j] == '$')
+            if(my_struct->fix_cmd[i][j] == '$' && my_struct->fix_cmd[i][j + 1])
             {
-                if(my_struct->fix_cmd[i][j + 1] && my_struct->fix_cmd[i][j + 1] != 39 && my_struct->fix_cmd[i][j + 1] != 34)
+                if(my_struct->fix_cmd[i][j + 1] != 39 && my_struct->fix_cmd[i][j + 1] != 34)
                 {
-                    c++;
-                    var = j + 1;
-                    my_struct->the_commande = ft_strjoin_v2(my_struct->the_commande, ft_substr(my_struct->fix_cmd[i], c, j - c));
-                    while (my_struct->fix_cmd[i][var] && my_struct->fix_cmd[i][var] != ' ' && my_struct->fix_cmd[i][var] != '$' && my_struct->fix_cmd[i][var] != 34 && my_struct->fix_cmd[i][var] != 39)
+                    if(ft_isalpha(my_struct->fix_cmd[i][j + 1]))
+                    {
+                        c++;
+                        var = j + 1;
+                        my_struct->the_commande = ft_strjoin_v2(my_struct->the_commande, ft_substr(my_struct->fix_cmd[i], c, j - c));
+                        while (my_struct->fix_cmd[i][var]  && (ft_isalpha(my_struct->fix_cmd[i][var]) || ft_isdigit(my_struct->fix_cmd[i][var])))
+                        {
+                            // printf("%c",my_struct->fix_cmd[i][var]);
                             var++;
-                    if(status == IN_DCOTE || status == OUTSIDE)
-                    {
-                        variable = ft_substr(my_struct->fix_cmd[i], j + 1, (var - (j + 1)));
-                        if(getenv(variable))
-                            my_struct->the_commande = ft_strjoin(my_struct->the_commande, getenv(variable));
-                        j = var - 1;
+                        }
+                        if(status == IN_DCOTE || status == OUTSIDE)
+                        {
+                            variable = ft_substr(my_struct->fix_cmd[i], j + 1, (var - (j + 1)));
+                            if(getenv(variable))
+                                my_struct->the_commande = ft_strjoin(my_struct->the_commande, getenv(variable));
+                            j = var - 1;
+                        }
+                        if(status == IN_COTE)
+                        {
+                            variable = ft_substr(my_struct->fix_cmd[i], j, (var - j));
+                            my_struct->the_commande = ft_strjoin(my_struct->the_commande, variable);
+                            j = var - 1;
+                        }
+                        c = j;
                     }
-                    if(status == IN_COTE)
+                    else
                     {
-                        variable = ft_substr(my_struct->fix_cmd[i], j, (var - j));
-                        my_struct->the_commande = ft_strjoin(my_struct->the_commande, variable);
-                        j = var - 1;
+                        j++;
+                        c = j;
                     }
+                }
+                else if(status == OUTSIDE && (my_struct->fix_cmd[i][j + 1] == 39 || my_struct->fix_cmd[i][j + 1] == 34))
+                {
+                    my_struct->the_commande = ft_strjoin_v2(my_struct->the_commande, ft_substr(my_struct->fix_cmd[i], c + 1, j - (c + 1)));
                     c = j;
                 }
             }

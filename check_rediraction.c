@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 14:18:08 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/03/23 12:47:24 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/04/14 01:48:49 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void check_rediractions(t_all my_struct)
             {
                 int fd_by_pipe[2];
                 char *beffer = 0;
-                char *herdoc = "";
+                char *herdoc = ft_strdup("");
                 pipe(fd_by_pipe);
                 while(1)
                 {

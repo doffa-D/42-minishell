@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:07:52 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/04/13 17:50:42 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/04/13 23:01:11 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void handler(int sig)
 }
 int cd_commade(t_all my_struct)
 {
+    // printf("fdfvfd\n");
     if(my_struct.my_command[0] && ft_strlen(my_struct.cmd) && !ft_strncmp(my_struct.my_command[0], "cd", ft_strlen(my_struct.my_command[0])))
     {
         // printf("test[%s]\n", my_struct.my_command[1]);

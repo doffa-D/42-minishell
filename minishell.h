@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 14:20:41 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/04/13 17:49:44 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/04/13 18:23:55 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,16 +28,11 @@ typedef struct s_all
 	char		*my_curent_path;
 	char		**my_command;
 	char		**fix_cmd;
-	char		*read_all;
-	char		*test;
 	char		*the_commande;
 	char		*cmd;
 	// int			status;
 	char		*tmp_cmd;
-	int			command_len;
 	int			i;
-	int 		error;
-	char 		*whitout_qout;
 }				t_all;
 
 void			exicut_commande(t_all my_struct, int i);

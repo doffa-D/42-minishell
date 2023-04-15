@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 14:18:08 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/04/14 18:24:23 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/04/15 19:55:43 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,7 @@
 #include<string.h>
 
 
-//ssir fhm hadchi mz1
-// void check_rediractions(t_all my_struct)
+// void check_rediractions(t_all *my_struct)
 // {
 //     int j = 0;
 //     printf("%s\n",my_struct.my_command[j]);

@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:07:52 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/04/14 23:43:31 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/04/15 20:11:30 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,24 +46,24 @@ void handler(int sig)
 //     }
 //     return 0;
 // }
-int somting_in_readline(t_all my_struct)
+int somting_in_readline(t_all *my_struct)
 {
     int i = 0;
     int j = 0;
     int checker = 0;
-    my_struct.tmp_cmd = ft_strdup(my_struct.cmd);
-    while(my_struct.tmp_cmd[i])
+    my_struct->tmp_cmd = ft_strdup(my_struct->cmd);
+    while(my_struct->tmp_cmd[i])
     {
         char splite_char = ' ';
         checker = 0;
-        while(my_struct.tmp_cmd[i] && my_struct.tmp_cmd[i] != splite_char)
+        while(my_struct->tmp_cmd[i] && my_struct->tmp_cmd[i] != splite_char)
         {
-            if(my_struct.tmp_cmd[i] == 34 && !checker)
+            if(my_struct->tmp_cmd[i] == 34 && !checker)
             {   
                 splite_char = 34;
                 checker = 1;
             }
-            if(my_struct.tmp_cmd[i] == 39 && !checker)
+            if(my_struct->tmp_cmd[i] == 39 && !checker)
             {
                 splite_char = 39;
                 checker = 1;
@@ -72,41 +72,42 @@ int somting_in_readline(t_all my_struct)
         }
         if(splite_char != ' ')
             i++;
-        if(my_struct.tmp_cmd[i] == ' ')
+        if(my_struct->tmp_cmd[i] == ' ')
         {
-            if(!my_struct.the_commande)
-                my_struct.the_commande = ft_strdup("");
-            my_struct.tmp_cmd[i] = 3;
+            if(!my_struct->the_commande)
+                my_struct->the_commande = ft_strdup("");
+            my_struct->tmp_cmd[i] = 3;
             i++;
-            my_struct.the_commande = ft_strjoin_v2(my_struct.the_commande, ft_substr(my_struct.tmp_cmd , j , i - j));
+            my_struct->the_commande = ft_strjoin_v2(my_struct->the_commande, ft_substr(my_struct->tmp_cmd , j , i - j));
             j = i;
         }
-        if(!my_struct.tmp_cmd[i])
+        if(!my_struct->tmp_cmd[i])
         {
-            if(!my_struct.the_commande)
-                my_struct.the_commande = ft_strdup("");
-            my_struct.the_commande = ft_strjoin_v2(my_struct.the_commande, ft_substr(my_struct.tmp_cmd , j , i - j));
-            // printf("[%s]\n", my_struct.the_commande);
+            if(!my_struct->the_commande)
+                my_struct->the_commande = ft_strdup("");
+            my_struct->the_commande = ft_strjoin_v2(my_struct->the_commande, ft_substr(my_struct->tmp_cmd , j , i - j));
+            // printf("[%s]\n", my_struct->the_commande);
             break;
         }
     }
-    my_struct.my_path = ft_split(getenv("PATH"), ':');
-    my_struct.fix_cmd = ft_split(my_struct.the_commande, 3);
+    // my_struct->my_path = ft_split(getenv("PATH"), ':');
+    my_struct->fix_cmd = ft_split(my_struct->the_commande, 3);
     i = 0;
-    // while(my_struct.fix_cmd[i])
-    // {
-    //     printf("[%s]\n", my_struct.fix_cmd[i]);
-    //     i++;
-    // }
     // printf("%s\n", my_struct.the_commande);
-    free(my_struct.the_commande);
-    free(my_struct.tmp_cmd);
-    fix_arg(&my_struct);
-    add_history(my_struct.cmd);
+    free(my_struct->the_commande);
+    free(my_struct->tmp_cmd);
+    i = 0;
+    while(my_struct->fix_cmd[i])
+    {
+        printf("%s\n", my_struct->fix_cmd[i]);
+        i++;
+    }
+    // fix_arg(my_struct);
+    add_history(my_struct->cmd);
     // ft_bzero(cwd_path, sizeof(cwd_path));
     // getcwd(cwd_path, sizeof(cwd_path));
     // if(ft_strlen(cwd_path) > ft_strlen(old_path))
-    //     my_struct.linght_path = ft_strlen(cwd_path);
+    //     my_struct->linght_path = ft_strlen(cwd_path);
     // else if(ft_strlen(cwd_path) < ft_strlen(old_path))
     //     my_struct.linght_path = ft_strlen(old_path);
     
@@ -127,10 +128,9 @@ int somting_in_readline(t_all my_struct)
     // 	if(!get_the_path(my_struct))
     //     {
     //         i = 0;
-    //         i = 0;
-    //         while (my_struct.my_path[i])
+    //         while (my_struct->my_path[i])
     //         {
-    //             if(access(my_struct.my_path[i], F_OK) == 0)
+    //             if(access(my_struct->my_path[i], F_OK) == 0)
     //             {
     //                 j = 1;
     //                 break;
@@ -138,21 +138,21 @@ int somting_in_readline(t_all my_struct)
     //             i++;
     //         }
     //     }
-        // if(j != 1)
-        // {
-        //     if(my_struct.my_command[0] && !ft_strchr(my_struct.my_command[0],'/'))
-        //         printf("%s: command not found\n", my_struct.my_command[0]);
-        //     else if(ft_strchr(my_struct.my_command[0],'/'))
-        //     {
-        //         if(!chdir(my_struct.my_command[0]))
-        //             printf("%s: is a directory\n", my_struct.my_command[0]);
-        //         else
-        //             printf("%s: No such file or directory\n", my_struct.my_command[0]);
-        //     }
-        //     exit(0);
-        // }
-        // else
-            // exicut_commande(my_struct, i);
+    //     // if(j != 1)
+    //     // {
+    //     //     if(my_struct->my_command[0] && !ft_strchr(my_struct->my_command[0],'/'))
+    //     //         printf("%s: command not found\n", my_struct->my_command[0]);
+    //     //     else if(ft_strchr(my_struct->my_command[0],'/'))
+    //     //     {
+    //     //         if(!chdir(my_struct->my_command[0]))
+    //     //             printf("%s: is a directory\n", my_struct->my_command[0]);
+    //     //         else
+    //     //             printf("%s: No such file or directory\n", my_struct->my_command[0]);
+    //     //     }
+    //     //     exit(0);
+    //     // }
+    //     // else
+    //     exicut_commande(my_struct, i);
     // }
     // waitpid(-1, &i, 0);
     // cd_commade(my_struct);
@@ -184,7 +184,7 @@ int main()
         if(!my_struct.cmd)
             exit(0);
         if(ft_strlen(my_struct.cmd) != 0)
-            somting_in_readline(my_struct);
+            somting_in_readline(&my_struct);
         i++;
     }
 }

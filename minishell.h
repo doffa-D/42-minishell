@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 14:20:41 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/04/13 18:23:55 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/04/14 23:36:29 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,39 @@
 # include <stdio.h>
 # include <signal.h>
 
+typedef struct s_files
+{
+	char *files;
+	int INPUT;
+	int OUTPUT;
+	int HERDOC;
+	int APPEND;
+	int ERROR_SYNTACSI;
+	int ERROR_SYNTACSO;
+	int number_of_I;
+	int number_of_O;
+
+} t_files;
+
+typedef struct each_command
+{
+	char **cmd;
+	t_files *files;
+
+} t_each_command;
+
 typedef struct s_all
 {
-	size_t		linght_path;
-	char		**my_path;
-	char		**my_all_path;
-	char		*my_curent_path;
-	char		**my_command;
-	char		**fix_cmd;
-	char		*the_commande;
-	char		*cmd;
+	size_t				linght_path;
+	char				**my_path;
+	char				**my_all_path;
+	char				*my_curent_path;
+	t_each_command 		*each_cmd;
+	char				**splite_pipe;
+	char				**fix_cmd;
+	char				*the_commande;
+	char				*cmd;
+	int					number_of_pipes;
 	// int			status;
 	char		*tmp_cmd;
 	int			i;

@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:07:52 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/04/13 23:01:11 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/04/14 23:43:31 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,28 +24,28 @@ void handler(int sig)
     if(sig == SIGQUIT)
         return ;
 }
-int cd_commade(t_all my_struct)
-{
-    // printf("fdfvfd\n");
-    if(my_struct.my_command[0] && ft_strlen(my_struct.cmd) && !ft_strncmp(my_struct.my_command[0], "cd", ft_strlen(my_struct.my_command[0])))
-    {
-        // printf("test[%s]\n", my_struct.my_command[1]);
-        if((ft_strlen(my_struct.cmd) == 2 || my_struct.my_command[1][0] == '~'))
-        {
-            chdir(getenv("HOME"));
-            if(my_struct.my_command[1] && my_struct.my_command[1][1] == '/' && my_struct.my_command[1][2])
-                chdir(my_struct.my_command[1] + 2);
-        }
-        // else if(ft_strlen(my_struct.cmd) == 2 || (my_struct.my_command[1][0] == '-' &&  my_struct.my_command[1][1]))
-        //     chdir(my_struct.my_all_path[loop - (ft_atoi(&my_struct.my_command[1][1])) + 1]);
-        // else if(ft_strlen(my_struct.cmd) == 2 || my_struct.my_command[1][0] == '-')
-        //     chdir(my_struct.my_all_path[loop]);
-        else
-            chdir(my_struct.my_command[1]);
-        my_struct.i = 0;
-    }
-    return 0;
-}
+// int cd_commade(t_all my_struct)
+// {
+//     // printf("fdfvfd\n");
+//     if(my_struct.my_command[0] && ft_strlen(my_struct.cmd) && !ft_strncmp(my_struct.my_command[0], "cd", ft_strlen(my_struct.my_command[0])))
+//     {
+//         // printf("test[%s]\n", my_struct.my_command[1]);
+//         if((ft_strlen(my_struct.cmd) == 2 || my_struct.my_command[1][0] == '~'))
+//         {
+//             chdir(getenv("HOME"));
+//             if(my_struct.my_command[1] && my_struct.my_command[1][1] == '/' && my_struct.my_command[1][2])
+//                 chdir(my_struct.my_command[1] + 2);
+//         }
+//         // else if(ft_strlen(my_struct.cmd) == 2 || (my_struct.my_command[1][0] == '-' &&  my_struct.my_command[1][1]))
+//         //     chdir(my_struct.my_all_path[loop - (ft_atoi(&my_struct.my_command[1][1])) + 1]);
+//         // else if(ft_strlen(my_struct.cmd) == 2 || my_struct.my_command[1][0] == '-')
+//         //     chdir(my_struct.my_all_path[loop]);
+//         else
+//             chdir(my_struct.my_command[1]);
+//         my_struct.i = 0;
+//     }
+//     return 0;
+// }
 int somting_in_readline(t_all my_struct)
 {
     int i = 0;
@@ -92,6 +92,12 @@ int somting_in_readline(t_all my_struct)
     }
     my_struct.my_path = ft_split(getenv("PATH"), ':');
     my_struct.fix_cmd = ft_split(my_struct.the_commande, 3);
+    i = 0;
+    // while(my_struct.fix_cmd[i])
+    // {
+    //     printf("[%s]\n", my_struct.fix_cmd[i]);
+    //     i++;
+    // }
     // printf("%s\n", my_struct.the_commande);
     free(my_struct.the_commande);
     free(my_struct.tmp_cmd);
@@ -113,43 +119,43 @@ int somting_in_readline(t_all my_struct)
     //     my_struct.my_all_path = ft_split(my_struct.my_curent_path, ' ');
     //     getcwd(old_path, sizeof(old_path));
     // }
-    j = 0;
-    i = fork();
-    if(i == 0)
-    {
-        j = 0;
-    	if(!get_the_path(my_struct))
-        {
-            i = 0;
-            i = 0;
-            while (my_struct.my_path[i])
-            {
-                if(access(my_struct.my_path[i], F_OK) == 0)
-                {
-                    j = 1;
-                    break;
-                }
-                i++;
-            }
-        }
-        if(j != 1)
-        {
-            if(my_struct.my_command[0] && !ft_strchr(my_struct.my_command[0],'/'))
-                printf("%s: command not found\n", my_struct.my_command[0]);
-            else if(ft_strchr(my_struct.my_command[0],'/'))
-            {
-                if(!chdir(my_struct.my_command[0]))
-                    printf("%s: is a directory\n", my_struct.my_command[0]);
-                else
-                    printf("%s: No such file or directory\n", my_struct.my_command[0]);
-            }
-            exit(0);
-        }
-        else
-            exicut_commande(my_struct, i);
-    }
-    waitpid(-1, &i, 0);
-    cd_commade(my_struct);
+    // j = 0;
+    // i = fork();
+    // if(i == 0)
+    // {
+    //     j = 0;
+    // 	if(!get_the_path(my_struct))
+    //     {
+    //         i = 0;
+    //         i = 0;
+    //         while (my_struct.my_path[i])
+    //         {
+    //             if(access(my_struct.my_path[i], F_OK) == 0)
+    //             {
+    //                 j = 1;
+    //                 break;
+    //             }
+    //             i++;
+    //         }
+    //     }
+        // if(j != 1)
+        // {
+        //     if(my_struct.my_command[0] && !ft_strchr(my_struct.my_command[0],'/'))
+        //         printf("%s: command not found\n", my_struct.my_command[0]);
+        //     else if(ft_strchr(my_struct.my_command[0],'/'))
+        //     {
+        //         if(!chdir(my_struct.my_command[0]))
+        //             printf("%s: is a directory\n", my_struct.my_command[0]);
+        //         else
+        //             printf("%s: No such file or directory\n", my_struct.my_command[0]);
+        //     }
+        //     exit(0);
+        // }
+        // else
+            // exicut_commande(my_struct, i);
+    // }
+    // waitpid(-1, &i, 0);
+    // cd_commade(my_struct);
     // free_all(my_struct);
     return 0;
 }

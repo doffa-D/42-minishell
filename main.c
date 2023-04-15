@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:07:52 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/04/15 20:18:30 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/04/15 23:07:53 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int somting_in_readline(t_all *my_struct)
         if(my_struct->tmp_cmd[i] == ' ')
         {
             if(!my_struct->the_commande)
-                my_struct->the_commande = ft_strdup("");
+                my_struct->the_commande = ft_calloc(1,1);
             my_struct->tmp_cmd[i] = 3;
             i++;
             my_struct->the_commande = ft_strjoin_v2(my_struct->the_commande, ft_substr(my_struct->tmp_cmd , j , i - j));
@@ -84,25 +84,25 @@ int somting_in_readline(t_all *my_struct)
         if(!my_struct->tmp_cmd[i])
         {
             if(!my_struct->the_commande)
-                my_struct->the_commande = ft_strdup("");
+                my_struct->the_commande = ft_calloc(1,1);
             my_struct->the_commande = ft_strjoin_v2(my_struct->the_commande, ft_substr(my_struct->tmp_cmd , j , i - j));
-            // printf("[%s]\n", my_struct->the_commande);
+
             break;
         }
     }
-    // my_struct->my_path = ft_split(getenv("PATH"), ':');
+    my_struct->my_path = ft_split(getenv("PATH"), ':');
     my_struct->fix_cmd = ft_split(my_struct->the_commande, 3);
-    i = 0;
-    // printf("%s\n", my_struct.the_commande);
     free(my_struct->the_commande);
     free(my_struct->tmp_cmd);
+    my_struct->the_commande = 0;
+    my_struct->tmp_cmd = 0;
     i = 0;
-    while(my_struct->fix_cmd[i])
-    {
-        printf("%s\n", my_struct->fix_cmd[i]);
-        i++;
-    }
-    // fix_arg(my_struct);
+    // while(my_struct->fix_cmd[i])
+    // {
+    //     printf("[%s]\n", my_struct->fix_cmd[i]);
+    //     i++;
+    // }
+    fix_arg(my_struct);
     add_history(my_struct->cmd);
     // ft_bzero(cwd_path, sizeof(cwd_path));
     // getcwd(cwd_path, sizeof(cwd_path));
@@ -121,40 +121,40 @@ int somting_in_readline(t_all *my_struct)
     //     getcwd(old_path, sizeof(old_path));
     // }
     // j = 0;
-    // i = fork();
-    // if(i == 0)
-    // {
-    //     j = 0;
-    // 	if(!get_the_path(my_struct))
-    //     {
-    //         i = 0;
-    //         while (my_struct->my_path[i])
-    //         {
-    //             if(access(my_struct->my_path[i], F_OK) == 0)
-    //             {
-    //                 j = 1;
-    //                 break;
-    //             }
-    //             i++;
-    //         }
-    //     }
-    //     // if(j != 1)
-    //     // {
-    //     //     if(my_struct->my_command[0] && !ft_strchr(my_struct->my_command[0],'/'))
-    //     //         printf("%s: command not found\n", my_struct->my_command[0]);
-    //     //     else if(ft_strchr(my_struct->my_command[0],'/'))
-    //     //     {
-    //     //         if(!chdir(my_struct->my_command[0]))
-    //     //             printf("%s: is a directory\n", my_struct->my_command[0]);
-    //     //         else
-    //     //             printf("%s: No such file or directory\n", my_struct->my_command[0]);
-    //     //     }
-    //     //     exit(0);
-    //     // }
-    //     // else
-    //     exicut_commande(my_struct, i);
-    // }
-    // waitpid(-1, &i, 0);
+    i = fork();
+    if(i == 0)
+    {
+        j = 0;
+    	if(!get_the_path(my_struct, 0))
+        {
+            i = 0;
+            while (my_struct->my_path[i])
+            {
+                if(access(my_struct->my_path[i], F_OK) == 0)
+                {
+                    j = 1;
+                    break;
+                }
+                i++;
+            }
+        }
+        // if(j != 1)
+        // {
+        //     if(my_struct->my_command[0] && !ft_strchr(my_struct->my_command[0],'/'))
+        //         printf("%s: command not found\n", my_struct->my_command[0]);
+        //     else if(ft_strchr(my_struct->my_command[0],'/'))
+        //     {
+        //         if(!chdir(my_struct->my_command[0]))
+        //             printf("%s: is a directory\n", my_struct->my_command[0]);
+        //         else
+        //             printf("%s: No such file or directory\n", my_struct->my_command[0]);
+        //     }
+        //     exit(0);
+        // }
+        // else
+        exicut_commande(my_struct, i, 0);
+    }
+    waitpid(-1, &i, 0);
     // cd_commade(my_struct);
     // free_all(my_struct);
     return 0;

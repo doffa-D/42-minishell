@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 12:31:35 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/04/15 20:10:26 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/04/15 23:11:36 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,11 +210,6 @@ void    fix_arg(t_all *my_struct)
     splite[0] = 3; 
     splite[1] = '\0';
     int			status;
-    while(my_struct->fix_cmd[i])
-    {
-        printf("%s\n", my_struct->fix_cmd[i]);
-        i++;
-    }
     i = 0;
     my_struct->number_of_pipes = 1;
     my_struct->the_commande = ft_calloc(1, 1);
@@ -302,11 +297,11 @@ void    fix_arg(t_all *my_struct)
         }
         my_struct->the_commande = ft_strjoin(my_struct->the_commande, splite);
         free(my_struct->fix_cmd[i]);
+        my_struct->fix_cmd[i] = 0;
         i++;
     }
     free(my_struct->fix_cmd);
     my_struct->splite_pipe = ft_split(my_struct->the_commande, 4);
-    // printf("%d\n", my_struct->number_of_pipes);
     free(my_struct->the_commande);
     my_struct->the_commande = 0;
     i = 0; 
@@ -315,6 +310,7 @@ void    fix_arg(t_all *my_struct)
     while(my_struct->splite_pipe[i])
     {
         j = 0;
+        var = 0;
         my_struct->the_commande = ft_calloc(1, 1);
         while(my_struct->splite_pipe[i][j])
         {
@@ -326,7 +322,7 @@ void    fix_arg(t_all *my_struct)
             }
             j++;
         }
-        my_struct->each_cmd[i].files = ft_calloc(sizeof(t_files), var + 1);
+        my_struct->each_cmd[i].files = ft_calloc(sizeof(t_files), (var + 1));
         j = 0;
         while (my_struct->splite_pipe[i][j])
         {
@@ -339,7 +335,6 @@ void    fix_arg(t_all *my_struct)
 	            my_struct->each_cmd[i].files[c_of_s].number_of_I = 0;
                 while (my_struct->splite_pipe[i][j] && (my_struct->splite_pipe[i][j] == 2 || my_struct->splite_pipe[i][j] == 3 || my_struct->splite_pipe[i][j] == 5))
                 {
-                    // printf("test\n");
                     if(my_struct->splite_pipe[i][j] == 2)
                         my_struct->each_cmd[i].files[c_of_s].number_of_O++;
                     if(my_struct->splite_pipe[i][j] == 5)
@@ -358,10 +353,9 @@ void    fix_arg(t_all *my_struct)
                 else if(my_struct->each_cmd[i].files[c_of_s].number_of_O > 2)
 	                my_struct->each_cmd[i].files[c_of_s].ERROR_SYNTACSO = 1;
                 my_struct->each_cmd[i].files[c_of_s].files = ft_substr(my_struct->splite_pipe[i], j, var - j);
-                printf("{%s}\n", my_struct->each_cmd[i].files[c_of_s].files);
+                // printf("{%s}\n", my_struct->each_cmd[i].files[c_of_s].files);
                 c_of_s++;
                 j = var - 1;
-                // exit(0);
             }
             else if(my_struct->splite_pipe[i][j] == 5)
             {
@@ -373,7 +367,6 @@ void    fix_arg(t_all *my_struct)
 	            my_struct->each_cmd[i].files[c_of_s].number_of_I = 0;
                 while (my_struct->splite_pipe[i][j] && (my_struct->splite_pipe[i][j] == 2 || my_struct->splite_pipe[i][j] == 3 || my_struct->splite_pipe[i][j] == 5))
                 {
-                    // printf("test\n");
                     if(my_struct->splite_pipe[i][j] == 2)
                         my_struct->each_cmd[i].files[c_of_s].number_of_O++;
                     if(my_struct->splite_pipe[i][j] == 5)
@@ -392,7 +385,7 @@ void    fix_arg(t_all *my_struct)
                 else if(my_struct->each_cmd[i].files[c_of_s].number_of_I > 2)
 	                my_struct->each_cmd[i].files[c_of_s].ERROR_SYNTACSI = 1;
                 my_struct->each_cmd[i].files[c_of_s].files = ft_substr(my_struct->splite_pipe[i], j, var - j);
-                printf("(%s)\n", my_struct->each_cmd[i].files[c_of_s].files);
+                // printf("(%s)\n", my_struct->each_cmd[i].files[c_of_s].files);
                 c_of_s++;
                 j = var - 1;
             }
@@ -407,13 +400,9 @@ void    fix_arg(t_all *my_struct)
             j++;
         }
         my_struct->each_cmd[i].cmd = ft_split(my_struct->the_commande, 3);
-        int k = 0;
-        while (my_struct->each_cmd[i].cmd[k])
-        {
-            printf("##%s##\n",my_struct->each_cmd[i].cmd[k]);
-            k++;
-        }
         free(my_struct->splite_pipe[i]);
+        my_struct->the_commande = 0;
+        my_struct->splite_pipe[i] = 0;;
         i++;
     }
     free(my_struct->splite_pipe);

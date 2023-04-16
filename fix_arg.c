@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 12:31:35 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/04/16 01:55:06 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/04/16 21:58:23 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,6 +212,7 @@ void    fix_arg(t_all *my_struct)
     int			status;
     i = 0;
     my_struct->number_of_pipes = 1;
+    my_struct->the_commande = 0;
     my_struct->the_commande = ft_calloc(1, 1);
     while(my_struct->fix_cmd[i])
     {
@@ -302,10 +303,12 @@ void    fix_arg(t_all *my_struct)
     }
     free(my_struct->fix_cmd);
     my_struct->splite_pipe = ft_split(my_struct->the_commande, 4);
+
     free(my_struct->the_commande);
     my_struct->the_commande = 0;
     i = 0; 
     j = 0;
+    my_struct->each_cmd = ft_calloc(sizeof(t_each_command) , my_struct->number_of_pipes + 1);
     int c_of_s = 0;
     while(my_struct->splite_pipe[i])
     {
@@ -385,7 +388,6 @@ void    fix_arg(t_all *my_struct)
                 else if(my_struct->each_cmd[i].files[c_of_s].number_of_I > 2)
 	                my_struct->each_cmd[i].files[c_of_s].ERROR_SYNTACSI = 1;
                 my_struct->each_cmd[i].files[c_of_s].files = ft_substr(my_struct->splite_pipe[i], j, var - j);
-                // printf("(%s)\n", my_struct->each_cmd[i].files[c_of_s].files);
                 c_of_s++;
                 j = var - 1;
             }
@@ -401,6 +403,7 @@ void    fix_arg(t_all *my_struct)
         }
         my_struct->each_cmd[i].cmd = ft_split(my_struct->the_commande, 3);
         free(my_struct->splite_pipe[i]);
+        free(my_struct->the_commande);
         my_struct->the_commande = 0;
         my_struct->splite_pipe[i] = 0;;
         i++;

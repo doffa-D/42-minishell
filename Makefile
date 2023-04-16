@@ -6,20 +6,20 @@
 #    By: hdagdagu <hdagdagu@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/03 12:19:16 by nouakhro          #+#    #+#              #
-#    Updated: 2023/04/13 18:08:22 by hdagdagu         ###   ########.fr        #
+#    Updated: 2023/04/16 20:26:02 by hdagdagu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
-CCFLAGS = -Wall -Werror -Wextra 
+CCFLAGS = -Wall -Werror -Wextra -fsanitize=address -g
 
 SRC = 	main.c\
 		utils.c\
 		free_all.c\
 		check_rediraction.c\
-		commande.c \
-		handle_echo.c \
-		fix_arg.c \
+		commande.c\
+		handle_echo.c\
+		fix_arg.c\
 
 OBJE = $(SRC:.c=.o)
 
@@ -31,7 +31,7 @@ all : $(NAME)
 $(NAME) : $(OBJE)
 	make -C $(LIBFT)
 	$(CC) $(CCFLAGS) $(OBJE) libft/libft.a -lreadline -L  /Users/hdagdagu/.brew/opt/readline/lib -I /Users/hdagdagu/.brew/opt/readline/include -o $(NAME)
-	make clean
+
 
 %.o : %.c
 	$(CC) $(CCFLAGS) -c $<

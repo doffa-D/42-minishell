@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hdagdagu <hdagdagu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:07:52 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/04/16 20:37:56 by hdagdagu         ###   ########.fr       */
+/*   Updated: 2023/04/15 23:07:53 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ int somting_in_readline(t_all *my_struct)
     my_struct->tmp_cmd = ft_strdup(my_struct->cmd);
     while(my_struct->tmp_cmd[i])
     {
-
         char splite_char = ' ';
         checker = 0;
         while(my_struct->tmp_cmd[i] && my_struct->tmp_cmd[i] != splite_char)
@@ -79,7 +78,6 @@ int somting_in_readline(t_all *my_struct)
                 my_struct->the_commande = ft_calloc(1,1);
             my_struct->tmp_cmd[i] = 3;
             i++;
-
             my_struct->the_commande = ft_strjoin_v2(my_struct->the_commande, ft_substr(my_struct->tmp_cmd , j , i - j));
             j = i;
         }
@@ -92,14 +90,13 @@ int somting_in_readline(t_all *my_struct)
             break;
         }
     }
-
     my_struct->my_path = ft_split(getenv("PATH"), ':');
     my_struct->fix_cmd = ft_split(my_struct->the_commande, 3);
     free(my_struct->the_commande);
     free(my_struct->tmp_cmd);
     my_struct->the_commande = 0;
     my_struct->tmp_cmd = 0;
-    // i = 0;
+    i = 0;
     // while(my_struct->fix_cmd[i])
     // {
     //     printf("[%s]\n", my_struct->fix_cmd[i]);
@@ -123,8 +120,7 @@ int somting_in_readline(t_all *my_struct)
     //     my_struct.my_all_path = ft_split(my_struct.my_curent_path, ' ');
     //     getcwd(old_path, sizeof(old_path));
     // }
-    int c_of_s;
-    c_of_s = 0;
+    // j = 0;
     i = fork();
     if(i == 0)
     {
@@ -142,54 +138,30 @@ int somting_in_readline(t_all *my_struct)
                 i++;
             }
         }
-        if(j != 1)
-        {
-            if(my_struct->each_cmd[c_of_s].cmd[0] && !ft_strchr(my_struct->each_cmd[c_of_s].cmd[0],'/'))
-                printf("%s: command not found\n",my_struct->each_cmd[c_of_s].cmd[0]);
-            else if(ft_strchr(my_struct->each_cmd[c_of_s].cmd[0],'/'))
-            {
-                if(!chdir(my_struct->each_cmd[c_of_s].cmd[0]))
-                    printf("%s: is a directory\n", my_struct->each_cmd[c_of_s].cmd[0]);
-                else
-                    printf("%s: No such file or directory\n", my_struct->each_cmd[c_of_s].cmd[0]);
-            }
-            exit(0);
-        }
-        else
-            exicut_commande(my_struct, i, c_of_s);
+        // if(j != 1)
+        // {
+        //     if(my_struct->my_command[0] && !ft_strchr(my_struct->my_command[0],'/'))
+        //         printf("%s: command not found\n", my_struct->my_command[0]);
+        //     else if(ft_strchr(my_struct->my_command[0],'/'))
+        //     {
+        //         if(!chdir(my_struct->my_command[0]))
+        //             printf("%s: is a directory\n", my_struct->my_command[0]);
+        //         else
+        //             printf("%s: No such file or directory\n", my_struct->my_command[0]);
+        //     }
+        //     exit(0);
+        // }
+        // else
+        exicut_commande(my_struct, i, 0);
     }
     waitpid(-1, &i, 0);
     // cd_commade(my_struct);
     // free_all(my_struct);
     return 0;
 }
-
-char    **charge_varible(char **src)
+int main()
 {
-    char **dst;
-    int i;
-    i = 0;
-    while(src[i])
-        i++;
-    dst = calloc(sizeof(char *),i + 1);
-    i = 0;
-    while(src[i])
-    {
-        dst[i] = ft_strdup(src[i]);
-        i++;
-    }
-    return dst;
-}
-
-int main(int argc,char **argv,char **env)
-{
-    (void)argv;
-    (void)argc;
-    (void)env;
     t_all my_struct;
-    my_struct.the_commande = 0;
-    // my_struct.export = charge_varible(env);
-    // my_struct.env = charge_varible(env);
     // int i = 0;
     // int loop = -1;
     // char cwd_path[PATH_MAX];
@@ -211,7 +183,6 @@ int main(int argc,char **argv,char **env)
         my_struct.cmd = readline("escanour > ");
         if(!my_struct.cmd)
             exit(0);
-        
         if(ft_strlen(my_struct.cmd) != 0)
             somting_in_readline(&my_struct);
         i++;

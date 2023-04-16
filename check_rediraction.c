@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 14:18:08 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/04/15 23:13:18 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/04/16 01:43:38 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,27 @@ void check_rediractions(t_all *my_struct, int c_of_s)
     int j = 0;
     while(my_struct->each_cmd[c_of_s].files[j].files)
     {
-        printf("[%s]\n",my_struct->each_cmd[c_of_s].files[j].files);
+        if(my_struct->each_cmd[c_of_s].files[j].OUTPUT == 1)
+        {
+            int fd = open(my_struct->each_cmd[c_of_s].files[j].files ,O_CREAT| O_RDWR| O_TRUNC, 0777);
+            dup2(fd, STDOUT_FILENO);
+            close(fd);
+        }
+        if(my_struct->each_cmd[c_of_s].files[j].INPUT == 1)
+        {
+            int fd = open(my_struct->each_cmd[c_of_s].files[j].files , O_RDWR| O_APPEND, 0777);
+            dup2(fd, STDIN_FILENO);
+            close(fd);
+        }
+        if(my_struct->each_cmd[c_of_s].files[j].APPEND == 1)
+        {
+            int fd = open(my_struct->each_cmd[c_of_s].files[j].files ,O_CREAT| O_RDWR| O_APPEND, 0777);
+            dup2(fd, STDOUT_FILENO);
+            close(fd);
+        }
         j++;
     }
+
     // while (my_struct.my_command[j])
     // {
     //     if(!ft_strncmp(my_struct.my_command[j], "<<", ft_strlen(my_struct.my_command[j])) && ft_strlen(my_struct.my_command[j]) == 2)

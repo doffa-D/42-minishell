@@ -6,7 +6,7 @@
 #    By: hdagdagu <hdagdagu@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/03 12:19:16 by nouakhro          #+#    #+#              #
-#    Updated: 2023/04/16 20:26:02 by hdagdagu         ###   ########.fr        #
+#    Updated: 2023/04/16 22:03:43 by hdagdagu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ NAME = minishell
 LIBFT = libft
 
 all : $(NAME)
-
+# 
 $(NAME) : $(OBJE)
 	make -C $(LIBFT)
 	$(CC) $(CCFLAGS) $(OBJE) libft/libft.a -lreadline -L  /Users/hdagdagu/.brew/opt/readline/lib -I /Users/hdagdagu/.brew/opt/readline/include -o $(NAME)

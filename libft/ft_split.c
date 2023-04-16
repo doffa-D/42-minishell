@@ -6,11 +6,12 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 23:55:59 by nouakhro          #+#    #+#             */
-/*   Updated: 2022/10/15 13:03:14 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/04/16 21:32:07 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"libft.h"
+#include<stdio.h>
 
 char	**complate(const char *sp, char c, size_t j)
 {

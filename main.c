@@ -6,7 +6,7 @@
 /*   By: hdagdagu <hdagdagu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:07:52 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/04/16 20:37:56 by hdagdagu         ###   ########.fr       */
+/*   Updated: 2023/04/16 22:04:43 by hdagdagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,9 @@ int somting_in_readline(t_all *my_struct)
     int i = 0;
     int j = 0;
     int checker = 0;
+    my_struct->tmp_cmd = 0;
     my_struct->tmp_cmd = ft_strdup(my_struct->cmd);
+    my_struct->the_commande = 0;
     while(my_struct->tmp_cmd[i])
     {
 
@@ -123,8 +125,9 @@ int somting_in_readline(t_all *my_struct)
     //     my_struct.my_all_path = ft_split(my_struct.my_curent_path, ' ');
     //     getcwd(old_path, sizeof(old_path));
     // }
-    int c_of_s;
-    c_of_s = 0;
+    // j = 0;
+
+    int c_of_s = 0;
     i = fork();
     if(i == 0)
     {
@@ -145,7 +148,10 @@ int somting_in_readline(t_all *my_struct)
         if(j != 1)
         {
             if(my_struct->each_cmd[c_of_s].cmd[0] && !ft_strchr(my_struct->each_cmd[c_of_s].cmd[0],'/'))
-                printf("%s: command not found\n",my_struct->each_cmd[c_of_s].cmd[0]);
+            {
+                printf("%s: command not found\n", my_struct->each_cmd[c_of_s].cmd[0]);
+                exit(127);
+            }
             else if(ft_strchr(my_struct->each_cmd[c_of_s].cmd[0],'/'))
             {
                 if(!chdir(my_struct->each_cmd[c_of_s].cmd[0]))
@@ -153,10 +159,12 @@ int somting_in_readline(t_all *my_struct)
                 else
                     printf("%s: No such file or directory\n", my_struct->each_cmd[c_of_s].cmd[0]);
             }
-            exit(0);
+            exit(1);
         }
         else
-            exicut_commande(my_struct, i, c_of_s);
+        {
+            exicut_commande(my_struct, i, 0);
+        }
     }
     waitpid(-1, &i, 0);
     // cd_commade(my_struct);
@@ -188,8 +196,8 @@ int main(int argc,char **argv,char **env)
     (void)env;
     t_all my_struct;
     my_struct.the_commande = 0;
-    // my_struct.export = charge_varible(env);
-    // my_struct.env = charge_varible(env);
+    my_struct.export = charge_varible(env);
+    my_struct.env = charge_varible(env);
     // int i = 0;
     // int loop = -1;
     // char cwd_path[PATH_MAX];

@@ -6,7 +6,7 @@
 #    By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/03 12:19:16 by nouakhro          #+#    #+#              #
-#    Updated: 2023/04/16 01:18:57 by nouakhro         ###   ########.fr        #
+#    Updated: 2023/04/16 18:29:52 by nouakhro         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,10 +27,10 @@ NAME = minishell
 LIBFT = libft
 
 all : $(NAME)
-
+# -L  readline/lib -I readline/include
 $(NAME) : $(OBJE)
 	make -C $(LIBFT)
-	$(CC) $(CCFLAGS) $(OBJE) libft/libft.a -lreadline -L  readline/lib -I readline/include -o $(NAME)
+	$(CC) $(CCFLAGS) $(OBJE) libft/libft.a -lreadline  -o $(NAME)
 	make clean
 
 %.o : %.c

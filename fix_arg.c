@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 12:31:35 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/04/16 22:08:15 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/04/16 23:13:24 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,9 +153,8 @@ void    fix_arg(t_all *my_struct)
         i++;
     }
     free(my_struct->fix_cmd);
-    my_struct->splite_pipe = ft_split(my_struct->the_commande, 4);
-
     free(my_struct->the_commande);
+    my_struct->splite_pipe = ft_split(my_struct->the_commande, 4);
     my_struct->the_commande = 0;
     i = 0; 
     j = 0;
@@ -201,7 +200,7 @@ void    fix_arg(t_all *my_struct)
                 if(my_struct->each_cmd[i].files[c_of_s].number_of_O && my_struct->each_cmd[i].files[c_of_s].number_of_I)
 	                my_struct->each_cmd[i].files[c_of_s].ERROR_SYNTACSO = 1;
                 else if(my_struct->each_cmd[i].files[c_of_s].number_of_O == 2)
-	                my_struct->each_cmd[i].files[c_of_s].APPEND = 2;
+	                my_struct->each_cmd[i].files[c_of_s].APPEND = 1;
                 else if(my_struct->each_cmd[i].files[c_of_s].number_of_O == 1)
 	                my_struct->each_cmd[i].files[c_of_s].OUTPUT = 1;
                 else if(my_struct->each_cmd[i].files[c_of_s].number_of_O > 2)
@@ -253,6 +252,13 @@ void    fix_arg(t_all *my_struct)
             j++;
         }
         my_struct->each_cmd[i].cmd = ft_split(my_struct->the_commande, 3);
+        // int k = 0;
+        // while(my_struct->each_cmd[i].cmd[k])
+        // {
+        //     printf("#%s#\n",my_struct->each_cmd[i].cmd[k]);
+        //     k++;
+        // }
+        // exit(1);
         free(my_struct->splite_pipe[i]);
         free(my_struct->the_commande);
         my_struct->the_commande = 0;
@@ -260,4 +266,5 @@ void    fix_arg(t_all *my_struct)
         i++;
     }
     free(my_struct->splite_pipe);
+    // while(1);
 }

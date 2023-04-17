@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:07:52 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/04/16 21:56:52 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/04/16 23:14:07 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,20 +92,17 @@ int somting_in_readline(t_all *my_struct)
             break;
         }
     }
-    my_struct->my_path = ft_split(getenv("PATH"), ':');
     my_struct->fix_cmd = ft_split(my_struct->the_commande, 3);
     free(my_struct->the_commande);
     free(my_struct->tmp_cmd);
+    // add_history(my_struct->cmd);
+    // free(my_struct->cmd);
     my_struct->the_commande = 0;
     my_struct->tmp_cmd = 0;
     i = 0;
-    // while(my_struct->fix_cmd[i])
-    // {
-    //     printf("[%s]\n", my_struct->fix_cmd[i]);
-    //     i++;
-    // }
     fix_arg(my_struct);
-    add_history(my_struct->cmd);
+    my_struct->my_path = ft_split(getenv("PATH"), ':');
+    // while(1);
     // ft_bzero(cwd_path, sizeof(cwd_path));
     // getcwd(cwd_path, sizeof(cwd_path));
     // if(ft_strlen(cwd_path) > ft_strlen(old_path))
@@ -159,20 +156,15 @@ int somting_in_readline(t_all *my_struct)
             exit(1);
         }
         else
-        {
             exicut_commande(my_struct, i, 0);
-        }
     }
     waitpid(-1, &i, 0);
     // cd_commade(my_struct);
     // free_all(my_struct);
     return 0;
 }
-int main(int ac , char *av[], char *env[])
+int main()
 {
-    (void)ac;
-    (void)av;
-    (void)env;
     t_all my_struct;
     //    printf("%s\n",env[0]);
     // int i = 0;

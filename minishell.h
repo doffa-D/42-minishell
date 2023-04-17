@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 14:20:41 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/04/16 00:39:04 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/04/16 22:55:38 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,5 +67,6 @@ int				quote_check(char *cmd);
 void			fix_arg(t_all *my_struct);
 void			rl_replace_line (const char *text, int clear_undo);
 char	*ft_strjoin_v2(char const *s1, char const *s2);
+void check_leaks();
 
 #endif

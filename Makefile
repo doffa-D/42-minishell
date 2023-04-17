@@ -6,20 +6,14 @@
 #    By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/03 12:19:16 by nouakhro          #+#    #+#              #
-#    Updated: 2023/04/16 20:56:32 by nouakhro         ###   ########.fr        #
+#    Updated: 2023/04/16 22:56:18 by nouakhro         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
 CCFLAGS = -Wall -Werror -Wextra
 
-SRC = 	main.c\
-		utils.c\
-		free_all.c\
-		check_rediraction.c\
-		commande.c\
-		handle_echo.c\
-		fix_arg.c\
+SRC = 	main.c utils.c free_all.c check_rediraction.c commande.c handle_echo.c fix_arg.c test.c
 
 OBJE = $(SRC:.c=.o)
 

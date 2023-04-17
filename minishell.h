@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 14:20:41 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/04/16 22:55:38 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/04/17 17:01:03 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,18 +43,16 @@ typedef struct each_command
 
 typedef struct s_all
 {
-	size_t				linght_path;
+	int 				status;
+	int 				if_rediraction;
 	char				**my_path;
-	char				**my_all_path;
-	char				*my_curent_path;
 	t_each_command 		*each_cmd;
 	char				**splite_pipe;
 	char				**fix_cmd;
 	char				*the_commande;
 	char				*cmd;
 	int					number_of_pipes;
-	char		*tmp_cmd;
-	int			i;
+	char				*tmp_cmd;
 }				t_all;
 
 void			exicut_commande(t_all *my_struct, int i, int c_of_s);

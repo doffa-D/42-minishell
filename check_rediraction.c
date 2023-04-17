@@ -6,127 +6,65 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 14:18:08 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/04/17 01:48:06 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/04/17 16:50:24 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"minishell.h"
-#include<string.h>
+#include "minishell.h"
+#include <string.h>
 
-
-void check_rediractions(t_all *my_struct, int c_of_s)
+void	check_rediractions(t_all *my_struct, int c_of_s)
 {
-    int j = 0;
-    while(my_struct->each_cmd[c_of_s].files[j].files)
-    {
-        if(my_struct->each_cmd[c_of_s].files[j].OUTPUT == 1)
-        {
-            int fd = open(my_struct->each_cmd[c_of_s].files[j].files ,O_CREAT| O_RDWR| O_TRUNC, 0777);
-            dup2(fd, STDOUT_FILENO);
-            close(fd);
-        }
-        if(my_struct->each_cmd[c_of_s].files[j].INPUT == 1)
-        {
-            int fd = open(my_struct->each_cmd[c_of_s].files[j].files , O_RDWR| O_APPEND, 0777);
-            dup2(fd, STDIN_FILENO);
-            close(fd);
-        }
-        if(my_struct->each_cmd[c_of_s].files[j].APPEND == 1)
-        {
-            int fd = open(my_struct->each_cmd[c_of_s].files[j].files ,O_CREAT| O_RDWR| O_APPEND, 0777);
-            dup2(fd, STDOUT_FILENO);
-            close(fd);
-        }
-        if(my_struct->each_cmd[c_of_s].files[j].HERDOC == 1)
-        {
-            int file_origin = dup(STDIN_FILENO);
-            int fd_by_pipe[2];
-            char *beffer = 0;
-            char *herdoc = ft_strdup("");
-            pipe(fd_by_pipe);
-            while(1)
-            {
-                beffer = readline("> ");
-                if(!ft_strncmp(beffer, my_struct->each_cmd[c_of_s].files[j].files, ft_strlen(beffer)))
-                    break;
-                herdoc = ft_strjoin(herdoc, beffer);
-                herdoc = ft_strjoin(herdoc, "\n");
-            }
-            ft_putstr_fd(herdoc, fd_by_pipe[1]);
-            free(herdoc);
-            close(fd_by_pipe[1]);
-            
-            dup2(fd_by_pipe[0], STDIN_FILENO);
-            close(fd_by_pipe[0]);
-            if(my_struct->each_cmd[c_of_s].files[j + 1].files)
-                dup2(file_origin, STDIN_FILENO);
-            
-            close(file_origin);
-        }
-        j++;
-    }
-
-    // while (my_struct.my_command[j])
-    // {
-    //     if(!ft_strncmp(my_struct.my_command[j], "<<", ft_strlen(my_struct.my_command[j])) && ft_strlen(my_struct.my_command[j]) == 2)
-    //     {
-            
-    //         if(my_struct.my_command[j + 1])
-    //         {
-    //             int fd_by_pipe[2];
-    //             char *beffer = 0;
-    //             char *herdoc = ft_strdup("");
-    //             pipe(fd_by_pipe);
-    //             while(1)
-    //             {
-    //                 beffer = readline("> ");
-    //                 if(strstr(beffer, my_struct.my_command[j + 1]))
-    //                     break;
-    //                 herdoc = ft_strjoin(herdoc, beffer);
-    //                 herdoc = ft_strjoin(herdoc, "\n");
-    //             }
-    //             ft_putstr_fd(herdoc, fd_by_pipe[1]);
-    //             dup2(fd_by_pipe[0], STDIN_FILENO);
-    //             close(fd_by_pipe[1]);
-    //             my_struct.my_command[j] = 0;
-    //         }
-    //     }
-    //     else if(!ft_strncmp(my_struct.my_command[j], ">>", ft_strlen(my_struct.my_command[j])) && ft_strlen(my_struct.my_command[j]) == 2)
-    //     {
-    //         if(my_struct.my_command[j + 1])
-    //         {
-    //             int fd = open(my_struct.my_command[j + 1] ,O_CREAT| O_RDWR| O_APPEND, 0777);
-    //             dup2(fd, STDOUT_FILENO);
-    //             my_struct.my_command[j] = 0;
-    //             close(fd);
-    //         }
-    //     }
-    //     else if(!ft_strncmp(my_struct.my_command[j],">", ft_strlen(my_struct.my_command[j])))
-    //     {
-    //         if(my_struct.my_command[j + 1])
-    //         {
-    //             printf("cdscs\n");
-    //             int fd = open(my_struct.my_command[j + 1] ,O_CREAT| O_RDWR| O_TRUNC, 0777);
-    //             dup2(fd, STDOUT_FILENO);
-    //             my_struct.my_command[j] = 0;
-    //             close(fd);
-    //         }
-    //     }
-    //     else if(!ft_strncmp(my_struct.my_command[j], "<", ft_strlen(my_struct.my_command[j])))
-    //     {
-    //         if(my_struct.my_command[j + 1])
-    //         {
-    //             int fd = open(my_struct.my_command[j + 1], O_RDWR, 0777);
-    //             if(fd == -1)
-    //             {
-    //                 perror(my_struct.my_command[j + 1]);
-    //                 exit(1);
-    //             }
-    //             dup2(fd, STDIN_FILENO);
-    //             my_struct.my_command[j] = 0;
-    //             close(fd);
-    //         }
-    //     }
-    //     j++;
-    // }
+	int j = 0;
+	while (my_struct->each_cmd[c_of_s].files[j].files)
+	{
+		if (my_struct->each_cmd[c_of_s].files[j].OUTPUT == 1)
+		{
+			int fd = open(my_struct->each_cmd[c_of_s].files[j].files,
+					O_CREAT | O_RDWR | O_TRUNC, 0777);
+			dup2(fd, STDOUT_FILENO);
+			close(fd);
+		}
+		if (my_struct->each_cmd[c_of_s].files[j].INPUT == 1)
+		{
+			int fd = open(my_struct->each_cmd[c_of_s].files[j].files,
+					O_RDWR | O_APPEND, 0777);
+			dup2(fd, STDIN_FILENO);
+			close(fd);
+		}
+		if (my_struct->each_cmd[c_of_s].files[j].APPEND == 1)
+		{
+			int fd = open(my_struct->each_cmd[c_of_s].files[j].files,
+					O_CREAT | O_RDWR | O_APPEND, 0777);
+			dup2(fd, STDOUT_FILENO);
+			close(fd);
+		}
+		if (my_struct->each_cmd[c_of_s].files[j].HERDOC == 1)
+		{
+			int file_origin = dup(STDIN_FILENO);
+			int fd_by_pipe[2];
+			char *beffer = 0;
+			char *herdoc = ft_strdup("");
+			pipe(fd_by_pipe);
+			while (1)
+			{
+				beffer = readline("> ");
+				if (!ft_strncmp(beffer,
+						my_struct->each_cmd[c_of_s].files[j].files,
+						ft_strlen(beffer)))
+					break ;
+				herdoc = ft_strjoin(herdoc, beffer);
+				herdoc = ft_strjoin(herdoc, "\n");
+			}
+			ft_putstr_fd(herdoc, fd_by_pipe[1]);
+			free(herdoc);
+			close(fd_by_pipe[1]);
+			dup2(fd_by_pipe[0], STDIN_FILENO);
+			close(fd_by_pipe[0]);
+			if (my_struct->each_cmd[c_of_s].files[j + 1].HERDOC == 1)
+				dup2(file_origin, STDIN_FILENO);
+			close(file_origin);
+		}
+		j++;
+	}
 }

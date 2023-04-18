@@ -6,14 +6,20 @@
 #    By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/03 12:19:16 by nouakhro          #+#    #+#              #
-#    Updated: 2023/04/17 15:08:01 by nouakhro         ###   ########.fr        #
+#    Updated: 2023/04/18 01:40:27 by nouakhro         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
 CCFLAGS = -Wall -Werror -Wextra -fsanitize=address -g
 
-SRC = 	main.c utils.c free_all.c check_rediraction.c commande.c handle_echo.c fix_arg.c test.c
+SRC = 	main.c\
+		utils.c\
+		free_all.c\
+		check_rediraction.c\
+		commande.c \
+		handle_echo.c \
+		fix_arg.c \
 
 OBJE = $(SRC:.c=.o)
 
@@ -21,7 +27,7 @@ NAME = minishell
 LIBFT = libft
 
 all : $(NAME)
-# 
+
 $(NAME) : $(OBJE)
 	make -C $(LIBFT)
 	$(CC) $(CCFLAGS) $(OBJE) libft/libft.a -lreadline -L  readline/lib -I readline/include -o $(NAME)

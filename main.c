@@ -6,11 +6,12 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:07:52 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/04/17 16:53:30 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/04/18 03:30:09 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "../../get_next_line/get_next_line.h"
 
 void	handler(int sig)
 {
@@ -59,7 +60,7 @@ int	somting_in_readline(t_all *my_struct)
 	int		j;
 	int		checker;
 	char	splite_char;
-	int		c_of_s;
+	int		c_of_s = 0;
 
 	i = 0;
 	j = 0;
@@ -115,50 +116,90 @@ int	somting_in_readline(t_all *my_struct)
 	i = 0;
 	fix_arg(my_struct);
 	my_struct->my_path = ft_split(getenv("PATH"), ':');
+	// while (my_struct->my_path[i])
+	// {
+	//     printf("%s\n", my_struct->my_path[i]);
+	//     free(my_struct->my_path[i]);
+	//     i++;
+	// }
+	// free(my_struct->my_path);
+	// i = 0;
+	// while (my_struct->each_cmd->cmd[i])
+	// {
+	//     printf("%s\n", my_struct->each_cmd->cmd[i]);
+	//     free(my_struct->each_cmd->cmd[i]);
+	//     i++;
+	// }
+	// free(my_struct->each_cmd->cmd);
+	// free(my_struct->each_cmd);
+	// check_leaks();
+	// exit(0);
+	int pipe_n[2];
+	pipe(pipe_n);
 	c_of_s = 0;
-	i = fork();
-	if (i == 0)
+	while(my_struct->number_of_pipes > 0)
 	{
-		j = 0;
-		if (!get_the_path(my_struct, 0))
+		int k = 0;
+		i = fork();
+		if (i == 0)
 		{
-			i = 0;
-			while (my_struct->my_path[i])
+			if(c_of_s > 0)
 			{
-				if (access(my_struct->my_path[i], F_OK) == 0)
+				if(my_struct->number_of_pipes > 0)
 				{
-					j = 1;
-					break ;
+					dup2(pipe_n[0], STDIN_FILENO);
+					close(pipe_n[0]);	
 				}
-				i++;
 			}
-		}
-		if (j != 1)
-		{
-			if (my_struct->each_cmd[c_of_s].cmd[0]
-				&& !ft_strchr(my_struct->each_cmd[c_of_s].cmd[0], '/'))
+			if(my_struct->number_of_pipes > 1)
 			{
-				printf("%s: command not found\n",
-						my_struct->each_cmd[c_of_s].cmd[0]);
-				exit(127);
+				dup2(pipe_n[1], STDOUT_FILENO);
+				close(pipe_n[1]);
 			}
-			else if (ft_strchr(my_struct->each_cmd[c_of_s].cmd[0], '/'))
+			j = 0;
+			if (!get_the_path(my_struct, c_of_s))
 			{
-				if (!chdir(my_struct->each_cmd[c_of_s].cmd[0]))
-					printf("%s: is a directory\n",
-							my_struct->each_cmd[c_of_s].cmd[0]);
-				else
-					printf("%s: No such file or directory\n",
-							my_struct->each_cmd[c_of_s].cmd[0]);
+				i = 0;
+				while (my_struct->my_path[i])
+				{
+					if (access(my_struct->my_path[i], F_OK) == 0)
+					{
+						j = 1;
+						break ;
+					}
+					i++;
+				}
 			}
-			exit(1);
+			if (j != 1)
+			{
+				if (my_struct->each_cmd[c_of_s].cmd[0]
+					&& !ft_strchr(my_struct->each_cmd[c_of_s].cmd[0], '/'))
+				{
+					printf("%s: command not found\n",
+							my_struct->each_cmd[c_of_s].cmd[0]);
+					exit(127);
+				}
+				else if (ft_strchr(my_struct->each_cmd[c_of_s].cmd[0], '/'))
+				{
+					if (!chdir(my_struct->each_cmd[c_of_s].cmd[0]))
+						printf("%s: is a directory\n",
+								my_struct->each_cmd[c_of_s].cmd[0]);
+					else
+					{
+						printf("%s: No such file or directory\n",
+								my_struct->each_cmd[c_of_s].cmd[0]);
+						printf("ppppppppppppppppp\n");
+					}
+				}
+				exit(1);
+			}
+			else
+				exicut_commande(my_struct, i, c_of_s);
 		}
-		else
-		{
-			exicut_commande(my_struct, i, 0);
-		}
+		waitpid(-1, &k, 0);
+		c_of_s++;
+		my_struct->number_of_pipes--;
 	}
-	waitpid(-1, &i, 0);
 	// cd_commade(my_struct);
 	// free_all(my_struct);
 	return (0);
@@ -166,6 +207,7 @@ int	somting_in_readline(t_all *my_struct)
 int	main(void)
 {
 	t_all my_struct;
+
 	signal(SIGINT, &handler);
 	signal(SIGQUIT, &handler);
 	int i = 0;

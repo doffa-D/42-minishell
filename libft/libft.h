@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/02 14:47:38 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/04/14 23:33:40 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/04/17 17:35:34 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,9 @@
 # include<unistd.h>
 # include<stdlib.h>
 
-typedef struct s_each_argemne
-{
-	char *fils;
-	char input;
-	char output;
-	int herdoc;
-	int apeend;
-	char **cmd;
-} t_s_each_argemne;
-
 typedef struct s_list
 {
-	t_s_each_argemne			**content;
+	void 			*content;
 	struct s_list	*next;
 }			t_list;
 

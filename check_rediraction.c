@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 14:18:08 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/04/17 16:50:24 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/04/17 21:53:49 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,9 @@ void	check_rediractions(t_all *my_struct, int c_of_s)
 			}
 			ft_putstr_fd(herdoc, fd_by_pipe[1]);
 			free(herdoc);
-			close(fd_by_pipe[1]);
-			dup2(fd_by_pipe[0], STDIN_FILENO);
-			close(fd_by_pipe[0]);
+			// close(fd_by_pipe[1]);
+			dup2(fd_by_pipe[1], STDIN_FILENO);
+			// close(fd_by_pipe[0]);
 			if (my_struct->each_cmd[c_of_s].files[j + 1].HERDOC == 1)
 				dup2(file_origin, STDIN_FILENO);
 			close(file_origin);

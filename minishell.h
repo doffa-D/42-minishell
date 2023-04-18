@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 14:20:41 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/04/17 17:01:03 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/04/17 21:22:22 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,13 @@ typedef struct s_all
 	int					number_of_pipes;
 	char				*tmp_cmd;
 }				t_all;
+
+typedef struct s_var
+{
+	int i;
+	int c;
+	int j;
+} t_var;
 
 void			exicut_commande(t_all *my_struct, int i, int c_of_s);
 void			check_rediractions(t_all *my_struct, int c_of_s);

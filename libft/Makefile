@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+         #
+#    By: hdagdagu <hdagdagu@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/01 12:21:10 by hdagdagu          #+#    #+#              #
-#    Updated: 2023/03/15 11:46:20 by nouakhro         ###   ########.fr        #
+#    Updated: 2023/04/17 17:45:30 by hdagdagu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -63,7 +63,7 @@ NAME = libft.a
 
 all: $(NAME)
 
-$(NAME) : $(OBJE)
+$(NAME) : $(OBJE) $(OBJE_BOUNUS)
 	@ar -rcs $@ $^
 
 %.o:%.c

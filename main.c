@@ -6,7 +6,7 @@
 /*   By: hdagdagu <hdagdagu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:07:52 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/04/16 22:04:43 by hdagdagu         ###   ########.fr       */
+/*   Updated: 2023/04/17 20:41:50 by hdagdagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,47 +126,44 @@ int somting_in_readline(t_all *my_struct)
     //     getcwd(old_path, sizeof(old_path));
     // }
     // j = 0;
-
     int c_of_s = 0;
-    i = fork();
-    if(i == 0)
-    {
-        j = 0;
-    	if(!get_the_path(my_struct, 0))
-        {
-            i = 0;
-            while (my_struct->my_path[i])
-            {
-                if(access(my_struct->my_path[i], F_OK) == 0)
-                {
-                    j = 1;
-                    break;
-                }
-                i++;
-            }
-        }
-        if(j != 1)
-        {
-            if(my_struct->each_cmd[c_of_s].cmd[0] && !ft_strchr(my_struct->each_cmd[c_of_s].cmd[0],'/'))
-            {
-                printf("%s: command not found\n", my_struct->each_cmd[c_of_s].cmd[0]);
-                exit(127);
-            }
-            else if(ft_strchr(my_struct->each_cmd[c_of_s].cmd[0],'/'))
-            {
-                if(!chdir(my_struct->each_cmd[c_of_s].cmd[0]))
-                    printf("%s: is a directory\n", my_struct->each_cmd[c_of_s].cmd[0]);
-                else
-                    printf("%s: No such file or directory\n", my_struct->each_cmd[c_of_s].cmd[0]);
-            }
-            exit(1);
-        }
-        else
-        {
-            exicut_commande(my_struct, i, 0);
-        }
-    }
-    waitpid(-1, &i, 0);
+    // i = fork();
+    // if(i == 0)
+    // {
+    //     j = 0;
+    // 	if(!get_the_path(my_struct, 0))
+    //     {
+    //         i = 0;
+    //         while (my_struct->my_path[i])
+    //         {
+    //             if(access(my_struct->my_path[i], F_OK) == 0)
+    //             {
+    //                 j = 1;
+    //                 break;
+    //             }
+    //             i++;
+    //         }
+    //     }
+    //     // if(j != 1)
+    //     // {
+    //     //     if(my_struct->each_cmd[c_of_s].cmd[0] && !ft_strchr(my_struct->each_cmd[c_of_s].cmd[0],'/'))
+    //     //     {
+    //     //         printf("%s: command not found\n", my_struct->each_cmd[c_of_s].cmd[0]);
+    //     //         exit(127);
+    //     //     }
+    //     //     else if(ft_strchr(my_struct->each_cmd[c_of_s].cmd[0],'/'))
+    //     //     {
+    //     //         if(!chdir(my_struct->each_cmd[c_of_s].cmd[0]))
+    //     //             printf("%s: is a directory\n", my_struct->each_cmd[c_of_s].cmd[0]);
+    //     //         else
+    //     //             printf("%s: No such file or directory\n", my_struct->each_cmd[c_of_s].cmd[0]);
+    //     //     }
+    //     //     exit(1);
+    //     // }
+    //     // else
+        exicut_commande(my_struct, i, c_of_s);
+    // }
+    // waitpid(-1, &i, 0);
     // cd_commade(my_struct);
     // free_all(my_struct);
     return 0;
@@ -189,15 +186,32 @@ char    **charge_varible(char **src)
     return dst;
 }
 
+void    fill_linked_list(char **dst, t_list **list)
+{
+    int     i;
+
+    i = 0;
+    while (dst[i])
+    {
+        t_list  *new_node; 
+        new_node = ft_lstnew(ft_strdup(dst[i]));
+        ft_lstadd_back(list, new_node);
+        i++;
+    }
+}
+
 int main(int argc,char **argv,char **env)
 {
     (void)argv;
     (void)argc;
     (void)env;
     t_all my_struct;
+    my_struct.list = NULL;
     my_struct.the_commande = 0;
-    my_struct.export = charge_varible(env);
-    my_struct.env = charge_varible(env);
+    // my_struct.export = env;
+    fill_linked_list(env, &my_struct.list);
+    // my_struct.export = charge_varible(env);
+    // my_struct.env = charge_varible(env);
     // int i = 0;
     // int loop = -1;
     // char cwd_path[PATH_MAX];

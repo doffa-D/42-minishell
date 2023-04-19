@@ -6,7 +6,7 @@
 /*   By: hdagdagu <hdagdagu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 14:20:41 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/04/16 20:18:17 by hdagdagu         ###   ########.fr       */
+/*   Updated: 2023/04/17 18:19:10 by hdagdagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,12 @@ typedef struct s_all
 	char				*cmd;
 	int					number_of_pipes;
 	char		*tmp_cmd;
+    t_list  *list;
+
 	int			i;
 }				t_all;
 
+void	export_command(t_all *my_struct,int c_of_s);
 void			exicut_commande(t_all *my_struct, int i, int c_of_s);
 void			check_rediractions(t_all *my_struct, int c_of_s);
 int			    get_the_path(t_all *my_struct, int c_of_s);
@@ -66,5 +69,6 @@ int				quote_check(char *cmd);
 void			fix_arg(t_all *my_struct);
 void			rl_replace_line (const char *text, int clear_undo);
 char	*ft_strjoin_v2(char const *s1, char const *s2);
+void    fill_linked_list(char **dst, t_list **list);
 
 #endif

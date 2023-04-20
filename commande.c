@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 14:19:24 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/04/18 03:23:22 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/04/19 00:18:33 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,17 @@ void	exicut_commande(t_all *my_struct, int i, int c_of_s)
 	if (!ft_strncmp(my_struct->cmd, my_struct->cmd,
 				ft_strlen(my_struct->cmd)))
 	{
-		if(my_struct->if_rediraction)
+		if(my_struct->each_cmd[c_of_s].files)
+		{
+			// int k = 0 ;
+			// while (my_struct->each_cmd[c_of_s].cmd[k])
+			// {
+			// 	printf("{%s}\n", my_struct->my_path[i]);
+			// 	printf("[%s]\n",my_struct->each_cmd[c_of_s].cmd[k]);
+			// 	k++;
+			// }
 			check_rediractions(my_struct, c_of_s);
-		// int k = 0 ;
-		// while (my_struct->each_cmd[c_of_s].cmd[k])
-		// {
-		// 	printf("{%s}\n", my_struct->my_path[i]);
-		// 	printf("[%s]\n",my_struct->each_cmd[c_of_s].cmd[k]);
-		// 	k++;
-		// }
+		}
 		execve(my_struct->my_path[i], my_struct->each_cmd[c_of_s].cmd, NULL);
 	}
 }

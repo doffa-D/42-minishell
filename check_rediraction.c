@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 14:18:08 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/04/17 21:53:49 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/04/19 00:43:44 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,21 +25,26 @@ void	check_rediractions(t_all *my_struct, int c_of_s)
 			dup2(fd, STDOUT_FILENO);
 			close(fd);
 		}
-		if (my_struct->each_cmd[c_of_s].files[j].INPUT == 1)
+		else if (my_struct->each_cmd[c_of_s].files[j].INPUT == 1)
 		{
 			int fd = open(my_struct->each_cmd[c_of_s].files[j].files,
-					O_RDWR | O_APPEND, 0777);
+					O_RDWR , 0777);
+			if(fd == -1)
+			{
+				perror("error");
+				exit(1);
+			}
 			dup2(fd, STDIN_FILENO);
 			close(fd);
 		}
-		if (my_struct->each_cmd[c_of_s].files[j].APPEND == 1)
+		else if (my_struct->each_cmd[c_of_s].files[j].APPEND == 1)
 		{
 			int fd = open(my_struct->each_cmd[c_of_s].files[j].files,
 					O_CREAT | O_RDWR | O_APPEND, 0777);
 			dup2(fd, STDOUT_FILENO);
 			close(fd);
 		}
-		if (my_struct->each_cmd[c_of_s].files[j].HERDOC == 1)
+		else if (my_struct->each_cmd[c_of_s].files[j].HERDOC == 1)
 		{
 			int file_origin = dup(STDIN_FILENO);
 			int fd_by_pipe[2];
@@ -58,9 +63,9 @@ void	check_rediractions(t_all *my_struct, int c_of_s)
 			}
 			ft_putstr_fd(herdoc, fd_by_pipe[1]);
 			free(herdoc);
-			// close(fd_by_pipe[1]);
+			close(fd_by_pipe[1]);
 			dup2(fd_by_pipe[1], STDIN_FILENO);
-			// close(fd_by_pipe[0]);
+			close(fd_by_pipe[0]);
 			if (my_struct->each_cmd[c_of_s].files[j + 1].HERDOC == 1)
 				dup2(file_origin, STDIN_FILENO);
 			close(file_origin);

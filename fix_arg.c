@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 12:31:35 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/04/18 03:16:55 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/04/20 02:50:10 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,12 +157,10 @@ void	variables_parceen_utils(t_all *my_struct, t_var *variables)
 {
 
 
-	if (my_struct->fix_cmd[variables->i][variables->j + 1] != 39
-		&& my_struct->fix_cmd[variables->i][variables->j + 1] != 34)
+	if (ft_isalnum(my_struct->fix_cmd[variables->i][variables->j + 1]))
 	{
 		if (my_struct->fix_cmd[variables->i][variables->j + 1])
 		{
-			// printf("44444444444444\n");
 			variables->c++;
 			variables_parceen(my_struct, variables);
 			variables->c = variables->j;
@@ -184,7 +182,7 @@ void	variables_parceen_utils(t_all *my_struct, t_var *variables)
 	}
 }
 
-void	parccen_part(t_all *my_struct, t_var *variables, char *splite)
+int	parccen_part(t_all *my_struct, t_var *variables, char *splite)
 {
 	while (my_struct->fix_cmd[variables->i])
 	{
@@ -200,6 +198,11 @@ void	parccen_part(t_all *my_struct, t_var *variables, char *splite)
 				variables_parceen_utils(my_struct, variables);
 			variables->j++;
 		}
+		if(my_struct->status != OUTSIDE)
+		{
+			ft_putstr_fd("error : inclosed qouts\n", 2);
+			return -1;
+		}
 		if (my_struct->status == OUTSIDE)
 		{
 			if (my_struct->status == OUTSIDE)
@@ -213,6 +216,7 @@ void	parccen_part(t_all *my_struct, t_var *variables, char *splite)
 		my_struct->fix_cmd[variables->i] = 0;
 		variables->i++;
 	}
+	return 1;
 }
 
 void	initialisaion(t_all *my_struct, t_var *variables, int c_of_s)
@@ -227,7 +231,7 @@ void	initialisaion(t_all *my_struct, t_var *variables, int c_of_s)
 	my_struct->each_cmd[variables->i].files[c_of_s].ERROR_SYNTACSI = 0;
 }
 
-void	inistialisation_input(t_all *my_struct, t_var *variables, int c_of_s,
+int 	inistialisation_input(t_all *my_struct, t_var *variables, int c_of_s,
 		int var)
 {
 	if (my_struct->each_cmd[variables->i].files[c_of_s].number_of_O
@@ -238,12 +242,22 @@ void	inistialisation_input(t_all *my_struct, t_var *variables, int c_of_s,
 	else if (my_struct->each_cmd[variables->i].files[c_of_s].number_of_I == 2)
 		my_struct->each_cmd[variables->i].files[c_of_s].HERDOC = 1;
 	else if (my_struct->each_cmd[variables->i].files[c_of_s].number_of_I > 2)
+	{
 		my_struct->each_cmd[variables->i].files[c_of_s].ERROR_SYNTACSI = 1;
+		ft_putstr_fd("bash: syntax error near unexpected token `<<'\n", 2);
+		return(-1);
+	}
 	my_struct->each_cmd[variables->i].files[c_of_s].files = \
     ft_substr(my_struct->splite_pipe[variables->i], variables->j, var - variables->j);
+	if(!*my_struct->each_cmd[variables->i].files[c_of_s].files)
+	{
+		ft_putstr_fd("syntax error near unexpected token `newline'\n", 2);
+		return(-1);
+	}
+	return 0;
 }
 
-void	inistialisation_output(t_all *my_struct, t_var *variables, int c_of_s,
+int		inistialisation_output(t_all *my_struct, t_var *variables, int c_of_s,
 		int var)
 {
 	if (my_struct->each_cmd[variables->i].files[c_of_s].number_of_O
@@ -254,9 +268,19 @@ void	inistialisation_output(t_all *my_struct, t_var *variables, int c_of_s,
 	else if (my_struct->each_cmd[variables->i].files[c_of_s].number_of_O == 1)
 		my_struct->each_cmd[variables->i].files[c_of_s].OUTPUT = 1;
 	else if (my_struct->each_cmd[variables->i].files[c_of_s].number_of_O > 2)
+	{
 		my_struct->each_cmd[variables->i].files[c_of_s].ERROR_SYNTACSO = 1;
+		ft_putstr_fd("bash: syntax error near unexpected token `>>'\n", 2);
+		return(-1);
+	}
 	my_struct->each_cmd[variables->i].files[c_of_s].files = \
     ft_substr(my_struct->splite_pipe[variables->i],variables->j, var - variables->j);
+	if(!*my_struct->each_cmd[variables->i].files[c_of_s].files)
+	{
+		ft_putstr_fd("syntax error near unexpected token `newline'\n", 2);
+		return(-1);
+	}
+	return 0;
 }
 
 int	rediraction_calculate(t_all *my_struct, t_var *variables, int c_of_s,
@@ -318,14 +342,15 @@ void	if_rediraction_is_existe(t_all *my_struct, t_var *variables, int var)
 	}
 }
 
-void	any_commde_parceen(t_all *my_struct, t_var *variables, int var,
+int	any_commde_parceen(t_all *my_struct, t_var *variables, int var,
 		int c_of_s)
 {
 	if (my_struct->splite_pipe[variables->i][variables->j] == 2)
 	{
 		initialisaion(my_struct, variables, c_of_s);
 		var = rediraction_calculate(my_struct, variables, c_of_s, var);
-		inistialisation_output(my_struct, variables, c_of_s, var);
+		if(inistialisation_output(my_struct, variables, c_of_s, var))
+			return -1;
 		c_of_s++;
 		variables->j = var - 1;
 	}
@@ -333,16 +358,18 @@ void	any_commde_parceen(t_all *my_struct, t_var *variables, int var,
 	{
 		initialisaion(my_struct, variables, c_of_s);
 		var = rediraction_calculate(my_struct, variables, c_of_s, var);
-		inistialisation_input(my_struct, variables, c_of_s, var);
+		if(inistialisation_input(my_struct, variables, c_of_s, var))
+			return -1;
 		c_of_s++;
 		variables->j = var - 1;
 	}
 	else if (my_struct->splite_pipe[variables->i][variables->j] != 5
 			&& my_struct->splite_pipe[variables->i][variables->j] != 2)
 		commande_and_args(my_struct, variables, var);
+	return c_of_s;
 }
 
-void	rederaction_parccen(t_all *my_struct, t_var *variables)
+int	rederaction_parccen(t_all *my_struct, t_var *variables)
 {
 	int	c_of_s;
 	int	var;
@@ -354,19 +381,25 @@ void	rederaction_parccen(t_all *my_struct, t_var *variables)
 		variables->j = 0;
 		my_struct->the_commande = ft_calloc(1, 1);
 		if_rediraction_is_existe(my_struct, variables, var);
+		c_of_s = 0;
 		variables->j = 0;
 		while (my_struct->splite_pipe[variables->i][variables->j])
 		{
-			any_commde_parceen(my_struct, variables, var, c_of_s);
+			c_of_s = any_commde_parceen(my_struct, variables, var, c_of_s);
+			if(c_of_s == -1)
+				return -1;
 			variables->j++;
 		}
 		my_struct->each_cmd[variables->i].cmd = ft_split(my_struct->the_commande,
 				3);
-		int k = 0;
-		while(my_struct->each_cmd[variables->i].cmd[k])
+		if(!*my_struct->each_cmd[c_of_s].cmd && my_struct->number_of_pipes > 1)
 		{
-			printf("[%s][%d]\n", my_struct->each_cmd[variables->i].cmd[k], variables->i);
-			k++;
+		printf("tttttttttt\n");
+			if(my_struct->number_of_pipes > 2)
+				ft_putstr_fd("syntax error near unexpected token `||'\n", 2);
+			else
+				ft_putstr_fd("syntax error : only pipe\n", 2);
+			return(-1);
 		}
 		free(my_struct->splite_pipe[variables->i]);
 		free(my_struct->the_commande);
@@ -375,9 +408,10 @@ void	rederaction_parccen(t_all *my_struct, t_var *variables)
 		variables->i++;
 	}
 	free(my_struct->splite_pipe);
+	return 0;
 }
 
-void	fix_arg(t_all *my_struct)
+int	fix_arg(t_all *my_struct)
 {
 	t_var variables;
 	variables.i = 0;
@@ -389,19 +423,22 @@ void	fix_arg(t_all *my_struct)
 	my_struct->number_of_pipes = 1;
 	my_struct->the_commande = 0;
 	my_struct->the_commande = ft_calloc(1, 1);
-	parccen_part(my_struct, &variables, splite);
+	if(parccen_part(my_struct, &variables, splite) == -1)
+		return -1;
 	free(my_struct->fix_cmd);
 	my_struct->splite_pipe = ft_split(my_struct->the_commande, 4);
-	// int i = 0;
-	// while(my_struct->splite_pipe[i])
-	// {
-	// 	printf("[%s]\n", my_struct->splite_pipe[i]);
-	// 	i++;
-	// }
+	int i = 0;
+	while(my_struct->splite_pipe[i])
+	{
+		printf("[%s]\n", my_struct->splite_pipe[i]);
+		i++;
+	}
 	free(my_struct->the_commande);
 	my_struct->the_commande = 0;
 	variables.i = 0;
 	my_struct->each_cmd = ft_calloc(sizeof(t_each_command),\
 		my_struct->number_of_pipes + 1);
-	rederaction_parccen(my_struct, &variables);
+	if(rederaction_parccen(my_struct, &variables))
+		return -1;
+	return 0;
 }

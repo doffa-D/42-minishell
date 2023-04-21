@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 14:20:41 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/04/18 23:11:34 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/04/21 00:30:40 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ typedef struct s_all
 	char				*cmd;
 	int					number_of_pipes;
 	char				*tmp_cmd;
+	int 				exit_status;
 }				t_all;
 
 typedef struct s_var
@@ -73,5 +74,6 @@ int			fix_arg(t_all *my_struct);
 void			rl_replace_line (const char *text, int clear_undo);
 char	*ft_strjoin_v2(char const *s1, char const *s2);
 void check_leaks();
+void	handler(int sig);
 
 #endif

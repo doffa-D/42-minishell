@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 12:31:35 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/04/20 02:50:10 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/04/21 01:25:28 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,20 @@ char	*ft_strjoin_v2(char const *s1, char const *s2)
 
 int	quote_and_dqout(t_all *my_struct, t_var *variables)
 {
+	char str[2];
+	str[0] = 6;
+	str[1] = 0;
 	if ((my_struct->fix_cmd[variables->i][variables->j] == 34)
 		&& my_struct->status != IN_COTE)
 	{
 		variables->c++;
 		if (my_struct->fix_cmd[variables->i][variables->j] == 34
 			&& my_struct->status == IN_DCOTE)
+		{
 			my_struct->status = OUTSIDE;
+			if(ft_strlen(my_struct->fix_cmd[variables->i]) == 2)
+				my_struct->the_commande = ft_strjoin(my_struct->the_commande, str);
+		}
 		else
 			my_struct->status = IN_DCOTE;
 		my_struct->the_commande = ft_strjoin_v2(my_struct->the_commande, \
@@ -70,13 +77,16 @@ int	quote_and_dqout(t_all *my_struct, t_var *variables)
 		variables->c++;
 		if (my_struct->fix_cmd[variables->i][variables->j] == 39
 			&& my_struct->status == IN_COTE)
+		{
 			my_struct->status = OUTSIDE;
+			if(ft_strlen(my_struct->fix_cmd[variables->i]) == 2)
+				my_struct->the_commande = ft_strjoin(my_struct->the_commande, str);
+		}
 		else
 			my_struct->status = IN_COTE;
 		my_struct->the_commande = ft_strjoin_v2(my_struct->the_commande,
 			ft_substr(my_struct->fix_cmd[variables->i], variables->c, \
             variables->j - variables->c));
-		// printf("[[%s]]\n", my_struct->the_commande);
 		variables->c = variables->j;
 	}
 	return (variables->c);
@@ -113,7 +123,6 @@ void	variables_parceen(t_all *my_struct, t_var *variables)
 	my_struct->the_commande = ft_strjoin_v2(my_struct->the_commande,
 		ft_substr(my_struct->fix_cmd[variables->i], variables->c, \
         variables->j - variables->c));
-	// printf("{%s}\n", my_struct->the_commande);
 	while (my_struct->fix_cmd[variables->i][var]
 		&& (ft_isalpha(my_struct->fix_cmd[variables->i][var])
 			|| ft_isdigit(my_struct->fix_cmd[variables->i][var])))
@@ -130,16 +139,13 @@ void	variables_parceen(t_all *my_struct, t_var *variables)
 			variable);
 			variables->j = var - 1;
 		}
-		else
-		{
-			variable = ft_substr(my_struct->fix_cmd[variables->i], variables->j + 1,
-					(var - (variables->j + 1)));
-			if (getenv(variable))
-				my_struct->the_commande = ft_strjoin(my_struct->the_commande, \
-					getenv(variable));
-			free(variable);
-			variables->j = var - 1;
-		}
+		variable = ft_substr(my_struct->fix_cmd[variables->i], variables->j + 1,
+				(var - (variables->j + 1)));
+		if (getenv(variable))
+			my_struct->the_commande = ft_strjoin(my_struct->the_commande, \
+				getenv(variable));
+		free(variable);
+		variables->j = var - 1;
 	}
 	if (my_struct->status == IN_COTE)
 	{
@@ -149,14 +155,11 @@ void	variables_parceen(t_all *my_struct, t_var *variables)
 			variable);
 		variables->j = var - 1;
 	}
-	// printf("{%s}\n", my_struct->the_commande);
 
 }
 
 void	variables_parceen_utils(t_all *my_struct, t_var *variables)
 {
-
-
 	if (ft_isalnum(my_struct->fix_cmd[variables->i][variables->j + 1]))
 	{
 		if (my_struct->fix_cmd[variables->i][variables->j + 1])
@@ -165,20 +168,17 @@ void	variables_parceen_utils(t_all *my_struct, t_var *variables)
 			variables_parceen(my_struct, variables);
 			variables->c = variables->j;
 		}
-		else
+	}
+	else
+	{
+		if(my_struct->fix_cmd[variables->i][variables->j + 1] == '?')
 		{
 			variables->j++;
+			my_struct->the_commande = ft_strjoin(my_struct->the_commande,ft_itoa(my_struct->exit_status));
 			variables->c = variables->j;
 		}
-	}
-	else if (my_struct->status == OUTSIDE
-			&& (my_struct->fix_cmd[variables->i][variables->j + 1] == 39
-				|| my_struct->fix_cmd[variables->i][variables->j + 1] == 34))
-	{
-		my_struct->the_commande = ft_strjoin_v2(my_struct->the_commande, \
-			ft_substr(my_struct->fix_cmd[variables->i], variables->c + 1, \
-            variables->j - (variables->c + 1)));
-		variables->c = variables->j;
+		else if(my_struct->status == OUTSIDE && (my_struct->fix_cmd[variables->i][variables->j + 1] == 34 || my_struct->fix_cmd[variables->i][variables->j + 1] == 39))
+			variables->c = variables->j;
 	}
 }
 
@@ -205,11 +205,10 @@ int	parccen_part(t_all *my_struct, t_var *variables, char *splite)
 		}
 		if (my_struct->status == OUTSIDE)
 		{
-			if (my_struct->status == OUTSIDE)
-				variables->c++;
+			variables->c++;
 			my_struct->the_commande = ft_strjoin_v2(my_struct->the_commande, \
 				ft_substr(my_struct->fix_cmd[variables->i], variables->c, \
-                variables->j - variables->c));
+				variables->j - variables->c));
 		}
 		my_struct->the_commande = ft_strjoin(my_struct->the_commande, splite);
 		free(my_struct->fix_cmd[variables->i]);
@@ -234,10 +233,7 @@ void	initialisaion(t_all *my_struct, t_var *variables, int c_of_s)
 int 	inistialisation_input(t_all *my_struct, t_var *variables, int c_of_s,
 		int var)
 {
-	if (my_struct->each_cmd[variables->i].files[c_of_s].number_of_O
-		&& my_struct->each_cmd[variables->i].files[c_of_s].number_of_I)
-		my_struct->each_cmd[variables->i].files[c_of_s].ERROR_SYNTACSI = 1;
-	else if (my_struct->each_cmd[variables->i].files[c_of_s].number_of_I == 1)
+	if (my_struct->each_cmd[variables->i].files[c_of_s].number_of_I == 1)
 		my_struct->each_cmd[variables->i].files[c_of_s].INPUT = 1;
 	else if (my_struct->each_cmd[variables->i].files[c_of_s].number_of_I == 2)
 		my_struct->each_cmd[variables->i].files[c_of_s].HERDOC = 1;
@@ -246,6 +242,12 @@ int 	inistialisation_input(t_all *my_struct, t_var *variables, int c_of_s,
 		my_struct->each_cmd[variables->i].files[c_of_s].ERROR_SYNTACSI = 1;
 		ft_putstr_fd("bash: syntax error near unexpected token `<<'\n", 2);
 		return(-1);
+	}
+	if (my_struct->each_cmd[variables->i].files[c_of_s].number_of_O
+		&& my_struct->each_cmd[variables->i].files[c_of_s].number_of_I)
+	{
+		
+		my_struct->each_cmd[variables->i].files[c_of_s].ERROR_SYNTACSI = 1;
 	}
 	my_struct->each_cmd[variables->i].files[c_of_s].files = \
     ft_substr(my_struct->splite_pipe[variables->i], variables->j, var - variables->j);
@@ -318,6 +320,7 @@ void	commande_and_args(t_all *my_struct, t_var *variables, int var)
 	            variables->j, var\
 	            - variables->j));
 	variables->j = var - 1;
+
 }
 
 void	if_rediraction_is_existe(t_all *my_struct, t_var *variables, int var)
@@ -335,6 +338,8 @@ void	if_rediraction_is_existe(t_all *my_struct, t_var *variables, int var)
 					variables->j++;
 				var++;
 			}
+			if(!my_struct->splite_pipe[variables->i][variables->j])
+				break;
 			variables->j++;
 		}
 		my_struct->each_cmd[variables->i].files = ft_calloc(sizeof(t_files),
@@ -373,6 +378,7 @@ int	rederaction_parccen(t_all *my_struct, t_var *variables)
 {
 	int	c_of_s;
 	int	var;
+	// int	k;
 
 	c_of_s = 0;
 	var = 0;
@@ -392,9 +398,16 @@ int	rederaction_parccen(t_all *my_struct, t_var *variables)
 		}
 		my_struct->each_cmd[variables->i].cmd = ft_split(my_struct->the_commande,
 				3);
-		if(!*my_struct->each_cmd[c_of_s].cmd && my_struct->number_of_pipes > 1)
+		var = 0;
+		while(my_struct->each_cmd[variables->i].cmd[var])
 		{
-		printf("tttttttttt\n");
+			if(ft_strchr(my_struct->each_cmd[variables->i].cmd[var], 6) && \
+			ft_strlen(my_struct->each_cmd[variables->i].cmd[var]) == 1)
+				my_struct->each_cmd[variables->i].cmd[var] = ft_strdup("");
+			var++;
+		}
+		if(my_struct->each_cmd[c_of_s].cmd && !*my_struct->each_cmd[c_of_s].cmd && my_struct->number_of_pipes > 1)
+		{
 			if(my_struct->number_of_pipes > 2)
 				ft_putstr_fd("syntax error near unexpected token `||'\n", 2);
 			else
@@ -427,12 +440,12 @@ int	fix_arg(t_all *my_struct)
 		return -1;
 	free(my_struct->fix_cmd);
 	my_struct->splite_pipe = ft_split(my_struct->the_commande, 4);
-	int i = 0;
-	while(my_struct->splite_pipe[i])
-	{
-		printf("[%s]\n", my_struct->splite_pipe[i]);
-		i++;
-	}
+	// int i = 0;
+	// while(my_struct->splite_pipe[i])
+	// {
+	// 	printf("[%s]\n", my_struct->splite_pipe[i]);
+	// 	i++;
+	// }
 	free(my_struct->the_commande);
 	my_struct->the_commande = 0;
 	variables.i = 0;

@@ -6,7 +6,7 @@
 /*   By: hdagdagu <hdagdagu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 14:20:41 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/04/20 19:51:49 by hdagdagu         ###   ########.fr       */
+/*   Updated: 2023/04/21 16:22:21 by hdagdagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void    fill_linked_list(char **dst, t_list **list);
 int	mini_check_export(char *src,int x);
 void	unset_command(t_all *my_struct,int c_of_s);
 void	env_command(t_list *list);
-void	exicut_echo(t_all *my_struct, int c_of_s);
+void	echo_command(t_all *my_struct, int c_of_s);
 void	export_command(t_all *my_struct,int c_of_s);
 int mini_search(char *str,char c);
 int duplicate_check_export(t_list *list,char *dst);

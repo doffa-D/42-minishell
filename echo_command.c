@@ -6,13 +6,13 @@
 /*   By: hdagdagu <hdagdagu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 18:00:54 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/04/20 15:27:02 by hdagdagu         ###   ########.fr       */
+/*   Updated: 2023/04/21 16:23:14 by hdagdagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	exicut_echo(t_all *my_struct, int c_of_s)
+void	echo_command(t_all *my_struct, int c_of_s)
 {
 	int		i;
 	int		j;
@@ -27,7 +27,9 @@ void	exicut_echo(t_all *my_struct, int c_of_s)
 			j = 1;
 			i++;
 		}
-		printf("%s", my_struct->each_cmd[c_of_s].cmd[i]);
+		if (ft_strncmp(my_struct->each_cmd[c_of_s].cmd[i], "-n",
+				ft_strlen("-n") + 1))
+			printf("%s", my_struct->each_cmd[c_of_s].cmd[i]);
 		if (j == 0)
 			printf("\n");
 		i++;

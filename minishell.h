@@ -6,7 +6,7 @@
 /*   By: hdagdagu <hdagdagu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 14:20:41 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/04/17 18:19:10 by hdagdagu         ###   ########.fr       */
+/*   Updated: 2023/04/20 19:51:49 by hdagdagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,5 +70,19 @@ void			fix_arg(t_all *my_struct);
 void			rl_replace_line (const char *text, int clear_undo);
 char	*ft_strjoin_v2(char const *s1, char const *s2);
 void    fill_linked_list(char **dst, t_list **list);
-
+int	mini_check_export(char *src,int x);
+void	unset_command(t_all *my_struct,int c_of_s);
+void	env_command(t_list *list);
+void	exicut_echo(t_all *my_struct, int c_of_s);
+void	export_command(t_all *my_struct,int c_of_s);
+int mini_search(char *str,char c);
+int duplicate_check_export(t_list *list,char *dst);
+int mini_search(char *str,char c);
+void	add_node_back(char *str,t_list  **list);
+void	string_dakche(t_list *list);
+void	search_varible(char *cmd,t_list *list);
+int	replace_varible(t_list *list,char *cmd);
+int	mini_checker_export(t_list *list,char *cmd);
+int check_varible_if_have(t_list *list,char *cmd);
+void	print_export(t_list *list);
 #endif

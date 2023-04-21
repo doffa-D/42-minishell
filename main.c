@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:07:52 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/04/21 01:11:40 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/04/21 01:49:16 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,19 +151,6 @@ int	somting_in_readline(t_all *my_struct)
 		i = fork();
 		if (i == 0)
 		{
-			if(c_of_s > 0)
-			{
-				if(my_struct->number_of_pipes > 0)
-				{
-					dup2(pipe_n[0], STDIN_FILENO);
-					close(pipe_n[0]);
-				}
-			}
-			if(my_struct->number_of_pipes > 1)
-			{
-				dup2(pipe_n[1], STDOUT_FILENO);
-				close(pipe_n[1]);
-			}
 			j = 0;
 			if (!get_the_path(my_struct, c_of_s))
 			{
@@ -201,7 +188,7 @@ int	somting_in_readline(t_all *my_struct)
 				exit(1);
 			}
 			else
-				exicut_commande(my_struct, i, c_of_s);
+				exicut_commande(my_struct, i, c_of_s, pipe_n);
 		}
 		waitpid(-1, &my_struct->exit_status, 0);
 		my_struct->exit_status = my_struct->exit_status >> 8;

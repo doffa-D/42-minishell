@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 14:20:41 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/04/21 00:30:40 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/04/21 01:49:51 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ typedef struct s_var
 	int j;
 } t_var;
 
-void			exicut_commande(t_all *my_struct, int i, int c_of_s);
+void			exicut_commande(t_all *my_struct, int i, int c_of_s, int *pipe_n);
 void			check_rediractions(t_all *my_struct, int c_of_s);
 int			    get_the_path(t_all *my_struct, int c_of_s);
 void			exit_the_program(t_all my_struct);

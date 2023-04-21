@@ -6,13 +6,13 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 14:19:24 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/04/21 01:08:04 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/04/21 01:49:43 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	exicut_commande(t_all *my_struct, int i, int c_of_s)
+void	exicut_commande(t_all *my_struct, int i, int c_of_s, int *pipe_n)
 {
 	// if (quote_check(&my_struct) == 0)
 	// 	printf("error\n");
@@ -35,6 +35,19 @@ void	exicut_commande(t_all *my_struct, int i, int c_of_s)
 		if(my_struct->each_cmd[c_of_s].files)
 		{
 			check_rediractions(my_struct, c_of_s);
+		}
+		if(c_of_s > 0)
+		{
+			if(my_struct->number_of_pipes > 0)
+			{
+				dup2(pipe_n[0], STDIN_FILENO);
+				close(pipe_n[0]);
+			}
+		}
+		if(my_struct->number_of_pipes > 1)
+		{
+			dup2(pipe_n[1], STDOUT_FILENO);
+			close(pipe_n[1]);
 		}
 		execve(my_struct->my_path[i], my_struct->each_cmd[c_of_s].cmd, NULL);
 	}

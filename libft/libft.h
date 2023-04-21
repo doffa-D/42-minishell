@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/02 14:47:38 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/04/17 17:35:34 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/04/21 17:12:50 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@
 
 typedef struct s_list
 {
-	void 			*content;
+	void			*content;
 	struct s_list	*next;
-}			t_list;
+}	t_list;
 
 size_t	ft_strlcpy(char *dst, const char *src, size_t size);
 size_t	ft_strlcat(char *dst, const char *src, size_t size);

@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:07:52 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/04/21 01:49:16 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/04/21 17:38:08 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,24 +29,24 @@ void	handler(int sig)
 // {
 //     // printf("fdfvfd\n");
 //     if(my_struct.my_command[0] && ft_strlen(my_struct.cmd)
-		// && !ft_strncmp(my_struct.my_command[0], "cd",
-		// 	ft_strlen(my_struct.my_command[0])))
+// 		&& !ft_strncmp(my_struct.my_command[0], "cd",
+// 			ft_strlen(my_struct.my_command[0])))
 //     {
 //         // printf("test[%s]\n", my_struct.my_command[1]);
 //         if((ft_strlen(my_struct.cmd) == 2
-			// || my_struct.my_command[1][0] == '~'))
+// 			|| my_struct.my_command[1][0] == '~'))
 //         {
 //             chdir(getenv("HOME"));
 //             if(my_struct.my_command[1] && my_struct.my_command[1][1] == '/'
-		// && my_struct.my_command[1][2])
+// 		&& my_struct.my_command[1][2])
 //                 chdir(my_struct.my_command[1] + 2);
 //         }
 //         // else if(ft_strlen(my_struct.cmd) == 2
-		// || (my_struct.my_command[1][0] == '-' &&  my_struct.my_command[1][1]))
+// 		|| (my_struct.my_command[1][0] == '-' &&  my_struct.my_command[1][1]))
 //         //     chdir(my_struct.my_all_path[loop
-		// - (ft_atoi(&my_struct.my_command[1][1])) + 1]);
+// 		- (ft_atoi(&my_struct.my_command[1][1])) + 1]);
 //         // else if(ft_strlen(my_struct.cmd) == 2
-		// || my_struct.my_command[1][0] == '-')
+// 		|| my_struct.my_command[1][0] == '-')
 //         //     chdir(my_struct.my_all_path[loop]);
 //         else
 //             chdir(my_struct.my_command[1]);
@@ -200,22 +200,56 @@ int	somting_in_readline(t_all *my_struct)
 	// free_all(my_struct);
 	return (0);
 }
-int	main(void)
+void    fill_linked_list(char **dst, t_list **list)
 {
-	t_all my_struct;
+    int     i;
 
-	signal(SIGINT, &handler);
-	signal(SIGQUIT, &handler);
-	int i = 0;
-	my_struct.exit_status = 0;
-	while (1)
-	{
-		my_struct.cmd = readline("escanor > ");
-		my_struct.if_rediraction = 0;
-		if (!my_struct.cmd)
-			exit(0);
-		if (ft_strlen(my_struct.cmd) != 0)
-			somting_in_readline(&my_struct);
-		i++;
-	}
+    i = 0;
+    while (dst[i])
+    {
+        t_list  *new_node; 
+        new_node = ft_lstnew(ft_strdup(dst[i]));
+        ft_lstadd_back(list, new_node);
+        i++;
+    }
+}
+
+int main(int argc,char **argv,char **env)
+{
+    (void)argv;
+    (void)argc;
+    (void)env;
+    t_all my_struct;
+    my_struct.list = NULL;
+    my_struct.the_commande = 0;
+    // my_struct.export = env;
+    fill_linked_list(env, &my_struct.list);
+    // my_struct.export = charge_varible(env);
+    // my_struct.env = charge_varible(env);
+    // int i = 0;
+    // int loop = -1;
+    // char cwd_path[PATH_MAX];
+    // char old_path[PATH_MAX];
+    // my_struct.my_path = 0;
+    // my_struct.my_command = 0;
+    // my_struct.my_curent_path = " ";
+    // my_struct.i = 1;
+    // getcwd(cwd_path, sizeof(cwd_path));
+    // getcwd(old_path, sizeof(cwd_path));
+    // my_struct.my_curent_path = ft_strjoin(my_struct.my_curent_path, cwd_path);
+    // my_struct.my_curent_path = ft_strjoin(my_struct.my_curent_path, " ");
+    // my_struct.my_all_path = ft_split(my_struct.my_curent_path, ' ');
+    signal(SIGINT, &handler);
+    signal(SIGQUIT, &handler);
+    int i = 0;
+    while (1)
+    {
+        my_struct.cmd = readline("escanour > ");
+        if(!my_struct.cmd)
+            exit(0);
+        
+        if(ft_strlen(my_struct.cmd) != 0)
+            somting_in_readline(&my_struct);
+        i++;
+    }
 }

@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 14:20:41 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/04/21 01:49:51 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/04/21 17:15:42 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ typedef struct s_all
 {
 	int 				status;
 	int 				if_rediraction;
+	char				**env;
+	char				**export;
 	char				**my_path;
 	t_each_command 		*each_cmd;
 	char				**splite_pipe;
@@ -54,6 +56,7 @@ typedef struct s_all
 	int					number_of_pipes;
 	char				*tmp_cmd;
 	int 				exit_status;
+	t_list				*list;
 }				t_all;
 
 typedef struct s_var
@@ -68,7 +71,7 @@ void			check_rediractions(t_all *my_struct, int c_of_s);
 int			    get_the_path(t_all *my_struct, int c_of_s);
 void			exit_the_program(t_all my_struct);
 void			free_all(t_all my_struct);
-void			exicut_echo(t_all *my_struct);
+void			exicut_echo(t_all *my_struct, int c_of_s);
 int				quote_check(char *cmd);
 int			fix_arg(t_all *my_struct);
 void			rl_replace_line (const char *text, int clear_undo);
@@ -76,4 +79,20 @@ char	*ft_strjoin_v2(char const *s1, char const *s2);
 void check_leaks();
 void	handler(int sig);
 
+void    fill_linked_list(char **dst, t_list **list);
+int	mini_check_export(char *src,int x);
+void	unset_command(t_all *my_struct,int c_of_s);
+void	env_command(t_list *list);
+void	echo_command(t_all *my_struct, int c_of_s);
+void	export_command(t_all *my_struct,int c_of_s);
+int mini_search(char *str,char c);
+int duplicate_check_export(t_list *list,char *dst);
+int mini_search(char *str,char c);
+void	add_node_back(char *str,t_list  **list);
+void	string_dakche(t_list *list);
+void	search_varible(char *cmd,t_list *list);
+int	replace_varible(t_list *list,char *cmd);
+int	mini_checker_export(t_list *list,char *cmd);
+int check_varible_if_have(t_list *list,char *cmd);
+void	print_export(t_list *list);
 #endif

@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 14:18:08 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/04/21 01:15:51 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/04/21 17:46:51 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,17 +27,17 @@ void	check_rediractions(t_all *my_struct, int c_of_s)
 {
 	int j = 0;
 	signal(SIGINT, &handler_herdoc);
-	while (my_struct->each_cmd[c_of_s].files[j].files)
+	while (my_struct->each_cmd[c_of_s].files[j].files && *my_struct->each_cmd[c_of_s].files[j].files)
 	{
 		if (my_struct->each_cmd[c_of_s].files[j].OUTPUT == 1)
 		{
 			int fd = open(my_struct->each_cmd[c_of_s].files[j].files,
 					O_CREAT | O_RDWR | O_TRUNC, 0777);
-			if(my_struct->each_cmd[c_of_s].cmd && my_struct->each_cmd[c_of_s].cmd[0])
-			{
+			// if(my_struct->each_cmd[c_of_s].cmd && my_struct->each_cmd[c_of_s].cmd[0])
+			// {
 				dup2(fd, STDOUT_FILENO);
 				close(fd);
-			}
+			// }
 		}
 		else if (my_struct->each_cmd[c_of_s].files[j].INPUT == 1 \
 		&& my_struct->each_cmd[c_of_s].cmd)

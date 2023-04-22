@@ -6,12 +6,12 @@
 #    By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/03 12:19:16 by nouakhro          #+#    #+#              #
-#    Updated: 2023/04/21 17:20:01 by nouakhro         ###   ########.fr        #
+#    Updated: 2023/04/21 23:44:44 by nouakhro         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
-CCFLAGS = -Wall -Werror -Wextra -fsanitize=address -g
+CCFLAGS = -Wall -Werror -Wextra 
 
 SRC = 	main.c\
 		utils.c\

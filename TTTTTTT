@@ -1,11 +1,11 @@
-
 Makefile
-TTTTTTTTTTTT
+TTTTTTT
 a.out.dSYM
 check_rediraction.c
 check_rediraction.o
 commande.c
 commande.o
+declare
 echo_command.c
 echo_command.o
 env_commd.c

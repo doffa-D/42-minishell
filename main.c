@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:07:52 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/04/21 17:38:08 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/04/22 01:48:04 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ int	somting_in_readline(t_all *my_struct)
 	my_struct->tmp_cmd = 0;
 	i = 0;
 	if(fix_arg(my_struct) == -1)
-		return 1;
+		return 127;
 	my_struct->my_path = ft_split(getenv("PATH"), ':');
 	// while (my_struct->my_path[i])
 	// {
@@ -143,14 +143,26 @@ int	somting_in_readline(t_all *my_struct)
 	// check_leaks();
 	// exit(0);
 	c_of_s = 0;
-	int pipe_n[2];
-	pipe(pipe_n);
+	int pipe_n[my_struct->number_of_pipes][2];
 	while(my_struct->number_of_pipes > 0)
 	{
-		// int k = 0;
+		if(my_struct->number_of_pipes > 1)
+			pipe(pipe_n[c_of_s]);
 		i = fork();
 		if (i == 0)
 		{
+			if(c_of_s > 0)
+			{
+        		close(pipe_n[c_of_s - 1][1]);
+				dup2(pipe_n[c_of_s - 1][0], STDIN_FILENO);
+        		close(pipe_n[c_of_s - 1][0]);
+			}
+			if(my_struct->number_of_pipes > 1)
+			{
+				close(pipe_n[c_of_s][0]);
+				dup2(pipe_n[c_of_s][1], STDOUT_FILENO);
+				close(pipe_n[c_of_s][1]);
+			}
 			j = 0;
 			if (!get_the_path(my_struct, c_of_s))
 			{
@@ -182,20 +194,26 @@ int	somting_in_readline(t_all *my_struct)
 					else
 					{
 						printf("minishell %s: No such file or directory\n",
-								my_struct->each_cmd[c_of_s].cmd[0]);
+							my_struct->each_cmd[c_of_s].cmd[0]);
 					}
 				}
 				exit(1);
 			}
 			else
-				exicut_commande(my_struct, i, c_of_s, pipe_n);
+				exicut_commande(my_struct, i, c_of_s, pipe_n[c_of_s]);
 		}
 		waitpid(-1, &my_struct->exit_status, 0);
 		my_struct->exit_status = my_struct->exit_status >> 8;
-		close(pipe_n[1]);
-		c_of_s++;
 		my_struct->number_of_pipes--;
+		c_of_s++;
 	}
+	// printf("minishell : No such file or directory\n");
+	// while (c_of_s > -1)
+	// {
+	// 	close(pipe_n[c_of_s][0]);
+	// 	c_of_s--;
+	// }
+	
 	// cd_commade(my_struct);
 	// free_all(my_struct);
 	return (0);
@@ -224,6 +242,7 @@ int main(int argc,char **argv,char **env)
     my_struct.the_commande = 0;
     // my_struct.export = env;
     fill_linked_list(env, &my_struct.list);
+	my_struct.exit_status = 0;
     // my_struct.export = charge_varible(env);
     // my_struct.env = charge_varible(env);
     // int i = 0;
@@ -249,7 +268,7 @@ int main(int argc,char **argv,char **env)
             exit(0);
         
         if(ft_strlen(my_struct.cmd) != 0)
-            somting_in_readline(&my_struct);
+            my_struct.exit_status = somting_in_readline(&my_struct);
         i++;
     }
 }

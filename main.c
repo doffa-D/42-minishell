@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:07:52 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/04/22 01:48:04 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/04/22 01:53:31 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,6 +203,8 @@ int	somting_in_readline(t_all *my_struct)
 				exicut_commande(my_struct, i, c_of_s, pipe_n[c_of_s]);
 		}
 		waitpid(-1, &my_struct->exit_status, 0);
+		if(my_struct->number_of_pipes > 1)
+			close(pipe_n[c_of_s][1]);
 		my_struct->exit_status = my_struct->exit_status >> 8;
 		my_struct->number_of_pipes--;
 		c_of_s++;

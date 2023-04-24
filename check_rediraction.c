@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 14:18:08 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/04/24 14:09:25 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/04/24 17:47:48 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,11 @@ void	check_rediractions(t_all *my_struct, int c_of_s)
 	// signal(SIGINT, &handler_herdoc);
 	while (my_struct->each_cmd[c_of_s].files[j].files)
 	{
+		if (access(my_struct->each_cmd[c_of_s].files[j].files, F_OK) != 0)
+		{
+			printf("minishell : No such file or directory\n");
+			exit(1);
+		}
 		if(!*my_struct->each_cmd[c_of_s].files[j].files)
 		{
 			printf("minishell : No such file or directory\n");

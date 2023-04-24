@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 15:02:29 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/04/24 16:00:54 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/04/24 17:37:20 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@ int	check_export_error(char *cmd)
 {
 	if ((cmd[0] == '=' && !cmd[1]) || cmd[0] == '=')
 	{
-		printf("export: `%s': not a valid identifier \n", cmd);
+		printf("minishell: command not found");
 		return (2);
 	}
 	else if (mini_check_export(cmd, 1) == 1)
 	{
-		printf("export: `%s': not a valid identifier\n", cmd);
+		printf("minishell: command not found");
 		return (0);
 	}
 	return (1);
@@ -73,7 +73,6 @@ void	export_command(t_all *my_struct, int c_of_s)
 			break ;
 		i++;
 	}
-	// printf("[%s]\n", my_struct->each_cmd[c_of_s].cmd[1]);
 	if (print == 1 && !my_struct->each_cmd[c_of_s].cmd[1])
 	{
 		print_export(my_struct->list);

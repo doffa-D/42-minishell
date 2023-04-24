@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:07:52 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/04/24 16:00:37 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/04/24 17:47:40 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,22 +58,22 @@ int builtins(t_all *my_struct, int c_of_s)
 			return (-1);
 		return (1);
 	}
-	if (!ft_strncmp(my_struct->each_cmd[c_of_s].cmd[0], "echo", ft_strlen("echo")+1))
+	if (my_struct->each_cmd[0].cmd[0] && !ft_strncmp(my_struct->each_cmd[c_of_s].cmd[0], "echo", ft_strlen("echo")+1))
 	{
 		echo_command(my_struct,c_of_s);
 		return (1);
 	}
-	else if (!ft_strncmp(my_struct->each_cmd[c_of_s].cmd[0], "export", ft_strlen("export")+1))
+	if (my_struct->each_cmd[0].cmd[0] && !ft_strncmp(my_struct->each_cmd[c_of_s].cmd[0], "export", ft_strlen("export")+1))
 	{
 		export_command(my_struct,c_of_s);
 		return (1);
 	}
-	else if (!ft_strncmp(my_struct->each_cmd[c_of_s].cmd[0], "env", ft_strlen("env")+1))
+	else if (my_struct->each_cmd[0].cmd[0] && !ft_strncmp(my_struct->each_cmd[c_of_s].cmd[0], "env", ft_strlen("env")+1))
 	{
 		env_command(my_struct->list);
 		return (1);
 	}
-	else if (!ft_strncmp(my_struct->each_cmd[c_of_s].cmd[0], "unset", ft_strlen("unset")+1))
+	else if (my_struct->each_cmd[0].cmd[0] && !ft_strncmp(my_struct->each_cmd[c_of_s].cmd[0], "unset", ft_strlen("unset")+1))
 	{
 		unset_command(my_struct,c_of_s);
 		return (1);
@@ -158,7 +158,6 @@ int	somting_in_readline(t_all *my_struct)
 		if(c_of_s == -1)
 			return 1;
 	}
-	// printf("tttttttt\n");
 	my_struct->my_path = ft_split(my_getenv(my_struct->list, "PATH"), ':');
 	int pipe_n[my_struct->number_of_pipes][2];
 	while(my_struct->number_of_pipes > 0)
@@ -180,6 +179,8 @@ int	somting_in_readline(t_all *my_struct)
 				dup2(pipe_n[c_of_s][1], STDOUT_FILENO);
 				close(pipe_n[c_of_s][1]);
 			}
+			if(my_struct->each_cmd[c_of_s].files)
+				check_rediractions(my_struct, c_of_s);
 			j = builtins(my_struct, c_of_s);
 			if(j == 1)
 				exit(0);
@@ -279,11 +280,8 @@ int main(int argc,char **argv,char **env)
     while (1)
     {
         my_struct.cmd = readline("escanour > ");
-		// printf("{%s}",my_struct.cmd);
-		// exit(0);
         if(!my_struct.cmd)
-            exit(0);
-        
+            exit(my_struct.exit_status);
         if(ft_strlen(my_struct.cmd) != 0)
             my_struct.exit_status = somting_in_readline(&my_struct);
         i++;

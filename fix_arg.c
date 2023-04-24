@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 12:31:35 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/04/24 13:59:59 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/04/24 16:39:31 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,11 +119,9 @@ char *my_getenv(t_list *head , char *var)
 	int j = 0;
 	(void)var;
 	int i = 0;
-	// head = my_struct->list->content;
 	char *expande_variable = ft_calloc(1, 1);
 	while (head)
 	{
-		// printf("vffgvfgbgf(%d)\n", i);
 		if(*(char *)head->content == var[0])
 		{
 			j = 0;
@@ -140,7 +138,6 @@ char *my_getenv(t_list *head , char *var)
 		i++;
 		head = head->next;
 	}
-	// printf("111111111111111(%d)\n", i);
 	return(expande_variable);
 }
 
@@ -171,12 +168,13 @@ void	variables_parceen(t_all *my_struct, t_var *variables)
 		}
 		variable = ft_substr(my_struct->fix_cmd[variables->i], variables->j + 1,
 				(var - (variables->j + 1)));
-		// printf("{%s}",variable);
 		variable = my_getenv(my_struct->list,variable);
 		if (variable && *variable)
+		{
 			my_struct->the_commande = ft_strjoin(my_struct->the_commande, \
 				variable);
-		// free(variable);
+
+		}
 		variables->j = var - 1;
 	}
 	if (my_struct->status == IN_COTE)

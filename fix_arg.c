@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 12:31:35 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/04/21 17:11:31 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/04/24 00:04:09 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,36 @@ void	pipe_and_rederaction_parceen(t_all *my_struct, t_var *variables)
 	}
 }
 
+char *my_getenv(t_list *head , char *var)
+{
+	int j = 0;
+	(void)var;
+	int i = 0;
+	// head = my_struct->list->content;
+	char *expande_variable = ft_calloc(1, 1);
+	while (head)
+	{
+		// printf("vffgvfgbgf(%d)\n", i);
+		if(*(char *)head->content == var[0])
+		{
+			j = 0;
+			while(((char *)head->content)[j] == var[j] || ((char *)head->content)[j] == '=')
+			{
+				if(((char *)head->content)[j] == '=')
+				{
+					expande_variable = ft_substr(head->content, j + 1, ft_strlen(head->content + (j + 1)));
+					return(expande_variable);
+				}
+				j++;
+			}
+		}
+		i++;
+		head = head->next;
+	}
+	// printf("111111111111111(%d)\n", i);
+	return(expande_variable);
+}
+
 void	variables_parceen(t_all *my_struct, t_var *variables)
 {
 	int		var;
@@ -141,10 +171,12 @@ void	variables_parceen(t_all *my_struct, t_var *variables)
 		}
 		variable = ft_substr(my_struct->fix_cmd[variables->i], variables->j + 1,
 				(var - (variables->j + 1)));
-		if (getenv(variable))
+		// printf("{%s}",variable);
+		variable = my_getenv(my_struct->list,variable);
+		if (variable && *variable)
 			my_struct->the_commande = ft_strjoin(my_struct->the_commande, \
-				getenv(variable));
-		free(variable);
+				variable);
+		// free(variable);
 		variables->j = var - 1;
 	}
 	if (my_struct->status == IN_COTE)
@@ -288,7 +320,7 @@ int		inistialisation_output(t_all *my_struct, t_var *variables, int c_of_s,
 		ft_putstr_fd("minshell : syntax error near unexpected token `<'\n", 2);
 		return(-1);
 	}
-	printf("TTT\n");
+	// printf("TTT\n");
 	my_struct->each_cmd[variables->i].files[c_of_s].files = \
     ft_substr(my_struct->splite_pipe[variables->i],variables->j, var - variables->j);
 	if(!*my_struct->each_cmd[variables->i].files[c_of_s].files)
@@ -476,14 +508,14 @@ int	rederaction_parccen(t_all *my_struct, t_var *variables)
 				my_struct->each_cmd[variables->i].cmd[var] = ft_strdup("");
 			var++;
 		}
-		if(my_struct->each_cmd[c_of_s].cmd && !*my_struct->each_cmd[c_of_s].cmd && my_struct->number_of_pipes > 1)
-		{
-			if(my_struct->number_of_pipes > 2)
-				ft_putstr_fd("syntax error near unexpected token `||'\n", 2);
-			else
-				ft_putstr_fd("syntax error : only pipe\n", 2);
-			return(-1);
-		}
+		// if(my_struct->each_cmd[c_of_s].cmd && !*my_struct->each_cmd[c_of_s].cmd && my_struct->number_of_pipes > 1)
+		// {
+		// 	if(my_struct->number_of_pipes > 2)
+		// 		ft_putstr_fd("syntax error near unexpected token `||'\n", 2);
+		// 	else
+		// 		ft_putstr_fd("syntax error : only pipe\n", 2);
+		// 	return(-1);
+		// }
 		free(my_struct->splite_pipe[variables->i]);
 		free(my_struct->the_commande);
 		my_struct->the_commande = 0;

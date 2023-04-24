@@ -6,7 +6,7 @@
 /*   By: hdagdagu <hdagdagu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 14:18:08 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/04/23 20:58:43 by hdagdagu         ###   ########.fr       */
+/*   Updated: 2023/04/24 15:21:14 by hdagdagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,12 @@ void	check_rediractions(t_all *my_struct, int c_of_s)
 		{
 			int fd = open(my_struct->each_cmd[c_of_s].files[j].files,
 					O_CREAT | O_RDWR | O_TRUNC, 0777);
-			// if(my_struct->each_cmd[c_of_s].cmd && my_struct->each_cmd[c_of_s].cmd[0])
-			// {
+			if(my_struct->each_cmd[c_of_s].cmd && my_struct->each_cmd[c_of_s].cmd[0])
+			{
+				printf("ddddddd\n");
 				dup2(fd, STDOUT_FILENO);
 				close(fd);
-			// }
+			}
 		}
 		else if (my_struct->each_cmd[c_of_s].files[j].INPUT == 1 \
 		&& my_struct->each_cmd[c_of_s].cmd)
@@ -51,7 +52,7 @@ void	check_rediractions(t_all *my_struct, int c_of_s)
 			}
 			if(my_struct->each_cmd[c_of_s].cmd && my_struct->each_cmd[c_of_s].cmd[0])
 			{
-				dup2(fd, STDOUT_FILENO);
+				dup2(fd, STDIN_FILENO);
 				close(fd);
 			}
 		}
@@ -81,6 +82,8 @@ void	check_rediractions(t_all *my_struct, int c_of_s)
 					break;
 				if (!ft_strncmp(beffer,
 						my_struct->each_cmd[c_of_s].files[j].files,
+						ft_strlen(my_struct->each_cmd[c_of_s].files[j].files)) \
+						&& !ft_strncmp(beffer, my_struct->each_cmd[c_of_s].files[j].files,
 						ft_strlen(beffer)))
 					break ;
 				herdoc = ft_strjoin(herdoc, beffer);

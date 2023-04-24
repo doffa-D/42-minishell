@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 12:31:35 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/04/24 16:39:31 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/04/24 20:38:26 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ char *my_getenv(t_list *head , char *var)
 			j = 0;
 			while(((char *)head->content)[j] == var[j] || ((char *)head->content)[j] == '=')
 			{
-				if(((char *)head->content)[j] == '=')
+				if(((char *)head->content)[j] == '=' && !var[j])
 				{
 					expande_variable = ft_substr(head->content, j + 1, ft_strlen(head->content + (j + 1)));
 					return(expande_variable);
@@ -154,10 +154,10 @@ void	variables_parceen(t_all *my_struct, t_var *variables)
 		&& (ft_isalpha(my_struct->fix_cmd[variables->i][var])
 			|| ft_isdigit(my_struct->fix_cmd[variables->i][var])))
 		var++;
-	
+	// printf("((%s))\n", my_struct->the_commande);
 	if (my_struct->status == IN_DCOTE || my_struct->status == OUTSIDE)
 	{
-		if(ft_isdigit(my_struct->fix_cmd[variables->i][variables->j + 1]))
+		if(ft_isdigit(my_struct->fix_cmd[variables->i][variables->j + 1]) && my_struct->fix_cmd[variables->i][variables->j + 1] != '_')
 		{
 			variables->j++;
 			variable = ft_substr(my_struct->fix_cmd[variables->i], variables->j + 1,
@@ -169,11 +169,10 @@ void	variables_parceen(t_all *my_struct, t_var *variables)
 		variable = ft_substr(my_struct->fix_cmd[variables->i], variables->j + 1,
 				(var - (variables->j + 1)));
 		variable = my_getenv(my_struct->list,variable);
-		if (variable && *variable)
+		if (variable)
 		{
 			my_struct->the_commande = ft_strjoin(my_struct->the_commande, \
 				variable);
-
 		}
 		variables->j = var - 1;
 	}
@@ -199,16 +198,28 @@ void	variables_parceen_utils(t_all *my_struct, t_var *variables)
 			variables->c = variables->j;
 		}
 	}
+// 	export a=" b"$
+// echo foo $a bar$
 	else
 	{
 		if(my_struct->fix_cmd[variables->i][variables->j + 1] == '?')
 		{
+			variables->c++;
+			my_struct->the_commande = ft_strjoin_v2(my_struct->the_commande,
+			ft_substr(my_struct->fix_cmd[variables->i], variables->c, \
+        	variables->j - variables->c));
 			variables->j++;
 			my_struct->the_commande = ft_strjoin(my_struct->the_commande,ft_itoa(my_struct->exit_status));
 			variables->c = variables->j;
 		}
 		else if(my_struct->status == OUTSIDE && (my_struct->fix_cmd[variables->i][variables->j + 1] == 34 || my_struct->fix_cmd[variables->i][variables->j + 1] == 39))
 			variables->c = variables->j;
+		else if(my_struct->fix_cmd[variables->i][variables->j + 1] != 34 && my_struct->fix_cmd[variables->i][variables->j + 1] != 39)
+		{
+			variables->j++;
+			variables->c = variables->j;
+		}
+
 	}
 }
 
@@ -230,7 +241,7 @@ int	parccen_part(t_all *my_struct, t_var *variables, char *splite)
 		}
 		if(my_struct->status != OUTSIDE)
 		{
-			ft_putstr_fd("error : inclosed qouts\n", 2);
+			ft_putstr_fd("minishell: unexpected EOF while looking for matching\n", 2);
 			return -1;
 		}
 		if (my_struct->status == OUTSIDE)
@@ -330,7 +341,7 @@ int		inistialisation_output(t_all *my_struct, t_var *variables, int c_of_s,
 	if(!my_struct->each_cmd[variables->i].files[c_of_s].files)
 	{
 		ft_putstr_fd("syntax error near unexpected token `newline'\n", 2);
-		return(-1);
+		return(2);
 	}
 	else if (my_struct->each_cmd[variables->i].files[c_of_s].number_of_O == 2)
 		my_struct->each_cmd[variables->i].files[c_of_s].APPEND = 1;
@@ -543,7 +554,7 @@ int	fix_arg(t_all *my_struct)
 	my_struct->the_commande = 0;
 	my_struct->the_commande = ft_calloc(1, 1);
 	if(parccen_part(my_struct, &variables, splite) == -1)
-		return -1;
+		return 2;
 	free(my_struct->fix_cmd);
 	my_struct->splite_pipe = ft_split(my_struct->the_commande, 4);
 	// int i = 0;

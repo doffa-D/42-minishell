@@ -6,7 +6,7 @@
 /*   By: hdagdagu <hdagdagu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 15:31:05 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/04/20 19:55:04 by hdagdagu         ###   ########.fr       */
+/*   Updated: 2023/04/24 18:48:41 by hdagdagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,7 @@ int	mini_check_export(char *src,int x)
 			return (1);
 		if (src[i] == '-')
 			return (1);
-		if ((src[i] >= 33 && src[i] <= 38) || src[i] == 60 || (src[i] >= 40
-				&& src[i] <= 45) || (src[i] >= 62 && src[i] <= 64)
-			|| (src[i] >= 91 && src[i] <= 94) || (src[i] >= 123
-				&& src[i] <= 125))
+		if (src[i] == 33  || src[i] == 35  || src[i] == 37 || src[i] == 38|| src[i] == 60 || (src[i] >= 40 && src[i] <= 45) || (src[i] >= 63 && src[i] <= 64) || (src[i] >= 91 && src[i] <= 94) || (src[i] >= 123 && src[i] <= 125))
 			return (1);
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 20:46:23 by nouakhro          #+#    #+#             */
-/*   Updated: 2022/10/13 21:47:18 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/04/24 21:33:32 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ int	ft_atoi(const char *str)
 
 	i = 0;
 	j = 1;
+	if(!str)
+		return 0;
 	result = 0;
 	while (str[i] == '\r' || str[i] == '\v'
 		|| str[i] == '\f' || str[i] == '\t'

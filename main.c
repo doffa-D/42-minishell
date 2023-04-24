@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:07:52 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/04/24 17:47:40 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/04/24 21:41:03 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,14 +58,12 @@ int builtins(t_all *my_struct, int c_of_s)
 			return (-1);
 		return (1);
 	}
-	if (my_struct->each_cmd[0].cmd[0] && !ft_strncmp(my_struct->each_cmd[c_of_s].cmd[0], "echo", ft_strlen("echo")+1))
-	{
-		echo_command(my_struct,c_of_s);
-		return (1);
-	}
 	if (my_struct->each_cmd[0].cmd[0] && !ft_strncmp(my_struct->each_cmd[c_of_s].cmd[0], "export", ft_strlen("export")+1))
 	{
+		my_struct->check = 0;
 		export_command(my_struct,c_of_s);
+		if(my_struct->check == 1)
+			return (-1);
 		return (1);
 	}
 	else if (my_struct->each_cmd[0].cmd[0] && !ft_strncmp(my_struct->each_cmd[c_of_s].cmd[0], "env", ft_strlen("env")+1))
@@ -77,6 +75,11 @@ int builtins(t_all *my_struct, int c_of_s)
 	{
 		unset_command(my_struct,c_of_s);
 		return (1);
+	}
+	else if (my_struct->each_cmd[0].cmd[0] && !ft_strncmp(my_struct->each_cmd[c_of_s].cmd[0], "exit", ft_strlen("exit")))
+	{
+		// printf("fffff\n");
+		exit(ft_atoi(my_struct->each_cmd[c_of_s].cmd[1]));
 	}
 	return (0);
 }
@@ -147,16 +150,21 @@ int	somting_in_readline(t_all *my_struct)
 	my_struct->the_commande = 0;
 	my_struct->tmp_cmd = 0;
 	i = 0;
-	if(fix_arg(my_struct) == -1)
-		return 127;
+	if(fix_arg(my_struct) == 2)
+		return 2;
 	c_of_s = 0;
 	if(my_struct->number_of_pipes == 1)
 	{
 		c_of_s = builtins(my_struct, c_of_s);
 		if(c_of_s == 1)
+		{
+
 			return 0;
+		}
 		if(c_of_s == -1)
+		{
 			return 1;
+		}
 	}
 	my_struct->my_path = ft_split(my_getenv(my_struct->list, "PATH"), ':');
 	int pipe_n[my_struct->number_of_pipes][2];
@@ -212,15 +220,19 @@ int	somting_in_readline(t_all *my_struct)
 				else if (my_struct->each_cmd[c_of_s].cmd[0] && ft_strchr(my_struct->each_cmd[c_of_s].cmd[0], '/'))
 				{
 					if (!chdir(my_struct->each_cmd[c_of_s].cmd[0]))
+					{
 						printf("minishell %s: is a directory\n",
 								my_struct->each_cmd[c_of_s].cmd[0]);
+						exit(126);
+					}
 					else
 					{
 						printf("minishell %s: No such file or directory\n",
 							my_struct->each_cmd[c_of_s].cmd[0]);
+						exit(127);
 					}
 				}
-				exit(1);
+				// exit(1);
 			}
 			else
 				exicut_commande(my_struct, i, c_of_s, pipe_n[c_of_s]);

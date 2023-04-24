@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 14:18:08 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/04/24 17:47:48 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/04/24 22:07:11 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,6 @@ void	check_rediractions(t_all *my_struct, int c_of_s)
 	// signal(SIGINT, &handler_herdoc);
 	while (my_struct->each_cmd[c_of_s].files[j].files)
 	{
-		if (access(my_struct->each_cmd[c_of_s].files[j].files, F_OK) != 0)
-		{
-			printf("minishell : No such file or directory\n");
-			exit(1);
-		}
 		if(!*my_struct->each_cmd[c_of_s].files[j].files)
 		{
 			printf("minishell : No such file or directory\n");
@@ -44,7 +39,7 @@ void	check_rediractions(t_all *my_struct, int c_of_s)
 			int fd = open(my_struct->each_cmd[c_of_s].files[j].files, O_CREAT | O_RDWR | O_TRUNC, 0777);
 			if(fd == -1)
 			{
-				perror("error");
+				printf("minishell: %s: Permission denied\n", my_struct->each_cmd[c_of_s].files[j].files);
 				exit(1);
 			}
 			dup2(fd, STDOUT_FILENO);
@@ -53,23 +48,28 @@ void	check_rediractions(t_all *my_struct, int c_of_s)
 		else if (my_struct->each_cmd[c_of_s].files[j].INPUT == 1 \
 		&& my_struct->each_cmd[c_of_s].cmd)
 		{
+			if (access(my_struct->each_cmd[c_of_s].files[j].files, F_OK) != 0)
+			{
+				printf("minishell : No such file or directory\n");
+				exit(1);
+			}
 			int fd = open(my_struct->each_cmd[c_of_s].files[j].files, O_RDWR , 0777);
 			if(fd == -1)
 			{
-				perror("error");
+				printf("minishell: %s: Permission denied\n", my_struct->each_cmd[c_of_s].files[j].files);
 				exit(1);
 			}
 			dup2(fd, STDIN_FILENO);
 			close(fd);
 		}
-		else if (my_struct->each_cmd[c_of_s].files[j].APPEND == 1 \
+		if (my_struct->each_cmd[c_of_s].files[j].APPEND == 1 \
 		&& my_struct->each_cmd[c_of_s].cmd)
 		{
 			int fd = open(my_struct->each_cmd[c_of_s].files[j].files,
 					O_CREAT | O_RDWR | O_APPEND, 0777);
 			if(fd == -1)
 			{
-				perror("error");
+				printf("minishell: %s: Permission denied\n", my_struct->each_cmd[c_of_s].files[j].files);
 				exit(1);
 			}
 			dup2(fd, STDOUT_FILENO);

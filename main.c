@@ -3,27 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hdagdagu <hdagdagu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:07:52 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/04/21 17:38:08 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/04/23 20:58:18 by hdagdagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	handler(int sig)
-{
-	if (sig == SIGINT)
-	{
-		rl_replace_line("", 0);
-		printf("\n");
-		rl_on_new_line();
-		rl_redisplay();
-	}
-	if (sig == SIGQUIT)
-		return ;
-}
+// void	handler(int sig)
+// {
+// 	if (sig == SIGINT)
+// 	{
+// 		rl_replace_line("", 0);
+// 		printf("\n");
+// 		rl_on_new_line();
+// 		rl_redisplay();
+// 	}
+// 	if (sig == SIGQUIT)
+// 		return ;
+// }
 
 // int cd_commade(t_all my_struct)
 // {
@@ -239,8 +239,8 @@ int main(int argc,char **argv,char **env)
     // my_struct.my_curent_path = ft_strjoin(my_struct.my_curent_path, cwd_path);
     // my_struct.my_curent_path = ft_strjoin(my_struct.my_curent_path, " ");
     // my_struct.my_all_path = ft_split(my_struct.my_curent_path, ' ');
-    signal(SIGINT, &handler);
-    signal(SIGQUIT, &handler);
+    // signal(SIGINT, &handler);
+    // signal(SIGQUIT, &handler);
     int i = 0;
     while (1)
     {

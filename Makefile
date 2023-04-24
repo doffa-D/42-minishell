@@ -6,7 +6,7 @@
 #    By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/03 12:19:16 by nouakhro          #+#    #+#              #
-#    Updated: 2023/04/21 23:44:44 by nouakhro         ###   ########.fr        #
+#    Updated: 2023/04/24 00:40:27 by nouakhro         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,7 @@ all : $(NAME)
 
 $(NAME) : $(OBJE)
 	make -C $(LIBFT)
-	$(CC) $(CCFLAGS) $(OBJE) libft/libft.a -lreadline -L  readline/lib -I readline/include -o $(NAME)
+	$(CC) $(CCFLAGS) $(OBJE) libft/libft.a -lreadline  -o $(NAME)
 
 
 %.o : %.c

@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 14:18:08 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/04/21 20:48:38 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/04/24 00:38:19 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,19 @@
 #include <string.h>
 
 
-void	handler_herdoc(int sig)
-{
-	if (sig == SIGINT)
-	{
-		signal(SIGINT, &handler);
-		exit(0);
-	}
-}
+// void	handler_herdoc(int sig)
+// {
+// 	if (sig == SIGINT)
+// 	{
+// 		signal(SIGINT, &handler);
+// 		exit(0);
+// 	}
+// }
 
 void	check_rediractions(t_all *my_struct, int c_of_s)
 {
 	int j = 0;
-	signal(SIGINT, &handler_herdoc);
+	// signal(SIGINT, &handler_herdoc);
 	while (my_struct->each_cmd[c_of_s].files[j].files && *my_struct->each_cmd[c_of_s].files[j].files)
 	{
 		if (my_struct->each_cmd[c_of_s].files[j].OUTPUT == 1)
@@ -82,6 +82,8 @@ void	check_rediractions(t_all *my_struct, int c_of_s)
 					break;
 				if (!ft_strncmp(beffer,
 						my_struct->each_cmd[c_of_s].files[j].files,
+						ft_strlen(my_struct->each_cmd[c_of_s].files[j].files)) \
+						&& !ft_strncmp(beffer, my_struct->each_cmd[c_of_s].files[j].files,
 						ft_strlen(beffer)))
 					break ;
 				herdoc = ft_strjoin(herdoc, beffer);
@@ -98,5 +100,5 @@ void	check_rediractions(t_all *my_struct, int c_of_s)
 		}
 		j++;
 	}
-	signal(SIGINT, &handler);
+	// signal(SIGINT, &handler);
 }

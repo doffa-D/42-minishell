@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 12:31:35 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/04/24 00:04:09 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/04/24 13:59:59 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -287,7 +287,10 @@ int 	inistialisation_input(t_all *my_struct, t_var *variables, int c_of_s,
 	}
 	my_struct->each_cmd[variables->i].files[c_of_s].files = \
     ft_substr(my_struct->splite_pipe[variables->i],variables->j, var - variables->j);
-	if(!*my_struct->each_cmd[variables->i].files[c_of_s].files)
+	if(ft_strchr(my_struct->each_cmd[variables->i].files[c_of_s].files, 6) && \
+	ft_strlen(my_struct->each_cmd[variables->i].files[c_of_s].files) == 1)
+		my_struct->each_cmd[variables->i].files[c_of_s].files = ft_strdup("");
+	if(!my_struct->each_cmd[variables->i].files[c_of_s].files)
 	{
 		ft_putstr_fd("syntax error near unexpected token `newline'\n", 2);
 		return(-1);
@@ -323,7 +326,10 @@ int		inistialisation_output(t_all *my_struct, t_var *variables, int c_of_s,
 	// printf("TTT\n");
 	my_struct->each_cmd[variables->i].files[c_of_s].files = \
     ft_substr(my_struct->splite_pipe[variables->i],variables->j, var - variables->j);
-	if(!*my_struct->each_cmd[variables->i].files[c_of_s].files)
+	if(ft_strchr(my_struct->each_cmd[variables->i].files[c_of_s].files, 6) && \
+	ft_strlen(my_struct->each_cmd[variables->i].files[c_of_s].files) == 1)
+		my_struct->each_cmd[variables->i].files[c_of_s].files = ft_strdup("");
+	if(!my_struct->each_cmd[variables->i].files[c_of_s].files)
 	{
 		ft_putstr_fd("syntax error near unexpected token `newline'\n", 2);
 		return(-1);

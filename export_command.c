@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_command.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hdagdagu <hdagdagu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 15:02:29 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/04/20 20:07:48 by hdagdagu         ###   ########.fr       */
+/*   Updated: 2023/04/24 16:00:54 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ void	export_command(t_all *my_struct, int c_of_s)
 			break ;
 		i++;
 	}
+	// printf("[%s]\n", my_struct->each_cmd[c_of_s].cmd[1]);
 	if (print == 1 && !my_struct->each_cmd[c_of_s].cmd[1])
 	{
 		print_export(my_struct->list);

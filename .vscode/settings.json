@@ -22,6 +22,8 @@
         "string.h": "c",
         "sstream": "c",
         "get_next_line.h": "c",
-        "complex": "c"
+        "complex": "c",
+        "locale": "c",
+        "algorithm": "c"
     }
 }

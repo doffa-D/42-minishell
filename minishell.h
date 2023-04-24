@@ -6,7 +6,7 @@
 /*   By: hdagdagu <hdagdagu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 14:20:41 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/04/24 15:13:59 by hdagdagu         ###   ########.fr       */
+/*   Updated: 2023/04/24 16:56:25 by hdagdagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ typedef struct s_all
 	int					number_of_pipes;
 	char				*tmp_cmd;
 	int 				exit_status;
+	int					check;
 	t_list				*list;
 }				t_all;
 

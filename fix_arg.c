@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fix_arg.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hdagdagu <hdagdagu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 12:31:35 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/04/24 00:04:09 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/04/24 18:55:34 by hdagdagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,7 +232,7 @@ int	parccen_part(t_all *my_struct, t_var *variables, char *splite)
 		}
 		if(my_struct->status != OUTSIDE)
 		{
-			ft_putstr_fd("error : inclosed qouts\n", 2);
+			ft_putstr_fd("minishell: unexpected EOF while looking for matching\n", 2);
 			return -1;
 		}
 		if (my_struct->status == OUTSIDE)
@@ -287,7 +287,10 @@ int 	inistialisation_input(t_all *my_struct, t_var *variables, int c_of_s,
 	}
 	my_struct->each_cmd[variables->i].files[c_of_s].files = \
     ft_substr(my_struct->splite_pipe[variables->i],variables->j, var - variables->j);
-	if(!*my_struct->each_cmd[variables->i].files[c_of_s].files)
+	if(ft_strchr(my_struct->each_cmd[variables->i].files[c_of_s].files, 6) && \
+	ft_strlen(my_struct->each_cmd[variables->i].files[c_of_s].files) == 1)
+		my_struct->each_cmd[variables->i].files[c_of_s].files = ft_strdup("");
+	if(!my_struct->each_cmd[variables->i].files[c_of_s].files)
 	{
 		ft_putstr_fd("syntax error near unexpected token `newline'\n", 2);
 		return(-1);
@@ -323,10 +326,13 @@ int		inistialisation_output(t_all *my_struct, t_var *variables, int c_of_s,
 	// printf("TTT\n");
 	my_struct->each_cmd[variables->i].files[c_of_s].files = \
     ft_substr(my_struct->splite_pipe[variables->i],variables->j, var - variables->j);
-	if(!*my_struct->each_cmd[variables->i].files[c_of_s].files)
+	if(ft_strchr(my_struct->each_cmd[variables->i].files[c_of_s].files, 6) && \
+	ft_strlen(my_struct->each_cmd[variables->i].files[c_of_s].files) == 1)
+		my_struct->each_cmd[variables->i].files[c_of_s].files = ft_strdup("");
+	if(!my_struct->each_cmd[variables->i].files[c_of_s].files)
 	{
 		ft_putstr_fd("syntax error near unexpected token `newline'\n", 2);
-		return(-1);
+		return(2);
 	}
 	else if (my_struct->each_cmd[variables->i].files[c_of_s].number_of_O == 2)
 		my_struct->each_cmd[variables->i].files[c_of_s].APPEND = 1;
@@ -539,7 +545,7 @@ int	fix_arg(t_all *my_struct)
 	my_struct->the_commande = 0;
 	my_struct->the_commande = ft_calloc(1, 1);
 	if(parccen_part(my_struct, &variables, splite) == -1)
-		return -1;
+		return 2;
 	free(my_struct->fix_cmd);
 	my_struct->splite_pipe = ft_split(my_struct->the_commande, 4);
 	// int i = 0;

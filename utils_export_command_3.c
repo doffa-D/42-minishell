@@ -6,7 +6,7 @@
 /*   By: hdagdagu <hdagdagu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 17:01:03 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/04/20 18:14:33 by hdagdagu         ###   ########.fr       */
+/*   Updated: 2023/04/24 18:49:23 by hdagdagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,10 @@ void	mini_print_export(char *dst, int i, int j)
 		{
 			printf("=%c", 34);
 			j = 0;
+		}
+		else if(dst[i] == '$' || dst[i] == 34)
+		{
+			printf("\\%c",dst[i]);
 		}
 		else if (dst[i + 1] == '\0' && j == 0)
 		{

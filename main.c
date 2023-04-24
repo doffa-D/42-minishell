@@ -6,7 +6,7 @@
 /*   By: hdagdagu <hdagdagu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:07:52 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/04/24 15:22:34 by hdagdagu         ###   ########.fr       */
+/*   Updated: 2023/04/24 18:55:53 by hdagdagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,28 +55,31 @@ int builtins(t_all *my_struct, int c_of_s)
 	&& !ft_strncmp(my_struct->each_cmd[0].cmd[0], "cd", ft_strlen(my_struct->each_cmd[0].cmd[0])))
 	{
 		if(cd_commade(my_struct))
-			return -1;
+			return (-1);
 		return (1);
 	}
 	if (!ft_strncmp(my_struct->each_cmd[c_of_s].cmd[0], "echo", ft_strlen("echo")+1))
 	{
 		echo_command(my_struct,c_of_s);
-		return(1);
+		return (1);
 	}
 	else if (!ft_strncmp(my_struct->each_cmd[c_of_s].cmd[0], "export", ft_strlen("export")+1))
 	{
+		my_struct->check = 0;
 		export_command(my_struct,c_of_s);
-		return(1);
+		if(my_struct->check == 1)
+			return (-1);
+		return (1);
 	}
 	else if (!ft_strncmp(my_struct->each_cmd[c_of_s].cmd[0], "env", ft_strlen("env")+1))
 	{
 		env_command(my_struct->list);
-		return(1);
+		return (1);
 	}
 	else if (!ft_strncmp(my_struct->each_cmd[c_of_s].cmd[0], "unset", ft_strlen("unset")+1))
 	{
 		unset_command(my_struct,c_of_s);
-		return(1);
+		return (1);
 	}
 	return (0);
 }
@@ -147,35 +150,21 @@ int	somting_in_readline(t_all *my_struct)
 	my_struct->the_commande = 0;
 	my_struct->tmp_cmd = 0;
 	i = 0;
-	if(fix_arg(my_struct) == -1)
-		return 127;
-	// while (my_struct->my_path[i])
-	// {
-	//     printf("%s\n", my_struct->my_path[i]);
-	//     free(my_struct->my_path[i]);
-	//     i++;
-	// }
-	// free(my_struct->my_path);
-	// i = 0;
-	// while (my_struct->each_cmd->cmd[i])
-	// {
-	//     printf("%s\n", my_struct->each_cmd->cmd[i]);
-	//     free(my_struct->each_cmd->cmd[i]);
-	//     i++;
-	// }
-	// free(my_struct->each_cmd->cmd);
-	// free(my_struct->each_cmd);
-	// check_leaks();
-	// exit(0);
-	// if (!ft_strncmp(my_struct->each_cmd[c_of_s].cmd[0], "cd", ft_strlen("cd")+1))
+	if(fix_arg(my_struct) == 2)
+		return 2;
 	c_of_s = 0;
 	if(my_struct->number_of_pipes == 1)
 	{
 		c_of_s = builtins(my_struct, c_of_s);
 		if(c_of_s == 1)
+		{
+
 			return 0;
+		}
 		if(c_of_s == -1)
+		{
 			return 1;
+		}
 	}
 	// printf("tttttttt\n");
 	my_struct->my_path = ft_split(my_getenv(my_struct->list, "PATH"), ':');
@@ -199,6 +188,11 @@ int	somting_in_readline(t_all *my_struct)
 				dup2(pipe_n[c_of_s][1], STDOUT_FILENO);
 				close(pipe_n[c_of_s][1]);
 			}
+			j = builtins(my_struct, c_of_s);
+			if(j == 1)
+				exit(0);
+			if(j == -1)
+			exit(1);
 			j = 0;
 			if (!get_the_path(my_struct, c_of_s))
 			{
@@ -215,8 +209,8 @@ int	somting_in_readline(t_all *my_struct)
 			}
 			if (j != 1)
 			{
-				if (!*my_struct->each_cmd[c_of_s].cmd[0] || (my_struct->each_cmd[c_of_s].cmd[0]
-					&& (!ft_strchr(my_struct->each_cmd[c_of_s].cmd[0], '/'))))
+				if (my_struct->each_cmd[c_of_s].cmd[0]
+					&& (!ft_strchr(my_struct->each_cmd[c_of_s].cmd[0], '/')))
 				{
 					printf("minishell %s: command not found\n",
 							my_struct->each_cmd[c_of_s].cmd[0]);
@@ -296,7 +290,7 @@ int main(int argc,char **argv,char **env)
 		// printf("{%s}",my_struct.cmd);
 		// exit(0);
         if(!my_struct.cmd)
-            exit(0);
+            exit(my_struct.exit_status);
         
         if(ft_strlen(my_struct.cmd) != 0)
             my_struct.exit_status = somting_in_readline(&my_struct);

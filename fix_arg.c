@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 12:31:35 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/04/25 17:16:47 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/04/24 20:38:26 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -262,6 +262,7 @@ int	parccen_part(t_all *my_struct, t_var *variables, char *splite)
 
 void	initialisaion(t_all *my_struct, t_var *variables, int c_of_s)
 {
+	// int buckup = variables->j;
 	my_struct->each_cmd[variables->i].files[c_of_s].OUTPUT = 0;
 	my_struct->each_cmd[variables->i].files[c_of_s].APPEND = 0;
 	my_struct->each_cmd[variables->i].files[c_of_s].number_of_O = 0;
@@ -275,21 +276,34 @@ void	initialisaion(t_all *my_struct, t_var *variables, int c_of_s)
 int 	inistialisation_input(t_all *my_struct, t_var *variables, int c_of_s,
 		int var)
 {
-	if(my_struct->each_cmd[variables->i].files[c_of_s].ERROR_SYNTACSO)
+	if (my_struct->each_cmd[variables->i].files[c_of_s].number_of_I > 2)
 	{
-		printf("minishell : syntax error");
-		return -1;
+		my_struct->each_cmd[variables->i].files[c_of_s].ERROR_SYNTACSI = 1;
+		ft_putstr_fd("bash: syntax error near unexpected token `<<'\n", 2);
+		return(-1);
+	}
+	else if (my_struct->each_cmd[variables->i].files[c_of_s].number_of_O > 1)
+	{
+		my_struct->each_cmd[variables->i].files[c_of_s].ERROR_SYNTACSO = 1;
+		ft_putstr_fd("bash: syntax error near unexpected token `>>'\n", 2);
+		return(-1);
+	}
+	else if (my_struct->each_cmd[variables->i].files[c_of_s].number_of_O == 1)
+	{
+		my_struct->each_cmd[variables->i].files[c_of_s].ERROR_SYNTACSO = 1;
+		ft_putstr_fd("bash: syntax error near unexpected token `>'\n", 2);
+		return(-1);
 	}
 	my_struct->each_cmd[variables->i].files[c_of_s].files = \
     ft_substr(my_struct->splite_pipe[variables->i],variables->j, var - variables->j);
-	if(!*my_struct->each_cmd[variables->i].files[c_of_s].files)
-	{
-		printf("minishell : syntax error\n");
-		return -1;
-	}
 	if(ft_strchr(my_struct->each_cmd[variables->i].files[c_of_s].files, 6) && \
 	ft_strlen(my_struct->each_cmd[variables->i].files[c_of_s].files) == 1)
 		my_struct->each_cmd[variables->i].files[c_of_s].files = ft_strdup("");
+	if(!my_struct->each_cmd[variables->i].files[c_of_s].files)
+	{
+		ft_putstr_fd("syntax error near unexpected token `newline'\n", 2);
+		return(-1);
+	}
 	if (my_struct->each_cmd[variables->i].files[c_of_s].number_of_I == 1)
 		my_struct->each_cmd[variables->i].files[c_of_s].INPUT = 1;
 	else if (my_struct->each_cmd[variables->i].files[c_of_s].number_of_I == 2)
@@ -300,21 +314,35 @@ int 	inistialisation_input(t_all *my_struct, t_var *variables, int c_of_s,
 int		inistialisation_output(t_all *my_struct, t_var *variables, int c_of_s,
 		int var)
 {
-	if(my_struct->each_cmd[variables->i].files[c_of_s].ERROR_SYNTACSI)
+	if (my_struct->each_cmd[variables->i].files[c_of_s].number_of_O > 2)
 	{
-		printf("minishell : syntax error\n");
-		return -1;
+		my_struct->each_cmd[variables->i].files[c_of_s].ERROR_SYNTACSO = 1;
+		ft_putstr_fd("minshell : syntax error near unexpected token `>>'\n", 2);
+		return(-1);
 	}
+	else if (my_struct->each_cmd[variables->i].files[c_of_s].number_of_I > 1)
+	{
+		my_struct->each_cmd[variables->i].files[c_of_s].ERROR_SYNTACSI = 1;
+		ft_putstr_fd("minshell : syntax error near unexpected token `<<'\n", 2);
+		return(-1);
+	}
+	else if (my_struct->each_cmd[variables->i].files[c_of_s].number_of_I == 1)
+	{
+		my_struct->each_cmd[variables->i].files[c_of_s].ERROR_SYNTACSI = 1;
+		ft_putstr_fd("minshell : syntax error near unexpected token `<'\n", 2);
+		return(-1);
+	}
+	// printf("TTT\n");
 	my_struct->each_cmd[variables->i].files[c_of_s].files = \
     ft_substr(my_struct->splite_pipe[variables->i],variables->j, var - variables->j);
-	if(!*my_struct->each_cmd[variables->i].files[c_of_s].files)
-	{
-		printf("minishell : syntax error\n");
-		return -1;
-	}
 	if(ft_strchr(my_struct->each_cmd[variables->i].files[c_of_s].files, 6) && \
 	ft_strlen(my_struct->each_cmd[variables->i].files[c_of_s].files) == 1)
 		my_struct->each_cmd[variables->i].files[c_of_s].files = ft_strdup("");
+	if(!my_struct->each_cmd[variables->i].files[c_of_s].files)
+	{
+		ft_putstr_fd("syntax error near unexpected token `newline'\n", 2);
+		return(2);
+	}
 	else if (my_struct->each_cmd[variables->i].files[c_of_s].number_of_O == 2)
 		my_struct->each_cmd[variables->i].files[c_of_s].APPEND = 1;
 	else if (my_struct->each_cmd[variables->i].files[c_of_s].number_of_O == 1)
@@ -331,17 +359,24 @@ int	rediraction_calculate_output(t_all *my_struct, t_var *variables, int var, in
 			|| my_struct->splite_pipe[variables->i][variables->j] == 5))
 	{
 		if(my_struct->splite_pipe[variables->i][variables->j] == 2)
+		{
+			while (my_struct->splite_pipe[variables->i][variables->j] == 2)
+			{
 				my_struct->each_cmd[variables->i].files[c_of_s].number_of_O++;
+				variables->j++;
+			}
+		}
 		if(my_struct->splite_pipe[variables->i][variables->j] == 5)
+		{
+			while (my_struct->splite_pipe[variables->i][variables->j] == 5)
+			{
 				my_struct->each_cmd[variables->i].files[c_of_s].number_of_I++;
+				variables->j++;
+			}
+		}
 		if(my_struct->each_cmd[variables->i].files[c_of_s].number_of_O \
 		&& my_struct->each_cmd[variables->i].files[c_of_s].number_of_I)
-		{
-			my_struct->each_cmd[variables->i].files[c_of_s].number_of_O = 0;
-			my_struct->each_cmd[variables->i].files[c_of_s].number_of_I = 0;
-			my_struct->each_cmd[variables->i].files[c_of_s].ERROR_SYNTACSO = 1;
-			return 0;
-		}
+			break;
 		variables->j++;
 	}
 	var = variables->j;
@@ -361,18 +396,25 @@ int	rediraction_calculate_input(t_all *my_struct, t_var *variables, int var, int
 			|| my_struct->splite_pipe[variables->i][variables->j] == 3
 			|| my_struct->splite_pipe[variables->i][variables->j] == 5))
 	{
-		if(my_struct->splite_pipe[variables->i][variables->j] == 2)
-				my_struct->each_cmd[variables->i].files[c_of_s].number_of_O++;
 		if(my_struct->splite_pipe[variables->i][variables->j] == 5)
+		{
+			while (my_struct->splite_pipe[variables->i][variables->j] == 5)
+			{
 				my_struct->each_cmd[variables->i].files[c_of_s].number_of_I++;
+				variables->j++;
+			}
+		}
+		if(my_struct->splite_pipe[variables->i][variables->j] == 2)
+		{
+			while (my_struct->splite_pipe[variables->i][variables->j] == 2)
+			{
+				my_struct->each_cmd[variables->i].files[c_of_s].number_of_O++;
+				variables->j++;
+			}
+		}
 		if(my_struct->each_cmd[variables->i].files[c_of_s].number_of_O \
 		&& my_struct->each_cmd[variables->i].files[c_of_s].number_of_I)
-		{
-			my_struct->each_cmd[variables->i].files[c_of_s].number_of_O = 0;
-			my_struct->each_cmd[variables->i].files[c_of_s].number_of_I = 0;
-			my_struct->each_cmd[variables->i].files[c_of_s].ERROR_SYNTACSI = 1;
-			return 0;
-		}
+			break;
 		variables->j++;
 	}
 	var = variables->j;
@@ -467,8 +509,8 @@ int	rederaction_parccen(t_all *my_struct, t_var *variables)
 		while (my_struct->splite_pipe[variables->i][variables->j])
 		{
 			c_of_s = any_commde_parceen(my_struct, variables, var, c_of_s);
-			if(c_of_s ==  -1)
-				return 258;
+			if(c_of_s == -1)
+				return -1;
 			variables->j++;
 		}
 		my_struct->each_cmd[variables->i].cmd = ft_split(my_struct->the_commande,
@@ -481,6 +523,14 @@ int	rederaction_parccen(t_all *my_struct, t_var *variables)
 				my_struct->each_cmd[variables->i].cmd[var] = ft_strdup("");
 			var++;
 		}
+		// if(my_struct->each_cmd[c_of_s].cmd && !*my_struct->each_cmd[c_of_s].cmd && my_struct->number_of_pipes > 1)
+		// {
+		// 	if(my_struct->number_of_pipes > 2)
+		// 		ft_putstr_fd("syntax error near unexpected token `||'\n", 2);
+		// 	else
+		// 		ft_putstr_fd("syntax error : only pipe\n", 2);
+		// 	return(-1);
+		// }
 		free(my_struct->splite_pipe[variables->i]);
 		free(my_struct->the_commande);
 		my_struct->the_commande = 0;
@@ -507,28 +557,18 @@ int	fix_arg(t_all *my_struct)
 		return 2;
 	free(my_struct->fix_cmd);
 	my_struct->splite_pipe = ft_split(my_struct->the_commande, 4);
-	variables.i = 0;
-	variables.j = 0;
-	while(my_struct->splite_pipe[variables.i])
-	{
-		printf("[%d]\n",*my_struct->splite_pipe[variables.i]);
-		if(*my_struct->splite_pipe[variables.i])
-			variables.j++;
-		variables.i++;
-	}
-	printf("[%d][%d]\n", variables.j, my_struct->number_of_pipes);
-	if(variables.j != my_struct->number_of_pipes)
-	{
-		printf("minishell : syntax error\n");
-		return 258;
-	}
+	// int i = 0;
+	// while(my_struct->splite_pipe[i])
+	// {
+	// 	printf("[%s]\n", my_struct->splite_pipe[i]);
+	// 	i++;
+	// }
 	free(my_struct->the_commande);
 	my_struct->the_commande = 0;
 	variables.i = 0;
 	my_struct->each_cmd = ft_calloc(sizeof(t_each_command),\
 		my_struct->number_of_pipes + 1);
-	variables.i = rederaction_parccen(my_struct, &variables);
-	if(variables.i == 258)
-		return 258;
+	if(rederaction_parccen(my_struct, &variables))
+		return -1;
 	return 0;
 }

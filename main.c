@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:07:52 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/04/24 21:41:03 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/04/25 18:55:23 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,13 @@ int cd_commade(t_all *my_struct)
 		}
     }
 	if(ft_strlen(my_struct->each_cmd[0].cmd[0]) == 2 && !my_struct->each_cmd[0].cmd[1])
-        chdir(my_getenv(my_struct->list,"HOME"));
+	{
+        if(chdir(my_getenv(my_struct->list,"HOME")) == -1)
+		{
+			printf("minishell: cd: HOME not set\n");
+			return 1;
+		}
+	}
     else
         chdir(my_struct->each_cmd[0].cmd[1]);
     return (0);

@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:07:52 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/04/24 21:41:03 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/04/25 13:11:12 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ int builtins(t_all *my_struct, int c_of_s)
 	}
 	else if (my_struct->each_cmd[0].cmd[0] && !ft_strncmp(my_struct->each_cmd[c_of_s].cmd[0], "exit", ft_strlen("exit")))
 	{
-		// printf("fffff\n");
 		exit(ft_atoi(my_struct->each_cmd[c_of_s].cmd[1]));
 	}
 	return (0);
@@ -190,6 +189,11 @@ int	somting_in_readline(t_all *my_struct)
 			if(my_struct->each_cmd[c_of_s].files)
 				check_rediractions(my_struct, c_of_s);
 			j = builtins(my_struct, c_of_s);
+			if (my_struct->each_cmd[0].cmd[0] && !ft_strncmp(my_struct->each_cmd[c_of_s].cmd[0], "echo", ft_strlen("echo")+1))
+			{
+				echo_command(my_struct,c_of_s);
+				exit(0);
+			}
 			if(j == 1)
 				exit(0);
 			if(j == -1)

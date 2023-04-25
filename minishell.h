@@ -6,7 +6,7 @@
 /*   By: hdagdagu <hdagdagu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 14:20:41 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/04/24 16:56:25 by hdagdagu         ###   ########.fr       */
+/*   Updated: 2023/04/25 14:32:37 by hdagdagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,4 +98,5 @@ int	mini_checker_export(t_list *list,char *cmd);
 int check_varible_if_have(t_list *list,char *cmd);
 void	print_export(t_list *list);
 int builtins(t_all *my_struct, int c_of_s);
+void    pwd_command(void);
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hdagdagu <hdagdagu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:07:52 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/04/25 13:11:12 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/04/25 17:26:57 by hdagdagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,16 +36,25 @@ int cd_commade(t_all *my_struct)
 	|| my_struct->each_cmd[0].cmd[1][1] == '/')))
     {
 		if(my_struct->each_cmd[0].cmd[1][0] == '~')
+		{
+
         	chdir(my_getenv(my_struct->list,"HOME"));
+
+		}
 		if(my_struct->each_cmd[0].cmd[1] && my_struct->each_cmd[0].cmd[1][1] == '/')
 		{
             chdir(my_struct->each_cmd[0].cmd[1]);
 		}
     }
 	if(ft_strlen(my_struct->each_cmd[0].cmd[0]) == 2 && !my_struct->each_cmd[0].cmd[1])
-        chdir(my_getenv(my_struct->list,"HOME"));
+	{
+		if(chdir(my_getenv(my_struct->list,"HOME")) == -1)
+			printf("minishell: cd: HOME not set\n");
+	}
     else
+	{
         chdir(my_struct->each_cmd[0].cmd[1]);
+	}
     return (0);
 }
 
@@ -74,6 +83,11 @@ int builtins(t_all *my_struct, int c_of_s)
 	else if (my_struct->each_cmd[0].cmd[0] && !ft_strncmp(my_struct->each_cmd[c_of_s].cmd[0], "unset", ft_strlen("unset")+1))
 	{
 		unset_command(my_struct,c_of_s);
+		return (1);
+	}
+	else if (my_struct->each_cmd[0].cmd[0] && !ft_strncmp(my_struct->each_cmd[c_of_s].cmd[0], "pwd", ft_strlen("pwd")+1))
+	{
+		pwd_command();
 		return (1);
 	}
 	else if (my_struct->each_cmd[0].cmd[0] && !ft_strncmp(my_struct->each_cmd[c_of_s].cmd[0], "exit", ft_strlen("exit")))

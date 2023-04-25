@@ -6,13 +6,13 @@
 #    By: hdagdagu <hdagdagu@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/03 12:19:16 by nouakhro          #+#    #+#              #
-#    Updated: 2023/04/24 15:21:05 by hdagdagu         ###   ########.fr        #
+#    Updated: 2023/04/25 17:29:06 by hdagdagu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
 CCFLAGS = -Wall -Werror -Wextra 
-#-fsanitize=address -g
+# -fsanitize=address -g
 
 SRC = 	main.c\
 		utils.c\
@@ -27,6 +27,7 @@ SRC = 	main.c\
 		utils_export_command_1.c\
 		utils_export_command_2.c\
 		utils_export_command_3.c\
+		pwd_command.c\
 
 OBJE = $(SRC:.c=.o)
 

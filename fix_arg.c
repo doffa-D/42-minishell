@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 12:31:35 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/04/25 13:27:14 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/04/25 17:16:47 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -300,7 +300,7 @@ int 	inistialisation_input(t_all *my_struct, t_var *variables, int c_of_s,
 int		inistialisation_output(t_all *my_struct, t_var *variables, int c_of_s,
 		int var)
 {
-	if(my_struct->each_cmd[variables->i].files[c_of_s].ERROR_SYNTACSO)
+	if(my_struct->each_cmd[variables->i].files[c_of_s].ERROR_SYNTACSI)
 	{
 		printf("minishell : syntax error\n");
 		return -1;
@@ -467,8 +467,8 @@ int	rederaction_parccen(t_all *my_struct, t_var *variables)
 		while (my_struct->splite_pipe[variables->i][variables->j])
 		{
 			c_of_s = any_commde_parceen(my_struct, variables, var, c_of_s);
-			if(c_of_s == -1)
-				return -1;
+			if(c_of_s ==  -1)
+				return 258;
 			variables->j++;
 		}
 		my_struct->each_cmd[variables->i].cmd = ft_split(my_struct->the_commande,
@@ -481,14 +481,6 @@ int	rederaction_parccen(t_all *my_struct, t_var *variables)
 				my_struct->each_cmd[variables->i].cmd[var] = ft_strdup("");
 			var++;
 		}
-		// if(my_struct->each_cmd[c_of_s].cmd && !*my_struct->each_cmd[c_of_s].cmd && my_struct->number_of_pipes > 1)
-		// {
-		// 	if(my_struct->number_of_pipes > 2)
-		// 		ft_putstr_fd("syntax error near unexpected token `||'\n", 2);
-		// 	else
-		// 		ft_putstr_fd("syntax error : only pipe\n", 2);
-		// 	return(-1);
-		// }
 		free(my_struct->splite_pipe[variables->i]);
 		free(my_struct->the_commande);
 		my_struct->the_commande = 0;
@@ -515,18 +507,28 @@ int	fix_arg(t_all *my_struct)
 		return 2;
 	free(my_struct->fix_cmd);
 	my_struct->splite_pipe = ft_split(my_struct->the_commande, 4);
-	// int i = 0;
-	// while(my_struct->splite_pipe[i])
-	// {
-	// 	printf("[%s]\n", my_struct->splite_pipe[i]);
-	// 	i++;
-	// }
+	variables.i = 0;
+	variables.j = 0;
+	while(my_struct->splite_pipe[variables.i])
+	{
+		printf("[%d]\n",*my_struct->splite_pipe[variables.i]);
+		if(*my_struct->splite_pipe[variables.i])
+			variables.j++;
+		variables.i++;
+	}
+	printf("[%d][%d]\n", variables.j, my_struct->number_of_pipes);
+	if(variables.j != my_struct->number_of_pipes)
+	{
+		printf("minishell : syntax error\n");
+		return 258;
+	}
 	free(my_struct->the_commande);
 	my_struct->the_commande = 0;
 	variables.i = 0;
 	my_struct->each_cmd = ft_calloc(sizeof(t_each_command),\
 		my_struct->number_of_pipes + 1);
-	if(rederaction_parccen(my_struct, &variables))
-		return -1;
+	variables.i = rederaction_parccen(my_struct, &variables);
+	if(variables.i == 258)
+		return 258;
 	return 0;
 }

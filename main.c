@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:07:52 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/04/25 18:55:23 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/04/25 21:04:05 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,11 @@ int cd_commade(t_all *my_struct)
 	|| my_struct->each_cmd[0].cmd[1][1] == '/')))
     {
 		if(my_struct->each_cmd[0].cmd[1][0] == '~')
+		{
+
         	chdir(my_getenv(my_struct->list,"HOME"));
+
+		}
 		if(my_struct->each_cmd[0].cmd[1] && my_struct->each_cmd[0].cmd[1][1] == '/')
 		{
             chdir(my_struct->each_cmd[0].cmd[1]);
@@ -51,20 +55,23 @@ int cd_commade(t_all *my_struct)
 		}
 	}
     else
+	{
         chdir(my_struct->each_cmd[0].cmd[1]);
+	}
     return (0);
 }
 
 int builtins(t_all *my_struct, int c_of_s)
 {
-	if(my_struct->each_cmd[0].cmd[0] && ft_strlen(my_struct->each_cmd[0].cmd[0]) \
-	&& !ft_strncmp(my_struct->each_cmd[0].cmd[0], "cd", ft_strlen(my_struct->each_cmd[0].cmd[0])))
+	if(my_struct->each_cmd[c_of_s].cmd[0] && ft_strlen(my_struct->each_cmd[c_of_s].cmd[0]) \
+	 &&!ft_strncmp(my_struct->each_cmd[c_of_s].cmd[0], "cd", ft_strlen(my_struct->each_cmd[c_of_s].cmd[0])))
 	{
 		if(cd_commade(my_struct))
 			return (-1);
 		return (1);
 	}
-	if (my_struct->each_cmd[0].cmd[0] && !ft_strncmp(my_struct->each_cmd[c_of_s].cmd[0], "export", ft_strlen("export")+1))
+	
+	if (my_struct->each_cmd[c_of_s].cmd[0] && !ft_strncmp(my_struct->each_cmd[c_of_s].cmd[0], "export", ft_strlen("export")+1))
 	{
 		my_struct->check = 0;
 		export_command(my_struct,c_of_s);
@@ -72,19 +79,23 @@ int builtins(t_all *my_struct, int c_of_s)
 			return (-1);
 		return (1);
 	}
-	else if (my_struct->each_cmd[0].cmd[0] && !ft_strncmp(my_struct->each_cmd[c_of_s].cmd[0], "env", ft_strlen("env")+1))
+	else if (my_struct->each_cmd[c_of_s].cmd[0] && !ft_strncmp(my_struct->each_cmd[c_of_s].cmd[0], "env", ft_strlen("env")+1))
 	{
 		env_command(my_struct->list);
 		return (1);
 	}
-	else if (my_struct->each_cmd[0].cmd[0] && !ft_strncmp(my_struct->each_cmd[c_of_s].cmd[0], "unset", ft_strlen("unset")+1))
+	else if (my_struct->each_cmd[c_of_s].cmd[0] && !ft_strncmp(my_struct->each_cmd[c_of_s].cmd[0], "unset", ft_strlen("unset")+1))
 	{
 		unset_command(my_struct,c_of_s);
 		return (1);
 	}
-	else if (my_struct->each_cmd[0].cmd[0] && !ft_strncmp(my_struct->each_cmd[c_of_s].cmd[0], "exit", ft_strlen("exit")))
+	else if (my_struct->each_cmd[c_of_s].cmd[0] && !ft_strncmp(my_struct->each_cmd[c_of_s].cmd[0], "pwd", ft_strlen("pwd")+1))
 	{
-		// printf("fffff\n");
+		pwd_command();
+		return (1);
+	}
+	else if (my_struct->each_cmd[c_of_s].cmd[0] && !ft_strncmp(my_struct->each_cmd[c_of_s].cmd[0], "exit", ft_strlen("exit")))
+	{
 		exit(ft_atoi(my_struct->each_cmd[c_of_s].cmd[1]));
 	}
 	return (0);
@@ -155,8 +166,10 @@ int	somting_in_readline(t_all *my_struct)
 	add_history(my_struct->cmd);
 	my_struct->the_commande = 0;
 	my_struct->tmp_cmd = 0;
-	i = 0;
-	if(fix_arg(my_struct) == 2)
+	i = fix_arg(my_struct);
+	if(i == 258)
+		return 258;
+	if(i == 2)
 		return 2;
 	c_of_s = 0;
 	if(my_struct->number_of_pipes == 1)
@@ -164,7 +177,6 @@ int	somting_in_readline(t_all *my_struct)
 		c_of_s = builtins(my_struct, c_of_s);
 		if(c_of_s == 1)
 		{
-
 			return 0;
 		}
 		if(c_of_s == -1)
@@ -173,6 +185,11 @@ int	somting_in_readline(t_all *my_struct)
 		}
 	}
 	my_struct->my_path = ft_split(my_getenv(my_struct->list, "PATH"), ':');
+	if(!my_struct->my_path[0])
+	{
+		printf("minishell: No such file or directory\n");
+		return 127;
+	}
 	int pipe_n[my_struct->number_of_pipes][2];
 	while(my_struct->number_of_pipes > 0)
 	{
@@ -195,6 +212,11 @@ int	somting_in_readline(t_all *my_struct)
 			}
 			if(my_struct->each_cmd[c_of_s].files)
 				check_rediractions(my_struct, c_of_s);
+			if (my_struct->each_cmd[0].cmd[0] && !ft_strncmp(my_struct->each_cmd[c_of_s].cmd[0], "echo", ft_strlen("echo")+1))
+			{
+				echo_command(my_struct,c_of_s);
+				exit(0);
+			}
 			j = builtins(my_struct, c_of_s);
 			if(j == 1)
 				exit(0);

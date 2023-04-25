@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_command.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hdagdagu <hdagdagu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 15:02:29 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/04/24 18:59:03 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/04/25 14:01:11 by hdagdagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	check_export_error(char *cmd,t_all *my_struct)
 	{
 		printf("minishell: not a valid identifier\n");
 		my_struct->check = 1;
-		return (0);
+		return (2);
 	}
 	return (1);
 }
@@ -67,6 +67,7 @@ void	export_command(t_all *my_struct, int c_of_s)
 	while (my_struct->each_cmd[c_of_s].cmd[i])
 	{
 		print = handle_export(my_struct->each_cmd[c_of_s].cmd[i], print, my_struct->list,my_struct);
+		// printf("(%d)\n",print);
 		if (print == 0)
 			break ;
 		i++;

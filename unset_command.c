@@ -6,7 +6,7 @@
 /*   By: hdagdagu <hdagdagu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 15:05:18 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/04/20 20:09:48 by hdagdagu         ###   ########.fr       */
+/*   Updated: 2023/04/25 17:27:20 by hdagdagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,10 @@ void	delete_node(t_list *list, t_list *head, int x)
 		while (back)
 		{
 			if (back->next->content == list->content)
+			{
+				// printf("%s\n",list->content);
 				break ;
+			}
 			back = back->next;
 		}
 		free(list->content);
@@ -45,8 +48,7 @@ void	unset_checker(t_list *list, char *cmd, t_list *head)
 				&& ((char *)list->content)[i] == cmd[i])
 			{
 				i++;
-				if (((char *)list->content)[i] == '='
-					|| ((char *)list->content)[i] == 0)
+				if (((char *)list->content)[i] == '=' || ((char *)list->content)[i] == 0)
 					x = 1;
 			}
 			else
@@ -59,6 +61,10 @@ void	unset_checker(t_list *list, char *cmd, t_list *head)
 	delete_node(list, head, x);
 }
 
+// int another_check(char )
+// {
+
+// }
 void	unset_command(t_all *my_struct, int c_of_s)
 {
 	t_list	*ptr;
@@ -66,10 +72,11 @@ void	unset_command(t_all *my_struct, int c_of_s)
 
 	ptr = my_struct->list;
 	i = 0;
+	// printf("(((((((%c)))))))\n",my_struct->each_cmd[c_of_s].cmd[i][ft_strlen(my_struct->each_cmd[c_of_s].cmd[i])-1]);
+	// || my_struct->each_cmd[c_of_s].cmd[i][ft_strlen(my_struct->each_cmd[c_of_s].cmd[i])-1] == '$'
 	while (my_struct->each_cmd[c_of_s].cmd[i])
 	{
-		if (mini_check_export(my_struct->each_cmd[c_of_s].cmd[i], 1) == 1
-			|| ft_strchr(my_struct->each_cmd[c_of_s].cmd[i], '='))
+		if (mini_check_export(my_struct->each_cmd[c_of_s].cmd[i], 1) == 1 || ft_strchr(my_struct->each_cmd[c_of_s].cmd[i], '='))
 		{
 			printf("export: `%s': not a valid identifier\n",
 				my_struct->each_cmd[c_of_s].cmd[i]);
@@ -77,10 +84,12 @@ void	unset_command(t_all *my_struct, int c_of_s)
 		}
 		else
 		{
-			unset_checker(my_struct->list, my_struct->each_cmd[c_of_s].cmd[i],
-				ptr);
+			unset_checker(my_struct->list, my_struct->each_cmd[c_of_s].cmd[i], ptr);
 			i++;
 		}
 	}
 	my_struct->list = ptr;
+
+	i = 0;
+
 }

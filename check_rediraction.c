@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 14:18:08 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/04/24 22:07:11 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/04/25 19:02:05 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ void	check_rediractions(t_all *my_struct, int c_of_s)
 			dup2(fd, STDIN_FILENO);
 			close(fd);
 		}
+		// printf("[%d]",my_struct->each_cmd[c_of_s].files[j].APPEND);
 		if (my_struct->each_cmd[c_of_s].files[j].APPEND == 1 \
 		&& my_struct->each_cmd[c_of_s].cmd)
 		{

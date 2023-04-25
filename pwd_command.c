@@ -1,20 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   commande.c                                         :+:      :+:    :+:   */
+/*   pwd_command.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hdagdagu <hdagdagu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/09 14:19:24 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/04/25 20:46:04 by nouakhro         ###   ########.fr       */
+/*   Created: 2023/04/25 14:19:18 by hdagdagu          #+#    #+#             */
+/*   Updated: 2023/04/25 18:09:35 by hdagdagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	exicut_commande(t_all *my_struct, int i, int c_of_s, int *pipe_n)
+void    pwd_command(void)
 {
-	(void)pipe_n;
-	// printf("ffff\n");
-	execve(my_struct->my_path[i], my_struct->each_cmd[c_of_s].cmd, NULL);
+	// my_getenv(my_struct->list,"PWD");
+	char wd[255];
+
+	wd[255-1] = '\0';
+	if (getcwd(wd, 255 - 1) != NULL)
+		printf("%s\n", wd);
 }

@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 12:31:35 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/04/26 18:53:35 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/04/26 20:39:58 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,6 @@ char *my_getenv(t_list *head , char *var)
 				j++;
 			}
 		}
-		// i++;
 		head = head->next;
 	}
 	return(expande_variable);

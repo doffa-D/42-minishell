@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:07:52 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/04/26 20:17:00 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/04/26 21:45:28 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int cd_commade(t_all *my_struct)
 {
 	if(my_struct->each_cmd[0].cmd[1] && access(my_struct->each_cmd[0].cmd[1], F_OK) == -1)
 	{
+		dup2(2, 1);
 		ft_putstr_fd("minishell: No such file or directory\n", 2);
 		return 1;
 	}
@@ -53,7 +54,8 @@ int cd_commade(t_all *my_struct)
 	{
         if(chdir(my_getenv(my_struct->list,"HOME")) == -1)
 		{
-			printf("minishell: cd: HOME not set\n");
+			dup2(2, 1);
+			printf("minishell: %s: HOME not set\n", my_struct->each_cmd[0].cmd[0]);
 			return 1;
 		}
 	}
@@ -66,6 +68,7 @@ int cd_commade(t_all *my_struct)
 
 int builtins(t_all *my_struct, int c_of_s)
 {
+	int i = 0;
 	if(my_struct->each_cmd[c_of_s].cmd[0] && ft_strlen(my_struct->each_cmd[c_of_s].cmd[0]) \
 	 &&!ft_strncmp(my_struct->each_cmd[c_of_s].cmd[0], "cd", ft_strlen(my_struct->each_cmd[c_of_s].cmd[0])))
 	{
@@ -93,7 +96,27 @@ int builtins(t_all *my_struct, int c_of_s)
 	}
 	else if (my_struct->each_cmd[c_of_s].cmd[0] && !ft_strncmp(my_struct->each_cmd[c_of_s].cmd[0], "exit", ft_strlen("exit")))
 	{
-		exit(ft_atoi(my_struct->each_cmd[c_of_s].cmd[1]));
+		
+		if(my_struct->each_cmd[c_of_s].cmd[1])
+		{
+			while (my_struct->each_cmd[c_of_s].cmd[1][i])
+			{
+				if(ft_isalpha(my_struct->each_cmd[c_of_s].cmd[1][i]))
+				{
+					dup2(2, 1);
+					printf("minishell: exit: %s: numeric argument required\n", my_struct->each_cmd[c_of_s].cmd[1]);
+					exit(255);
+				}
+				i++;
+			}
+			exit(ft_atoi(my_struct->each_cmd[c_of_s].cmd[1]));
+		}
+		if(my_struct->each_cmd[c_of_s].cmd[2])
+		{
+			ft_putstr_fd("minishell: exit: too many arguments\n", 2);
+			exit(1);
+		}
+		exit(my_struct->exit_status);
 	}
 	return (0);
 }
@@ -107,7 +130,9 @@ int	somting_in_readline(t_all *my_struct)
 	i = 0;
 	j = 0;
 	    my_struct->tmp_cmd = 0;
-	my_struct->tmp_cmd = ft_strdup(my_struct->cmd);
+	my_struct->tmp_cmd = ft_strtrim(my_struct->cmd, " ");
+	if(!*my_struct->tmp_cmd)
+		return my_struct->exit_status;
 	my_struct->the_commande = 0;
 	while (my_struct->tmp_cmd[i])
 	{
@@ -175,9 +200,10 @@ int	somting_in_readline(t_all *my_struct)
 			return 1;
 	}
 	my_struct->my_path = ft_split(my_getenv(my_struct->list, "PATH"), ':');
-	if(!my_struct->my_path[0])
+	if(*my_struct->my_path[0] == 7)
 	{
-		printf("minishell: No such file or directory\n");
+		dup2(2, 1);
+		printf("minishell: %s: No such file or directory\n", my_struct->each_cmd[c_of_s].cmd[0]);
 		return 127;
 	}
 	int pipe_n[my_struct->number_of_pipes][2];
@@ -247,19 +273,22 @@ int	somting_in_readline(t_all *my_struct)
 				if (my_struct->each_cmd[c_of_s].cmd[0]
 					&& (!ft_strchr(my_struct->each_cmd[c_of_s].cmd[0], '/')))
 				{
-					ft_putstr_fd("minishell: command not found\n", 2);
+					dup2(2, 1);
+					printf("minishell: %s: command not found\n", my_struct->each_cmd[c_of_s].cmd[0]);
 					exit(127);
 				}
 				else if (my_struct->each_cmd[c_of_s].cmd[0] && ft_strchr(my_struct->each_cmd[c_of_s].cmd[0], '/'))
 				{
 					if (!chdir(my_struct->each_cmd[c_of_s].cmd[0]))
 					{
-						ft_putstr_fd("minishell: is a directory\n", 2);
+						dup2(2, 1);
+						printf("minishell: %s: Is a directory\n", my_struct->each_cmd[c_of_s].cmd[0]);
 						exit(126);
 					}
 					else
 					{
-						ft_putstr_fd("minishell: No such file or directory\n", 2);
+						dup2(2, 1);
+						printf("minishell: %s: No such file or directory\n", my_struct->each_cmd[c_of_s].cmd[0]);
 						exit(127);
 					}
 				}

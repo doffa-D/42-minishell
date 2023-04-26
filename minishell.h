@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hdagdagu <hdagdagu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 14:20:41 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/04/25 14:32:37 by hdagdagu         ###   ########.fr       */
+/*   Updated: 2023/04/26 00:49:41 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,4 +99,8 @@ int check_varible_if_have(t_list *list,char *cmd);
 void	print_export(t_list *list);
 int builtins(t_all *my_struct, int c_of_s);
 void    pwd_command(void);
+void pipe_and_rederaction(int j, int c_of_s, t_all *my_struct, int **pipe_n);
+void parccen(t_all *my_struct);
+int cd_commade(t_all *my_struct);
+int builtins(t_all *my_struct, int c_of_s);
 #endif

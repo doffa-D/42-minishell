@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 12:31:35 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/04/25 19:47:48 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/04/26 00:35:38 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -477,14 +477,14 @@ int	rederaction_parccen(t_all *my_struct, t_var *variables)
 				my_struct->each_cmd[variables->i].cmd[var] = ft_strdup("");
 			var++;
 		}
-		if(my_struct->each_cmd[c_of_s].cmd && !*my_struct->each_cmd[c_of_s].cmd && my_struct->number_of_pipes > 1)
-		{
-			if(my_struct->number_of_pipes > 2)
-				ft_putstr_fd("syntax error near unexpected token `||'\n", 2);
-			else
-				ft_putstr_fd("syntax error : only pipe\n", 2);
-			return(-1);
-		}
+		// if(my_struct->each_cmd[c_of_s].cmd && !*my_struct->each_cmd[c_of_s].cmd && my_struct->number_of_pipes > 1)
+		// {
+		// 	if(my_struct->number_of_pipes > 2)
+		// 		ft_putstr_fd("syntax error near unexpected token `||'\n", 2);
+		// 	else
+		// 		ft_putstr_fd("syntax error : only pipe\n", 2);
+		// 	return(-1);
+		// }
 		free(my_struct->splite_pipe[variables->i]);
 		free(my_struct->the_commande);
 		my_struct->the_commande = 0;

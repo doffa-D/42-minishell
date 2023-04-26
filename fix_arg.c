@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 12:31:35 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/04/25 21:04:12 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/04/26 00:00:47 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -234,6 +234,12 @@ int	parccen_part(t_all *my_struct, t_var *variables, char *splite)
 		{
 			quote_and_dqout(my_struct, variables);
 			pipe_and_rederaction_parceen(my_struct, variables);
+			if((my_struct->fix_cmd[variables->i][variables->j] == 4 && !my_struct->fix_cmd[variables->i + 1]) || \
+			(my_struct->fix_cmd[variables->i][variables->j] == 4 && variables->i == 0))
+			{
+				ft_putstr_fd("minishell: syntax error\n", 2);
+				return 258;
+			}
 			if (my_struct->fix_cmd[variables->i][variables->j] == '$'
 				&& my_struct->fix_cmd[variables->i][variables->j + 1])
 				variables_parceen_utils(my_struct, variables);
@@ -278,25 +284,25 @@ int 	inistialisation_input(t_all *my_struct, t_var *variables, int c_of_s,
 {
 	if (my_struct->each_cmd[variables->i].files[c_of_s].number_of_I > 2)
 	{
-		printf("minishell: syntax error\n");
+		ft_putstr_fd("minishell: syntax error\n", 2);
 		return(-1);
 	}
 	if(my_struct->each_cmd[variables->i].files[c_of_s].number_of_O \
 	&& my_struct->each_cmd[variables->i].files[c_of_s].number_of_I)
 	{
-		printf("minishell: syntax error\n");
+		ft_putstr_fd("minishell: syntax error\n", 2);
 		return(-1);
 	}
 	my_struct->each_cmd[variables->i].files[c_of_s].files = \
     ft_substr(my_struct->splite_pipe[variables->i],variables->j, var - variables->j);
+	if(!*my_struct->each_cmd[variables->i].files[c_of_s].files)
+	{
+		ft_putstr_fd("minishell: syntax error\n", 2);
+		return(-1);
+	}
 	if(ft_strchr(my_struct->each_cmd[variables->i].files[c_of_s].files, 6) && \
 	ft_strlen(my_struct->each_cmd[variables->i].files[c_of_s].files) == 1)
 		my_struct->each_cmd[variables->i].files[c_of_s].files = ft_strdup("");
-	if(!my_struct->each_cmd[variables->i].files[c_of_s].files)
-	{
-		printf("minishell: syntax error\n");
-		return(-1);
-	}
 	if (my_struct->each_cmd[variables->i].files[c_of_s].number_of_I == 1)
 		my_struct->each_cmd[variables->i].files[c_of_s].INPUT = 1;
 	else if (my_struct->each_cmd[variables->i].files[c_of_s].number_of_I == 2)
@@ -309,25 +315,25 @@ int		inistialisation_output(t_all *my_struct, t_var *variables, int c_of_s,
 {
 	if (my_struct->each_cmd[variables->i].files[c_of_s].number_of_O > 2)
 	{
-		printf("minishell: syntax error\n");
+		ft_putstr_fd("minishell: syntax error\n", 2);
 		return(-1);
 	}
 	if(my_struct->each_cmd[variables->i].files[c_of_s].number_of_O \
 	&& my_struct->each_cmd[variables->i].files[c_of_s].number_of_I)
 	{
-		printf("minishell: syntax error\n");
+		ft_putstr_fd("minishell: syntax error\n", 2);
 		return(-1);
 	}
 	my_struct->each_cmd[variables->i].files[c_of_s].files = \
     ft_substr(my_struct->splite_pipe[variables->i],variables->j, var - variables->j);
+	if(!*my_struct->each_cmd[variables->i].files[c_of_s].files)
+	{
+		ft_putstr_fd("minishell: syntax error\n", 2);
+		return(-1);
+	}
 	if(ft_strchr(my_struct->each_cmd[variables->i].files[c_of_s].files, 6) && \
 	ft_strlen(my_struct->each_cmd[variables->i].files[c_of_s].files) == 1)
 		my_struct->each_cmd[variables->i].files[c_of_s].files = ft_strdup("");
-	if(!my_struct->each_cmd[variables->i].files[c_of_s].files)
-	{
-		printf("minishell: syntax error\n");
-		return(-1);
-	}
 	else if (my_struct->each_cmd[variables->i].files[c_of_s].number_of_O == 2)
 		my_struct->each_cmd[variables->i].files[c_of_s].APPEND = 1;
 	else if (my_struct->each_cmd[variables->i].files[c_of_s].number_of_O == 1)
@@ -508,11 +514,6 @@ int	rederaction_parccen(t_all *my_struct, t_var *variables)
 				my_struct->each_cmd[variables->i].cmd[var] = ft_strdup("");
 			var++;
 		}
-		if(!*my_struct->each_cmd[variables->i].cmd && my_struct->number_of_pipes > 1)
-		{
-			printf("minishell: syntax error\n");
-			return -1;
-		}
 		free(my_struct->splite_pipe[variables->i]);
 		free(my_struct->the_commande);
 		my_struct->the_commande = 0;
@@ -535,16 +536,13 @@ int	fix_arg(t_all *my_struct)
 	my_struct->number_of_pipes = 1;
 	my_struct->the_commande = 0;
 	my_struct->the_commande = ft_calloc(1, 1);
-	if(parccen_part(my_struct, &variables, splite) == -1)
+	variables.i = parccen_part(my_struct, &variables, splite);
+	if(variables.i == -1)
 		return 2;
+	if(variables.i == 258)
+		return 258;
 	free(my_struct->fix_cmd);
 	my_struct->splite_pipe = ft_split(my_struct->the_commande, 4);
-	// int i = 0;
-	// while(my_struct->splite_pipe[i])
-	// {
-	// 	printf("[%s]\n", my_struct->splite_pipe[i]);
-	// 	i++;
-	// }
 	free(my_struct->the_commande);
 	my_struct->the_commande = 0;
 	variables.i = 0;
@@ -552,5 +550,6 @@ int	fix_arg(t_all *my_struct)
 		my_struct->number_of_pipes + 1);
 	if(rederaction_parccen(my_struct, &variables))
 		return 258;
+	
 	return 0;
 }

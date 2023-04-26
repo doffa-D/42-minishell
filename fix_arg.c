@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 12:31:35 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/04/26 00:00:47 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/04/26 18:53:35 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,9 @@ char *my_getenv(t_list *head , char *var)
 	int j = 0;
 	(void)var;
 	int i = 0;
-	char *expande_variable = ft_calloc(1, 1);
+	char *expande_variable = ft_calloc(1, 2);
+	expande_variable[0] = 7;
+	expande_variable[1] = 0;
 	while (head)
 	{
 		if(*(char *)head->content == var[0])
@@ -130,12 +132,20 @@ char *my_getenv(t_list *head , char *var)
 				if(((char *)head->content)[j] == '=' && !var[j])
 				{
 					expande_variable = ft_substr(head->content, j + 1, ft_strlen(head->content + (j + 1)));
+					i = 0;
+					while (expande_variable[i])
+					{
+						if(expande_variable[i] == ' ')
+							expande_variable[i] = 3;
+						i++;
+					}
+					
 					return(expande_variable);
 				}
 				j++;
 			}
 		}
-		i++;
+		// i++;
 		head = head->next;
 	}
 	return(expande_variable);
@@ -166,15 +176,18 @@ void	variables_parceen(t_all *my_struct, t_var *variables)
 			variable);
 			variables->j = var - 1;
 		}
-		variable = ft_substr(my_struct->fix_cmd[variables->i], variables->j + 1,
-				(var - (variables->j + 1)));
-		variable = my_getenv(my_struct->list,variable);
-		if (variable)
+		else if(ft_isalpha(my_struct->fix_cmd[variables->i][variables->j + 1]) || my_struct->fix_cmd[variables->i][variables->j + 1] == '_')
 		{
-			my_struct->the_commande = ft_strjoin(my_struct->the_commande, \
-				variable);
+			variable = ft_substr(my_struct->fix_cmd[variables->i], variables->j + 1,
+					(var - (variables->j + 1)));
+			variable = my_getenv(my_struct->list,variable);
+			if (variable)
+			{
+				my_struct->the_commande = ft_strjoin(my_struct->the_commande, \
+					variable);
+			}
+			variables->j = var - 1;
 		}
-		variables->j = var - 1;
 	}
 	if (my_struct->status == IN_COTE)
 	{
@@ -303,6 +316,9 @@ int 	inistialisation_input(t_all *my_struct, t_var *variables, int c_of_s,
 	if(ft_strchr(my_struct->each_cmd[variables->i].files[c_of_s].files, 6) && \
 	ft_strlen(my_struct->each_cmd[variables->i].files[c_of_s].files) == 1)
 		my_struct->each_cmd[variables->i].files[c_of_s].files = ft_strdup("");
+	if(ft_strchr(my_struct->each_cmd[variables->i].files[c_of_s].files, 7) && \
+	ft_strlen(my_struct->each_cmd[variables->i].files[c_of_s].files) == 1)
+		my_struct->each_cmd[variables->i].files[c_of_s].files = ft_strdup("");
 	if (my_struct->each_cmd[variables->i].files[c_of_s].number_of_I == 1)
 		my_struct->each_cmd[variables->i].files[c_of_s].INPUT = 1;
 	else if (my_struct->each_cmd[variables->i].files[c_of_s].number_of_I == 2)
@@ -332,6 +348,9 @@ int		inistialisation_output(t_all *my_struct, t_var *variables, int c_of_s,
 		return(-1);
 	}
 	if(ft_strchr(my_struct->each_cmd[variables->i].files[c_of_s].files, 6) && \
+	ft_strlen(my_struct->each_cmd[variables->i].files[c_of_s].files) == 1)
+		my_struct->each_cmd[variables->i].files[c_of_s].files = ft_strdup("");
+	if(ft_strchr(my_struct->each_cmd[variables->i].files[c_of_s].files, 7) && \
 	ft_strlen(my_struct->each_cmd[variables->i].files[c_of_s].files) == 1)
 		my_struct->each_cmd[variables->i].files[c_of_s].files = ft_strdup("");
 	else if (my_struct->each_cmd[variables->i].files[c_of_s].number_of_O == 2)
@@ -507,11 +526,15 @@ int	rederaction_parccen(t_all *my_struct, t_var *variables)
 		my_struct->each_cmd[variables->i].cmd = ft_split(my_struct->the_commande,
 				3);
 		var = 0;
+		// printf("[%d]\n", *(my_struct->each_cmd[variables->i].cmd[1] + 1));
 		while(my_struct->each_cmd[variables->i].cmd[var])
 		{
 			if(ft_strchr(my_struct->each_cmd[variables->i].cmd[var], 6) && \
 			ft_strlen(my_struct->each_cmd[variables->i].cmd[var]) == 1)
 				my_struct->each_cmd[variables->i].cmd[var] = ft_strdup("");
+			if(ft_strchr(my_struct->each_cmd[variables->i].cmd[var], 7) && \
+			ft_strlen(my_struct->each_cmd[variables->i].cmd[var]) == 1)
+				my_struct->each_cmd[variables->i].cmd[var] = 0;
 			var++;
 		}
 		free(my_struct->splite_pipe[variables->i]);

@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:07:52 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/04/26 20:05:51 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/04/26 20:17:00 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,6 +150,11 @@ int	somting_in_readline(t_all *my_struct)
 	}
 	i = 0;
 	my_struct->fix_cmd = ft_split(my_struct->the_commande, 3);
+	// while(my_struct->fix_cmd[i])
+	// {
+	// 	printf("[%s]\n", my_struct->fix_cmd[i]);
+	// 	i++;
+	// }
 	free(my_struct->the_commande);
 	free(my_struct->tmp_cmd);
 	add_history(my_struct->cmd);
@@ -158,7 +163,6 @@ int	somting_in_readline(t_all *my_struct)
 	i = fix_arg(my_struct);
 	if(i == 258)
 		return 258;
-		
 	if(i == 2)
 		return 2;
 	c_of_s = 0;
@@ -171,6 +175,11 @@ int	somting_in_readline(t_all *my_struct)
 			return 1;
 	}
 	my_struct->my_path = ft_split(my_getenv(my_struct->list, "PATH"), ':');
+	if(!my_struct->my_path[0])
+	{
+		printf("minishell: No such file or directory\n");
+		return 127;
+	}
 	int pipe_n[my_struct->number_of_pipes][2];
 	while(my_struct->number_of_pipes > 0)
 	{
@@ -196,21 +205,23 @@ int	somting_in_readline(t_all *my_struct)
 					close(pipe_n[c_of_s][1]);
 				}
 			}
-			j = builtins(my_struct, c_of_s);
-			if(j == 1)
-				exit(0);
-			if(j == -1)
-				exit(1);
+			// if(my_struct->each_cmd[c_of_s].files && c_of_s)
+			// 	check_rediractions(my_struct, c_of_s);
 			if (my_struct->each_cmd[0].cmd[0] && !ft_strncmp(my_struct->each_cmd[c_of_s].cmd[0], "echo", ft_strlen("echo")+1))
 			{
 				echo_command(my_struct,c_of_s);
 				exit(0);
 			}
-			if (my_struct->each_cmd[c_of_s].cmd[0] && !ft_strncmp(my_struct->each_cmd[c_of_s].cmd[0], "pwd", ft_strlen("pwd")+1))
+			else if (my_struct->each_cmd[c_of_s].cmd[0] && !ft_strncmp(my_struct->each_cmd[c_of_s].cmd[0], "pwd", ft_strlen("pwd")+1))
 			{
 				pwd_command();
 				exit(0);
 			}
+			j = builtins(my_struct, c_of_s);
+			if(j == 1)
+				exit(0);
+			if(j == -1)
+				exit(1);
 			j = 0;
 
 			if (my_struct->each_cmd[c_of_s].cmd[0] && !ft_strchr(my_struct->each_cmd[c_of_s].cmd[0], '/') && !get_the_path(my_struct, c_of_s))
@@ -239,7 +250,7 @@ int	somting_in_readline(t_all *my_struct)
 					ft_putstr_fd("minishell: command not found\n", 2);
 					exit(127);
 				}
-				else if ((my_struct->each_cmd[c_of_s].cmd[0] && ft_strchr(my_struct->each_cmd[c_of_s].cmd[0], '/')))
+				else if (my_struct->each_cmd[c_of_s].cmd[0] && ft_strchr(my_struct->each_cmd[c_of_s].cmd[0], '/'))
 				{
 					if (!chdir(my_struct->each_cmd[c_of_s].cmd[0]))
 					{
@@ -253,7 +264,10 @@ int	somting_in_readline(t_all *my_struct)
 					}
 				}
 			}
-			exicut_commande(my_struct, i, c_of_s, pipe_n[c_of_s]);
+			else
+			{
+				exicut_commande(my_struct, i, c_of_s, pipe_n[c_of_s]);
+			}
 		}
 		waitpid(-1, &my_struct->exit_status, 0);
 		my_struct->exit_status = my_struct->exit_status >> 8;

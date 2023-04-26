@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 14:18:08 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/04/26 20:09:57 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/04/26 21:51:39 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ int	check_rediractions(t_all *my_struct, int c_of_s)
 		{
 			if(!*my_struct->each_cmd[c_of_s].files[j].files)
 			{
-				printf("minishell: Is a directory\n");
+				dup2(2, 1);
+				printf("minishell: %s: No such file or directory\n", my_struct->each_cmd[c_of_s].files[j].files);
 				exit(1);
 			}
 			if (my_struct->each_cmd[c_of_s].files[j].OUTPUT == 1)
@@ -40,7 +41,8 @@ int	check_rediractions(t_all *my_struct, int c_of_s)
 				int fd = open(my_struct->each_cmd[c_of_s].files[j].files, O_CREAT | O_RDWR | O_TRUNC, 0777);
 				if(access(my_struct->each_cmd[c_of_s].files[j].files, X_OK) != 0)
 				{
-					printf("minishell: Permission denied\n");
+					dup2(2, 1);
+					printf("minishell: %s: Permission denied\n", my_struct->each_cmd[c_of_s].files[j].files);
 					exit(1);
 				}
 				dup2(fd, STDOUT_FILENO);
@@ -52,13 +54,15 @@ int	check_rediractions(t_all *my_struct, int c_of_s)
 			{
 				if(access(my_struct->each_cmd[c_of_s].files[j].files, F_OK) != 0)
 				{
-					printf("minishell: No such file or directory\n");
+					dup2(2, 1);
+					printf("minishell: %s: No such file or directory\n", my_struct->each_cmd[c_of_s].files[j].files);
 					exit(1);
 				}
 				int fd = open(my_struct->each_cmd[c_of_s].files[j].files, O_RDWR , 0777);
 				if(access(my_struct->each_cmd[c_of_s].files[j].files, X_OK) != 0)
 				{
-					printf("minishell: Permission denied\n");
+					dup2(2, 1);
+					printf("minishell: %s: Permission denied\n", my_struct->each_cmd[c_of_s].files[j].files);
 					exit(1);
 				}
 				dup2(fd, STDIN_FILENO);
@@ -72,7 +76,8 @@ int	check_rediractions(t_all *my_struct, int c_of_s)
 						O_CREAT | O_RDWR | O_APPEND, 0777);
 				if(access(my_struct->each_cmd[c_of_s].files[j].files, X_OK) != 0)
 				{
-					printf("minishell: Permission denied\n");
+					dup2(2, 1);
+					printf("minishell: %s: Permission denied\n", my_struct->each_cmd[c_of_s].files[j].files);
 					exit(1);
 				}
 				dup2(fd, STDOUT_FILENO);

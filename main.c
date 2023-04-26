@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:07:52 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/04/26 21:45:28 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/04/26 22:52:03 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,40 +28,47 @@
 
 
 
-int cd_commade(t_all *my_struct)
+int cd_commade(t_all *my_struct, int c_of_s)
 {
-	if(my_struct->each_cmd[0].cmd[1] && access(my_struct->each_cmd[0].cmd[1], F_OK) == -1)
+	int pid = 0;
+	if(my_struct->each_cmd[c_of_s].cmd[1] && access(my_struct->each_cmd[c_of_s].cmd[1], F_OK) == -1)
 	{
 		dup2(2, 1);
 		ft_putstr_fd("minishell: No such file or directory\n", 2);
 		return 1;
 	}
-    if((ft_strlen(my_struct->each_cmd[0].cmd[0]) == 2 && my_struct->each_cmd[0].cmd[1] && (my_struct->each_cmd[0].cmd[1][0] == '~' \
-	|| my_struct->each_cmd[0].cmd[1][1] == '/')))
+    if((ft_strlen(my_struct->each_cmd[c_of_s].cmd[0]) == 2 && my_struct->each_cmd[c_of_s].cmd[1] && (my_struct->each_cmd[c_of_s].cmd[1][0] == '~' \
+	|| my_struct->each_cmd[c_of_s].cmd[1][1] == '/')))
     {
-		if(my_struct->each_cmd[0].cmd[1][0] == '~')
+		if(my_struct->each_cmd[c_of_s].cmd[1][0] == '~')
 		{
 
         	chdir(my_getenv(my_struct->list,"HOME"));
 
 		}
-		if(my_struct->each_cmd[0].cmd[1] && my_struct->each_cmd[0].cmd[1][1] == '/')
+		if(my_struct->each_cmd[c_of_s].cmd[1] && my_struct->each_cmd[c_of_s].cmd[1][1] == '/')
 		{
-            chdir(my_struct->each_cmd[0].cmd[1]);
+            chdir(my_struct->each_cmd[c_of_s].cmd[1]);
 		}
     }
-	if(ft_strlen(my_struct->each_cmd[0].cmd[0]) == 2 && !my_struct->each_cmd[0].cmd[1])
+	if(ft_strlen(my_struct->each_cmd[c_of_s].cmd[0]) == 2 && !my_struct->each_cmd[c_of_s].cmd[1])
 	{
         if(chdir(my_getenv(my_struct->list,"HOME")) == -1)
 		{
-			dup2(2, 1);
-			printf("minishell: %s: HOME not set\n", my_struct->each_cmd[0].cmd[0]);
+			pid = fork();
+			if(pid == 0)
+			{
+				dup2(2, 1);
+				printf("minishell: %s: HOME not set\n", my_struct->each_cmd[c_of_s].cmd[0]);
+				exit(1);
+			}
+			wait(&pid);
 			return 1;
 		}
 	}
     else
 	{
-        chdir(my_struct->each_cmd[0].cmd[1]);
+        chdir(my_struct->each_cmd[c_of_s].cmd[1]);
 	}
     return (0);
 }
@@ -72,7 +79,7 @@ int builtins(t_all *my_struct, int c_of_s)
 	if(my_struct->each_cmd[c_of_s].cmd[0] && ft_strlen(my_struct->each_cmd[c_of_s].cmd[0]) \
 	 &&!ft_strncmp(my_struct->each_cmd[c_of_s].cmd[0], "cd", ft_strlen(my_struct->each_cmd[c_of_s].cmd[0])))
 	{
-		if(cd_commade(my_struct))
+		if(cd_commade(my_struct, c_of_s))
 			return (-1);
 		return (1);
 	}
@@ -129,7 +136,7 @@ int	somting_in_readline(t_all *my_struct)
 	char	splite_char;
 	i = 0;
 	j = 0;
-	    my_struct->tmp_cmd = 0;
+	my_struct->tmp_cmd = 0;
 	my_struct->tmp_cmd = ft_strtrim(my_struct->cmd, " ");
 	if(!*my_struct->tmp_cmd)
 		return my_struct->exit_status;
@@ -202,8 +209,14 @@ int	somting_in_readline(t_all *my_struct)
 	my_struct->my_path = ft_split(my_getenv(my_struct->list, "PATH"), ':');
 	if(*my_struct->my_path[0] == 7)
 	{
-		dup2(2, 1);
-		printf("minishell: %s: No such file or directory\n", my_struct->each_cmd[c_of_s].cmd[0]);
+		i = fork();
+		if(i == 0)
+		{
+			dup2(2, 1);
+			printf("minishell: %s: No such file or directory\n", my_struct->each_cmd[c_of_s].cmd[0]);
+			exit(1);
+		}
+		wait(&i);
 		return 127;
 	}
 	int pipe_n[my_struct->number_of_pipes][2];
@@ -238,7 +251,7 @@ int	somting_in_readline(t_all *my_struct)
 				echo_command(my_struct,c_of_s);
 				exit(0);
 			}
-			else if (my_struct->each_cmd[c_of_s].cmd[0] && !ft_strncmp(my_struct->each_cmd[c_of_s].cmd[0], "pwd", ft_strlen("pwd")+1))
+			if (my_struct->each_cmd[c_of_s].cmd[0] && !ft_strncmp(my_struct->each_cmd[c_of_s].cmd[0], "pwd", ft_strlen("pwd")+1))
 			{
 				pwd_command();
 				exit(0);
@@ -352,6 +365,7 @@ int main(int argc,char **argv,char **env)
     int i = 0;
     while (1)
     {
+		my_struct.the_commande = 0;
         my_struct.cmd = readline("escanour > ");
         if(!my_struct.cmd)
             exit(my_struct.exit_status);

@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 15:02:29 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/04/26 19:07:10 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/04/26 22:53:53 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,31 @@
 
 int	check_export_error(char *cmd,t_all *my_struct)
 {
+	int pid;
 	if ((cmd[0] == '=' && !cmd[1]) || cmd[0] == '=')
 	{
-		printf("minishell: not a valid identifier\n");
+		
+		pid = fork();
+		if(pid == 0)
+		{
+			dup2(2, 1);
+			printf("minishell: not a valid identifier\n");
+			exit(1);
+		}
+		wait(&pid);
 		my_struct->check = 1;
 		return (2);
 	}
 	else if (mini_check_export(cmd, 1) == 1)
 	{
-		printf("minishell: not a valid identifier\n");
+		pid = fork();
+		if(pid == 0)
+		{
+			dup2(2, 1);
+			printf("minishell: not a valid identifier\n");
+			exit(1);
+		}
+		wait(&pid);
 		my_struct->check = 1;
 		return (2);
 	}
@@ -31,6 +47,7 @@ int	check_export_error(char *cmd,t_all *my_struct)
 
 int	handle_export(char *cmd, int print, t_list *list,t_all *my_struct)
 {
+	int pid;
 	print = check_export_error(cmd,my_struct);
 	if (print == 0)
 		return (print);
@@ -48,7 +65,16 @@ int	handle_export(char *cmd, int print, t_list *list,t_all *my_struct)
 	else if (!ft_strchr(cmd, '=' && !duplicate_check_export(list, cmd)) && check_varible_if_have(list, cmd) == 0 && print != 2)
 	{
 		if (mini_check_export(cmd, 0) == 1)
-			printf("export: `%s': not a valid identifier\n", cmd);
+		{
+			pid = fork();
+			if(pid == 0)
+			{
+				dup2(2, 1);
+				printf("export: `%s': not a valid identifier\n", cmd);
+				exit(1);
+			}
+			wait(&pid);
+		}
 		else
 			add_node_back(cmd, &list);
 	}

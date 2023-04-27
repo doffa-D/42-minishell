@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:07:52 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/04/26 22:52:03 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/04/27 19:00:37 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,7 @@ int cd_commade(t_all *my_struct, int c_of_s)
 		}
 	}
     else
-	{
         chdir(my_struct->each_cmd[c_of_s].cmd[1]);
-	}
     return (0);
 }
 
@@ -101,10 +99,10 @@ int builtins(t_all *my_struct, int c_of_s)
 		unset_command(my_struct,c_of_s);
 		return (1);
 	}
-	else if (my_struct->each_cmd[c_of_s].cmd[0] && !ft_strncmp(my_struct->each_cmd[c_of_s].cmd[0], "exit", ft_strlen("exit")))
+	else if (my_struct->each_cmd[c_of_s].cmd && my_struct->each_cmd[c_of_s].cmd[0] && !ft_strncmp(my_struct->each_cmd[c_of_s].cmd[0], "exit", ft_strlen("exit")))
 	{
 		
-		if(my_struct->each_cmd[c_of_s].cmd[1])
+		if(my_struct->each_cmd[c_of_s].cmd && my_struct->each_cmd[c_of_s].cmd[1])
 		{
 			while (my_struct->each_cmd[c_of_s].cmd[1][i])
 			{
@@ -116,9 +114,10 @@ int builtins(t_all *my_struct, int c_of_s)
 				}
 				i++;
 			}
-			exit(ft_atoi(my_struct->each_cmd[c_of_s].cmd[1]));
+			if(!my_struct->each_cmd[c_of_s].cmd[2])
+				exit(ft_atoi(my_struct->each_cmd[c_of_s].cmd[1]));
 		}
-		if(my_struct->each_cmd[c_of_s].cmd[2])
+		if(my_struct->each_cmd[c_of_s].cmd && my_struct->each_cmd[c_of_s].cmd[1] && my_struct->each_cmd[c_of_s].cmd[2])
 		{
 			ft_putstr_fd("minishell: exit: too many arguments\n", 2);
 			exit(1);
@@ -374,3 +373,10 @@ int main(int argc,char **argv,char **env)
         i++;
     }
 }
+			
+
+
+
+
+
+			

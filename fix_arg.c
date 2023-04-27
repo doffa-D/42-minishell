@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 12:31:35 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/04/26 20:39:58 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/04/27 19:09:34 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -216,13 +216,16 @@ void	variables_parceen_utils(t_all *my_struct, t_var *variables)
 	{
 		if(my_struct->fix_cmd[variables->i][variables->j + 1] == '?')
 		{
-			variables->c++;
-			my_struct->the_commande = ft_strjoin_v2(my_struct->the_commande,
-			ft_substr(my_struct->fix_cmd[variables->i], variables->c, \
-        	variables->j - variables->c));
-			variables->j++;
-			my_struct->the_commande = ft_strjoin(my_struct->the_commande,ft_itoa(my_struct->exit_status));
-			variables->c = variables->j;
+			if(my_struct->status != IN_COTE)
+			{
+				variables->c++;
+				my_struct->the_commande = ft_strjoin_v2(my_struct->the_commande,
+				ft_substr(my_struct->fix_cmd[variables->i], variables->c, \
+				variables->j - variables->c));
+				variables->j++;
+				my_struct->the_commande = ft_strjoin(my_struct->the_commande,ft_itoa(my_struct->exit_status));
+				variables->c = variables->j;
+			}
 		}
 		else if(my_struct->status == OUTSIDE && (my_struct->fix_cmd[variables->i][variables->j + 1] == 34 || my_struct->fix_cmd[variables->i][variables->j + 1] == 39))
 			variables->c = variables->j;
@@ -294,23 +297,26 @@ void	initialisaion(t_all *my_struct, t_var *variables, int c_of_s)
 int 	inistialisation_input(t_all *my_struct, t_var *variables, int c_of_s,
 		int var)
 {
+	int checher = 0;
 	if (my_struct->each_cmd[variables->i].files[c_of_s].number_of_I > 2)
-	{
-		ft_putstr_fd("minishell: syntax error\n", 2);
-		return(-1);
-	}
+		checher = 1;
 	if(my_struct->each_cmd[variables->i].files[c_of_s].number_of_O \
 	&& my_struct->each_cmd[variables->i].files[c_of_s].number_of_I)
-	{
-		ft_putstr_fd("minishell: syntax error\n", 2);
-		return(-1);
-	}
+		checher = 1;
 	my_struct->each_cmd[variables->i].files[c_of_s].files = \
     ft_substr(my_struct->splite_pipe[variables->i],variables->j, var - variables->j);
 	if(!*my_struct->each_cmd[variables->i].files[c_of_s].files)
+		checher = 1;
+	if(checher == 1)
 	{
-		ft_putstr_fd("minishell: syntax error\n", 2);
-		return(-1);
+		checher = fork();
+		if(checher == 0)
+		{
+			ft_putstr_fd("minishell: syntax error\n", 2);
+			exit(1);
+		}
+		wait(&checher);
+		return -1;
 	}
 	if(ft_strchr(my_struct->each_cmd[variables->i].files[c_of_s].files, 6) && \
 	ft_strlen(my_struct->each_cmd[variables->i].files[c_of_s].files) == 1)
@@ -328,23 +334,26 @@ int 	inistialisation_input(t_all *my_struct, t_var *variables, int c_of_s,
 int		inistialisation_output(t_all *my_struct, t_var *variables, int c_of_s,
 		int var)
 {
+	int checher = 0;
 	if (my_struct->each_cmd[variables->i].files[c_of_s].number_of_O > 2)
-	{
-		ft_putstr_fd("minishell: syntax error\n", 2);
-		return(-1);
-	}
+		checher = 1;
 	if(my_struct->each_cmd[variables->i].files[c_of_s].number_of_O \
 	&& my_struct->each_cmd[variables->i].files[c_of_s].number_of_I)
-	{
-		ft_putstr_fd("minishell: syntax error\n", 2);
-		return(-1);
-	}
+		checher = 1;
 	my_struct->each_cmd[variables->i].files[c_of_s].files = \
     ft_substr(my_struct->splite_pipe[variables->i],variables->j, var - variables->j);
 	if(!*my_struct->each_cmd[variables->i].files[c_of_s].files)
+		checher = 1;
+	if(checher == 1)
 	{
-		ft_putstr_fd("minishell: syntax error\n", 2);
-		return(-1);
+		checher = fork();
+		if(checher == 0)
+		{
+			ft_putstr_fd("minishell: syntax error\n", 2);
+			exit(1);
+		}
+		wait(&checher);
+		return -1;
 	}
 	if(ft_strchr(my_struct->each_cmd[variables->i].files[c_of_s].files, 6) && \
 	ft_strlen(my_struct->each_cmd[variables->i].files[c_of_s].files) == 1)

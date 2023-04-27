@@ -6,7 +6,7 @@
 #    By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/03 12:19:16 by nouakhro          #+#    #+#              #
-#    Updated: 2023/04/26 21:14:04 by nouakhro         ###   ########.fr        #
+#    Updated: 2023/04/27 18:12:55 by nouakhro         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,11 +37,15 @@ OBJE = $(SRC:.c=.o)
 NAME = minishell
 LIBFT = libft
 
+ifeq ($(d),1)
+	g = -fsanitize=address -g
+endif
+
 all : $(NAME)
 
 $(NAME) : $(OBJE)
 	make -C $(LIBFT)
-	$(CC) $(CCFLAGS) $(OBJE) libft/libft.a -lreadline -o $(NAME)
+	$(CC) $(CCFLAGS) $(OBJE) libft/libft.a -lreadline  $(g) -o $(NAME)
 
 
 %.o : %.c

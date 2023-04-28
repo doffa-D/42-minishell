@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:07:52 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/04/28 10:03:23 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/04/28 17:52:42 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,8 +191,8 @@ int	somting_in_readline(t_all *my_struct)
 		return 258;
 	if(i == 2)
 		return 2;
-	// if(!my_struct->each_cmd->cmd)
-	// 	return 0;
+	if(!my_struct->each_cmd->cmd)
+		return 0;
 	c_of_s = 0;
 	if(my_struct->number_of_pipes == 1)
 	{
@@ -203,7 +203,7 @@ int	somting_in_readline(t_all *my_struct)
 			return 1;
 	}
 	my_struct->my_path = ft_split(my_getenv(my_struct->list, "PATH"), ':');
-	if(*my_struct->my_path[0] == 7)
+	if(!my_struct->my_path[0])
 	{
 		i = fork();
 		if(i == 0)

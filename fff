@@ -1,0 +1,2 @@
+			// printf("(%c)",my_struct->splite_pipe[variables->i][variables->j]);
+			// printf("(%d)\n",my_struct->splite_pipe[variables->i][variables->j]);

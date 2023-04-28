@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 14:20:41 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/04/26 22:42:39 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/04/28 06:24:22 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,6 @@ typedef struct s_all
 {
 	int 				status;
 	int 				if_rediraction;
-	char				**env;
-	char				**export;
 	char				**my_path;
 	t_each_command 		*each_cmd;
 	char				**splite_pipe;
@@ -102,4 +100,5 @@ void	pwd_command(void);
 void	pipe_and_rederaction(int j, int c_of_s, t_all *my_struct, int **pipe_n);
 void	parccen(t_all *my_struct);
 int 	builtins(t_all *my_struct, int c_of_s);
+void qouts(t_all *my_struct, t_var *variables, int var, int c_of_s);
 #endif

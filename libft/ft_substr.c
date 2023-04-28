@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 15:13:46 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/04/19 23:54:14 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/04/27 19:54:11 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	}
 	// printf("hhhhhhhhhhhhhhhh\n");
 	b[i] = 0;
+	// if(!ft_strlen(b))
+	// 	return 0;
 	return (b);
 }

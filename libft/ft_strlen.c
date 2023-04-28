@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/28 12:51:21 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/04/13 17:52:14 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/04/28 04:36:57 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,6 @@ size_t	ft_strlen(const char	*str)
 		return 0;
 	i = 0;
 	while (str[i])
-	{
-		// printf("====>%s\n", str);	
 		i++;
-
-	}
 	return (i);
 }

@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:07:52 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/04/28 18:01:18 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/04/28 19:19:12 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,6 +181,11 @@ int	somting_in_readline(t_all *my_struct)
 	}
 	i = 0;
 	my_struct->fix_cmd = ft_split(my_struct->the_commande, 3);
+	// while(my_struct->fix_cmd[i])
+	// {
+	// 	printf("[%s]\n", my_struct->fix_cmd[i]);
+	// 	i++;
+	// }
 	free(my_struct->the_commande);
 	free(my_struct->tmp_cmd);
 	add_history(my_struct->cmd);
@@ -191,8 +196,6 @@ int	somting_in_readline(t_all *my_struct)
 		return 258;
 	if(i == 2)
 		return 2;
-	if(!my_struct->each_cmd->cmd)
-		return 0;
 	c_of_s = 0;
 	if(my_struct->number_of_pipes == 1)
 	{
@@ -215,7 +218,6 @@ int	somting_in_readline(t_all *my_struct)
 		wait(&i);
 		return 127;
 	}
-	c_of_s = 0;
 	int pipe_n[my_struct->number_of_pipes][2];
 	while(my_struct->number_of_pipes > 0)
 	{
@@ -225,7 +227,7 @@ int	somting_in_readline(t_all *my_struct)
 		if (i == 0)
 		{
 			if(my_struct->each_cmd[c_of_s].files)
-				check_rediractions(my_struct, c_of_s);
+				i = check_rediractions(my_struct, c_of_s);
 			if(c_of_s > 0)
 			{
 				close(pipe_n[c_of_s - 1][1]);
@@ -241,6 +243,8 @@ int	somting_in_readline(t_all *my_struct)
 					close(pipe_n[c_of_s][1]);
 				}
 			}
+			// if(my_struct->each_cmd[c_of_s].files && c_of_s)
+			// 	check_rediractions(my_struct, c_of_s);
 			if (my_struct->each_cmd[0].cmd[0] && !ft_strncmp(my_struct->each_cmd[c_of_s].cmd[0], "echo", ft_strlen("echo")+1))
 			{
 				echo_command(my_struct,c_of_s);
@@ -258,9 +262,7 @@ int	somting_in_readline(t_all *my_struct)
 				exit(1);
 			j = 0;
 
-			if (my_struct->each_cmd[c_of_s].cmd[0] && \
-			!ft_strchr(my_struct->each_cmd[c_of_s].cmd[0], '/') \
-			&& !get_the_path(my_struct, c_of_s))
+			if (my_struct->each_cmd[c_of_s].cmd[0] && !ft_strchr(my_struct->each_cmd[c_of_s].cmd[0], '/') && !get_the_path(my_struct, c_of_s))
 			{
 				i = 0;
 				while (my_struct->my_path && my_struct->my_path[i])
@@ -275,8 +277,7 @@ int	somting_in_readline(t_all *my_struct)
 			}
 			else
 			{
-				if (my_struct->each_cmd[c_of_s].cmd[0] \
-				&& access(my_struct->each_cmd[c_of_s].cmd[0], F_OK) == 0)
+				if (my_struct->each_cmd[c_of_s].cmd[0] && access(my_struct->each_cmd[c_of_s].cmd[0], F_OK) == 0)
 					j = 1;
 			}
 			if (j != 1)

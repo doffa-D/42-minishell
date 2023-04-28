@@ -6,12 +6,12 @@
 #    By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/03 12:19:16 by nouakhro          #+#    #+#              #
-#    Updated: 2023/04/28 18:01:40 by nouakhro         ###   ########.fr        #
+#    Updated: 2023/04/28 19:20:48 by nouakhro         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
-CCFLAGS = -Wall -Werror -Wextra -fsanitize=address -g
+CCFLAGS = -Wall -Werror -Wextra
 # -fsanitize=address -g
 
 SRC = 	main.c\
@@ -19,6 +19,7 @@ SRC = 	main.c\
 		free_all.c\
 		check_rediraction.c\
 		commande.c\
+		parccen.c\
 		echo_command.c\
 		env_commd.c\
 		export_command.c\
@@ -29,23 +30,22 @@ SRC = 	main.c\
 		pwd_command.c\
 		builtins.c\
 		pipe_and_rederaction.c\
-		# parceen.c
+		parceen.c
 
 OBJE = $(SRC:.c=.o)
 
 NAME = minishell
 LIBFT = libft
 
-# ifeq ($(d),1)
-# 	g = -fsanitize=address -g
-# endif
+ifeq ($(d),1)
+	g = -fsanitize=address -g
+endif
 
 all : $(NAME)
 
 $(NAME) : $(OBJE)
 	make -C $(LIBFT)
 	$(CC) $(CCFLAGS) $(OBJE) libft/libft.a -lreadline  $(g) -o $(NAME)
-
 
 %.o : %.c
 	$(CC) $(CCFLAGS) -c $<
@@ -58,5 +58,5 @@ fclean : clean
 	rm -f $(NAME)
 re:fclean $(NAME)
 
-run : re
-	clear && ./minishell
+run : all
+	mv $(OBJE) object && ./minishell

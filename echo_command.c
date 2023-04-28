@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hdagdagu <hdagdagu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 18:00:54 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/04/28 05:17:02 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/04/24 15:21:29 by hdagdagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,9 @@ void	echo_command(t_all *my_struct, int c_of_s)
 	while (my_struct->each_cmd[c_of_s].cmd[i])
 	{
 		if (check_n(my_struct->each_cmd[c_of_s].cmd[i]) == 1 && x == 0)
+		{
 			j = 1;
+		}
 		else
 		{
 			printf("%s", my_struct->each_cmd[c_of_s].cmd[i]);
@@ -63,7 +65,7 @@ void	echo_command(t_all *my_struct, int c_of_s)
 			printf(" ");
 		i++;
 	}
-	if(j == 0 )
+	if(j == 0)
 		printf("\n");
 }
 

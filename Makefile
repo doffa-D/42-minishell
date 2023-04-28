@@ -6,7 +6,7 @@
 #    By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/03 12:19:16 by nouakhro          #+#    #+#              #
-#    Updated: 2023/04/28 12:51:29 by nouakhro         ###   ########.fr        #
+#    Updated: 2023/04/28 18:01:40 by nouakhro         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,6 @@ SRC = 	main.c\
 		free_all.c\
 		check_rediraction.c\
 		commande.c\
-		parcen.c\
 		echo_command.c\
 		env_commd.c\
 		export_command.c\

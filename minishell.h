@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 14:20:41 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/04/28 18:38:22 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/04/29 21:35:48 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,15 @@
 # include <stdio.h>
 # include <signal.h>
 
+
+
 typedef struct s_files
 {
 	char *files;
 	int INPUT;
 	int OUTPUT;
 	int HERDOC;
+	int HERDOC_OPTION;
 	int APPEND;
 	int ERROR_SYNTACSI;
 	int ERROR_SYNTACSO;

@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 12:31:35 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/04/28 19:16:35 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/01 00:42:50 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,44 +50,23 @@ char	*ft_strjoin_v2(char const *s1, char const *s2)
 
 int	quote_and_dqout(t_all *my_struct, t_var *variables)
 {
-	char str[2];
-	str[0] = 6;
-	str[1] = 0;
 	if ((my_struct->fix_cmd[variables->i][variables->j] == 34)
 		&& my_struct->status != IN_COTE)
 	{
-		// variables->c++;
 		if (my_struct->fix_cmd[variables->i][variables->j] == 34
 			&& my_struct->status == IN_DCOTE)
-		{
 			my_struct->status = OUTSIDE;
-			// if(ft_strlen(my_struct->fix_cmd[variables->i]) == 2)
-			// 	my_struct->the_commande = ft_strjoin(my_struct->the_commande, str);
-		}
 		else
 			my_struct->status = IN_DCOTE;
-		// my_struct->the_commande = ft_strjoin_v2(my_struct->the_commande, \
-		// 	ft_substr(my_struct->fix_cmd[variables->i], variables->c, \
-        //     variables->j - variables->c));
-		// variables->c = variables->j;
 	}
 	if ((my_struct->fix_cmd[variables->i][variables->j] == 39)
 		&& my_struct->status != IN_DCOTE)
 	{
-		// variables->c++;
 		if (my_struct->fix_cmd[variables->i][variables->j] == 39
 			&& my_struct->status == IN_COTE)
-		{
 			my_struct->status = OUTSIDE;
-			// if(ft_strlen(my_struct->fix_cmd[variables->i]) == 2)
-			// 	my_struct->the_commande = ft_strjoin(my_struct->the_commande, str);
-		}
 		else
 			my_struct->status = IN_COTE;
-		// my_struct->the_commande = ft_strjoin_v2(my_struct->the_commande,
-		// 	ft_substr(my_struct->fix_cmd[variables->i], variables->c, \
-        //     variables->j - variables->c));
-		// variables->c = variables->j;
 	}
 	return (variables->c);
 }
@@ -120,18 +99,18 @@ char *my_getenv(t_list *head , char *var)
 	(void)var;
 	int i = 0;
 	char *expande_variable = ft_calloc(1, 1);
-	// expande_variable[0] = 7;
-	// expande_variable[1] = 0;
 	while (head)
 	{
 		if(*(char *)head->content == var[0])
 		{
 			j = 0;
-			while(((char *)head->content)[j] == var[j] || ((char *)head->content)[j] == '=')
+			while(((char *)head->content)[j] == var[j] || \
+			((char *)head->content)[j] == '=')
 			{
 				if(((char *)head->content)[j] == '=' && !var[j])
 				{
-					expande_variable = ft_substr(head->content, j + 1, ft_strlen(head->content + (j + 1)));
+					expande_variable = ft_substr(head->content, \
+					j + 1, ft_strlen(head->content + (j + 1)));
 					i = 0;
 					while (expande_variable[i])
 					{
@@ -150,90 +129,117 @@ char *my_getenv(t_list *head , char *var)
 	return(expande_variable);
 }
 
-void	variables_parceen(t_all *my_struct, t_var *variables)
+char *variables_parceen(t_all *my_struct, t_var *variables,char *whotout_expande, char *my_string)
 {
 	int		var;
 	char	*variable;
 
 	var = variables->j + 1;
-	my_struct->the_commande = ft_strjoin_v2(my_struct->the_commande,
-		ft_substr(my_struct->fix_cmd[variables->i], variables->c, \
-        variables->j - variables->c));
-	while (my_struct->fix_cmd[variables->i][var]
-		&& (ft_isalpha(my_struct->fix_cmd[variables->i][var])
-			|| ft_isdigit(my_struct->fix_cmd[variables->i][var])))
+	while (whotout_expande[var]
+		&& (ft_isalpha(whotout_expande[var]) || ft_isdigit(whotout_expande[var])))
 		var++;
-	// printf("((%s))\n", my_struct->the_commande);
 	if (my_struct->status == IN_DCOTE || my_struct->status == OUTSIDE)
 	{
-		if(ft_isdigit(my_struct->fix_cmd[variables->i][variables->j + 1]) && my_struct->fix_cmd[variables->i][variables->j + 1] != '_')
+		if(ft_isdigit(whotout_expande[variables->j + 1]) \
+		&& whotout_expande[variables->j + 1] != '_')
 		{
 			variables->j++;
-			variable = ft_substr(my_struct->fix_cmd[variables->i], variables->j + 1,
-					(var - (variables->j + 1)));
-			my_struct->the_commande = ft_strjoin_v2(my_struct->the_commande, \
-			variable);
+			variable = ft_substr(whotout_expande, \
+			variables->j + 1, (var - (variables->j + 1)));
+			my_string = ft_strjoin_v2(my_string, variable);
 			variables->j = var - 1;
 		}
-		else if(ft_isalpha(my_struct->fix_cmd[variables->i][variables->j + 1]) || my_struct->fix_cmd[variables->i][variables->j + 1] == '_')
+		else if(ft_isalpha(whotout_expande[variables->j + 1]) \
+		|| whotout_expande[variables->j + 1] == '_')
 		{
-			variable = ft_substr(my_struct->fix_cmd[variables->i], variables->j + 1,
+			variable = ft_substr(whotout_expande, variables->j + 1,
 					(var - (variables->j + 1)));
 			variable = my_getenv(my_struct->list,variable);
 			if (variable)
-			{
-				my_struct->the_commande = ft_strjoin(my_struct->the_commande, \
-					variable);
-			}
+				my_string = ft_strjoin(my_string, variable);
 			variables->j = var - 1;
 		}
 	}
-	if (my_struct->status == IN_COTE)
-	{
-		variable = ft_substr(my_struct->fix_cmd[variables->i], variables->j,
-				(var - variables->j));
-		my_struct->the_commande = ft_strjoin_v2(my_struct->the_commande, \
-			variable);
-		variables->j = var - 1;
-	}
-
+	return my_string;
 }
 
-void	variables_parceen_utils(t_all *my_struct, t_var *variables)
+
+char *variables_parceen_rederaction(char *whotout_expande, char *my_string ,t_all *my_struct, t_var *variables)
 {
-	if (ft_isalnum(my_struct->fix_cmd[variables->i][variables->j + 1]))
+	if (ft_isalnum(whotout_expande[variables->j + 1]))
 	{
-		if (my_struct->fix_cmd[variables->i][variables->j + 1])
+		if (whotout_expande[variables->j + 1])
 		{
 			variables->c++;
-			variables_parceen(my_struct, variables);
+			my_string = variables_parceen(my_struct, variables, whotout_expande ,my_string);
 			variables->c = variables->j;
 		}
 	}
 	else
 	{
-		if(my_struct->fix_cmd[variables->i][variables->j + 1] == '?')
+		if(whotout_expande[variables->j + 1] == '?')
 		{
 			if(my_struct->status != IN_COTE)
 			{
-				variables->c++;
-				my_struct->the_commande = ft_strjoin_v2(my_struct->the_commande,
-				ft_substr(my_struct->fix_cmd[variables->i], variables->c, \
-				variables->j - variables->c));
 				variables->j++;
-				my_struct->the_commande = ft_strjoin(my_struct->the_commande,ft_itoa(my_struct->exit_status));
+				my_string = ft_strjoin(my_string,ft_itoa(my_struct->exit_status));
 				variables->c = variables->j;
 			}
 		}
-		else if(my_struct->status == OUTSIDE && (my_struct->fix_cmd[variables->i][variables->j + 1] == 34 || my_struct->fix_cmd[variables->i][variables->j + 1] == 39))
+		else if((whotout_expande[variables->j + 1] == 34 || whotout_expande[variables->j + 1] == 39) && my_struct->status == OUTSIDE)
 			variables->c = variables->j;
-		else if(my_struct->fix_cmd[variables->i][variables->j + 1] != 34 && my_struct->fix_cmd[variables->i][variables->j + 1] != 39)
+		else if(!ft_isalnum(whotout_expande[variables->j + 1]) && whotout_expande[variables->j + 1] != '$')
 		{
 			variables->j++;
 			variables->c = variables->j;
 		}
-
+		else 
+		{
+			variables->j++;
+			variables->c = variables->j - 1;
+		}
 	}
+	return my_string;
+}
+
+
+char *variables_parceen_utils(char *whotout_expande, char *my_string ,t_all *my_struct, t_var *variables)
+{
+	if (ft_isalnum(whotout_expande[variables->j + 1]))
+	{
+		if (whotout_expande[variables->j + 1])
+		{
+			variables->c++;
+			my_string = variables_parceen(my_struct, variables, whotout_expande ,my_string);
+			variables->c = variables->j;
+		}
+	}
+	else
+	{
+		if(whotout_expande[variables->j + 1] == '?')
+		{
+			if(my_struct->status != IN_COTE)
+			{
+				variables->j++;
+				my_string = ft_strjoin(my_string,ft_itoa(my_struct->exit_status));
+				variables->c = variables->j;
+			}
+		}
+		else if(my_struct->status != OUTSIDE && (whotout_expande[variables->j + 1] == 34 || whotout_expande[variables->j + 1] == 39))
+			variables->c = variables->j - 1;
+		else if(!ft_isalnum(whotout_expande[variables->j + 1]) && whotout_expande[variables->j + 1] != '$' \
+		&& whotout_expande[variables->j + 1] != 34 && whotout_expande[variables->j + 1] != 39)
+		{
+			variables->j++;
+			variables->c = variables->j;
+		}
+		else if(whotout_expande[variables->j + 1] == '$')
+		{
+			variables->j++;
+			variables->c = variables->j - 1;
+		}
+	}
+	return my_string;
 }
 
 int	parccen_part(t_all *my_struct, t_var *variables, char *splite)
@@ -241,21 +247,18 @@ int	parccen_part(t_all *my_struct, t_var *variables, char *splite)
 	while (my_struct->fix_cmd[variables->i])
 	{
 		variables->j = 0;
-		variables->c = -1;
 		my_struct->status = OUTSIDE;
 		while (my_struct->fix_cmd[variables->i][variables->j])
 		{
 			quote_and_dqout(my_struct, variables);
 			pipe_and_rederaction_parceen(my_struct, variables);
-			if((my_struct->fix_cmd[variables->i][variables->j] == 4 && !my_struct->fix_cmd[variables->i + 1]) || \
+			if((my_struct->fix_cmd[variables->i][variables->j] \
+			== 4 && !my_struct->fix_cmd[variables->i + 1]) || \
 			(my_struct->fix_cmd[variables->i][variables->j] == 4 && variables->i == 0))
 			{
 				ft_putstr_fd("minishell: syntax error\n", 2);
 				return 258;
 			}
-			if (my_struct->fix_cmd[variables->i][variables->j] == '$'
-				&& my_struct->fix_cmd[variables->i][variables->j + 1])
-				variables_parceen_utils(my_struct, variables);
 			variables->j++;
 		}
 		if(my_struct->status != OUTSIDE)
@@ -263,15 +266,9 @@ int	parccen_part(t_all *my_struct, t_var *variables, char *splite)
 			ft_putstr_fd("minishell: unexpected EOF while looking for matching\n", 2);
 			return -1;
 		}
-		if (my_struct->status == OUTSIDE)
-		{
-			variables->c++;
-			my_struct->the_commande = ft_strjoin_v2(my_struct->the_commande, \
-				ft_substr(my_struct->fix_cmd[variables->i], variables->c, \
-				variables->j - variables->c));
-		}
-		my_struct->the_commande = ft_strjoin(my_struct->the_commande, splite);
-		free(my_struct->fix_cmd[variables->i]);
+		my_struct->the_commande = ft_strjoin_v2(my_struct->the_commande, my_struct->fix_cmd[variables->i]);
+		if(my_struct->fix_cmd[variables->i + 1])
+			my_struct->the_commande = ft_strjoin(my_struct->the_commande, splite);
 		my_struct->fix_cmd[variables->i] = 0;
 		variables->i++;
 	}
@@ -281,7 +278,6 @@ int	parccen_part(t_all *my_struct, t_var *variables, char *splite)
 
 void	initialisaion(t_all *my_struct, t_var *variables, int c_of_s)
 {
-	// int buckup = variables->j;
 	my_struct->each_cmd[variables->i].files[c_of_s].OUTPUT = 0;
 	my_struct->each_cmd[variables->i].files[c_of_s].APPEND = 0;
 	my_struct->each_cmd[variables->i].files[c_of_s].number_of_O = 0;
@@ -290,6 +286,7 @@ void	initialisaion(t_all *my_struct, t_var *variables, int c_of_s)
 	my_struct->each_cmd[variables->i].files[c_of_s].HERDOC = 0;
 	my_struct->each_cmd[variables->i].files[c_of_s].ERROR_SYNTACSO = 0;
 	my_struct->each_cmd[variables->i].files[c_of_s].ERROR_SYNTACSI = 0;
+	my_struct->each_cmd[variables->i].files[c_of_s].HERDOC_OPTION = 0;
 }
 
 int 	inistialisation_input(t_all *my_struct, t_var *variables, int c_of_s,
@@ -303,9 +300,6 @@ int 	inistialisation_input(t_all *my_struct, t_var *variables, int c_of_s,
 		checher = 1;
 	if(!my_struct->tmp_cmd[variables->j])
 		checher = 1;
-	variables->c = variables->j - 1;
-	my_struct->each_cmd[variables->i].files[c_of_s].files = ft_calloc(1, 1);
-	qouts(my_struct, variables, var , c_of_s);
 	if(checher == 1)
 	{
 		checher = fork();
@@ -317,13 +311,16 @@ int 	inistialisation_input(t_all *my_struct, t_var *variables, int c_of_s,
 		wait(&checher);
 		return -1;
 	}
-	if(ft_strchr(my_struct->each_cmd[variables->i].files[c_of_s].files, 6) && \
-	ft_strlen(my_struct->each_cmd[variables->i].files[c_of_s].files) == 1)
-		my_struct->each_cmd[variables->i].files[c_of_s].files = ft_strdup("");
 	if (my_struct->each_cmd[variables->i].files[c_of_s].number_of_I == 1)
 		my_struct->each_cmd[variables->i].files[c_of_s].INPUT = 1;
 	else if (my_struct->each_cmd[variables->i].files[c_of_s].number_of_I == 2)
 		my_struct->each_cmd[variables->i].files[c_of_s].HERDOC = 1;
+	variables->c = variables->j - 1;
+	my_struct->each_cmd[variables->i].files[c_of_s].files = ft_calloc(1, 1);
+	qouts(my_struct, variables, var , c_of_s);
+	if(ft_strchr(my_struct->each_cmd[variables->i].files[c_of_s].files, 6) && \
+	ft_strlen(my_struct->each_cmd[variables->i].files[c_of_s].files) == 1)
+		my_struct->each_cmd[variables->i].files[c_of_s].files = ft_strdup("");
 	return 0;
 }
 
@@ -338,9 +335,6 @@ int		inistialisation_output(t_all *my_struct, t_var *variables, int c_of_s,
 		checher = 1;
 	if(!my_struct->tmp_cmd[variables->j])
 		checher = 1;
-	variables->c = variables->j - 1;
-	my_struct->each_cmd[variables->i].files[c_of_s].files = ft_calloc(1, 1);
-	qouts(my_struct, variables, var , c_of_s);
 	if(checher == 1)
 	{
 		checher = fork();
@@ -352,13 +346,16 @@ int		inistialisation_output(t_all *my_struct, t_var *variables, int c_of_s,
 		wait(&checher);
 		return -1;
 	}
-	if(ft_strchr(my_struct->each_cmd[variables->i].files[c_of_s].files, 6) && \
-	ft_strlen(my_struct->each_cmd[variables->i].files[c_of_s].files) == 1)
-		my_struct->each_cmd[variables->i].files[c_of_s].files = ft_strdup("");
-	else if (my_struct->each_cmd[variables->i].files[c_of_s].number_of_O == 2)
+	if (my_struct->each_cmd[variables->i].files[c_of_s].number_of_O == 2)
 		my_struct->each_cmd[variables->i].files[c_of_s].APPEND = 1;
 	else if (my_struct->each_cmd[variables->i].files[c_of_s].number_of_O == 1)
 		my_struct->each_cmd[variables->i].files[c_of_s].OUTPUT = 1;
+	variables->c = variables->j - 1;
+	my_struct->each_cmd[variables->i].files[c_of_s].files = ft_calloc(1, 1);
+	qouts(my_struct, variables, var , c_of_s);
+	if(ft_strchr(my_struct->each_cmd[variables->i].files[c_of_s].files, 6) && \
+	ft_strlen(my_struct->each_cmd[variables->i].files[c_of_s].files) == 1)
+		my_struct->each_cmd[variables->i].files[c_of_s].files = ft_strdup("");
 	return 0;
 }
 
@@ -389,7 +386,7 @@ int	rediraction_calculate_output(t_all *my_struct, t_var *variables, int var, in
 		}
 		if(my_struct->tmp_cmd[variables->j] == 0 \
 		|| my_struct->tmp_cmd[variables->j] == 3 \
-		|| ft_isalnum(my_struct->tmp_cmd[variables->j])\
+		|| ft_isalnum(my_struct->tmp_cmd[variables->j]) \
 		|| (my_struct->each_cmd[variables->i].files[c_of_s].number_of_O \
 		&& my_struct->each_cmd[variables->i].files[c_of_s].number_of_I))
 			break;
@@ -402,7 +399,11 @@ int	rediraction_calculate_output(t_all *my_struct, t_var *variables, int var, in
 		&& my_struct->tmp_cmd[var] != 2
 		&& my_struct->tmp_cmd[var] != 5
 		&& my_struct->tmp_cmd[var] != 3)
-		var++;
+		{
+			if(my_struct->tmp_cmd[var] == 34 || my_struct->tmp_cmd[var] == 39)
+				my_struct->each_cmd[variables->i].files[c_of_s].HERDOC_OPTION = 1;
+			var++;
+		}
 	return (var);
 }
 
@@ -433,7 +434,7 @@ int	rediraction_calculate_input(t_all *my_struct, t_var *variables, int var, int
 		}
 		if(my_struct->tmp_cmd[variables->j] == 0 \
 		|| my_struct->tmp_cmd[variables->j] == 3 \
-		|| !ft_isalnum(my_struct->tmp_cmd[variables->j])\
+		|| ft_isalnum(my_struct->tmp_cmd[variables->j])\
 		|| (my_struct->each_cmd[variables->i].files[c_of_s].number_of_O \
 		&& my_struct->each_cmd[variables->i].files[c_of_s].number_of_I))
 			break;
@@ -446,23 +447,54 @@ int	rediraction_calculate_input(t_all *my_struct, t_var *variables, int var, int
 		&& my_struct->tmp_cmd[var] != 2
 		&& my_struct->tmp_cmd[var] != 5
 		&& my_struct->tmp_cmd[var] != 3)
-		var++;
-	// printf("1[%d]\n",my_struct->tmp_cmd[var-1]);
+		{
+			if(my_struct->tmp_cmd[var] == 34 || my_struct->tmp_cmd[var] == 39)
+				my_struct->each_cmd[variables->i].files[c_of_s].HERDOC_OPTION = 1;
+			var++;
+		}
 	return (var);
 }
 void	commande_and_args(t_all *my_struct, t_var *variables, int var)
 {
 	var = variables->j;
-	while (my_struct->tmp_cmd[var]
-		&& (my_struct->tmp_cmd[var] != 2
-			&& my_struct->tmp_cmd[var] != 5))
+	variables->c = variables->j - 1;
+	while (my_struct->tmp_cmd[var] && (my_struct->tmp_cmd[var] != 2 && my_struct->tmp_cmd[var] != 5))
 		var++;
-	my_struct->the_commande = ft_strjoin_v2(my_struct->the_commande,\
-	            ft_substr(my_struct->tmp_cmd,\
-	            variables->j, var\
-	            - variables->j));
+	while (variables->j < var)
+	{
+		if (my_struct->tmp_cmd[variables->j] == 34 && my_struct->status != IN_COTE)
+		{
+			if(my_struct->status == IN_DCOTE)
+				my_struct->status = OUTSIDE;
+			else
+				my_struct->status = IN_DCOTE;
+		}
+		else if (my_struct->tmp_cmd[variables->j] == 39 && my_struct->status != IN_DCOTE)
+		{
+			if(my_struct->status == IN_COTE)
+				my_struct->status = OUTSIDE;
+			else
+				my_struct->status = IN_COTE;
+		}
+		else if (my_struct->status != IN_COTE && my_struct->tmp_cmd[variables->j] == '$' \
+		&& my_struct->tmp_cmd[variables->j + 1] \
+		&& my_struct->tmp_cmd[variables->j + 1] != ' ' \
+		&& my_struct->tmp_cmd[variables->j + 1] != 3)
+		{
+			variables->c++;
+			my_struct->the_commande = ft_strjoin_v2(my_struct->the_commande,\
+			ft_substr(my_struct->tmp_cmd, variables->c, variables->j - variables->c));
+			variables->c = variables->j;
+			if(my_struct->tmp_cmd[variables->j + 1])
+				my_struct->the_commande =  variables_parceen_utils\
+				(my_struct->tmp_cmd, my_struct->the_commande, my_struct, variables);
+		}
+		variables->j++;
+	}
+	variables->c++;
+	my_struct->the_commande = ft_strjoin(my_struct->the_commande, ft_substr(my_struct->tmp_cmd, \
+		variables->c, variables->j - variables->c));
 	variables->j = var - 1;
-
 }
 
 void	if_rediraction_is_existe(t_all *my_struct, t_var *variables, int var)
@@ -492,7 +524,8 @@ void	if_rediraction_is_existe(t_all *my_struct, t_var *variables, int var)
 int	any_commde_parceen(t_all *my_struct, t_var *variables, int var,
 		int c_of_s)
 {
-	if (my_struct->tmp_cmd[variables->j] == 2)
+	if (my_struct->tmp_cmd[variables->j] && \
+	my_struct->tmp_cmd[variables->j] == 2)
 	{
 		initialisaion(my_struct, variables, c_of_s);
 		var = rediraction_calculate_output(my_struct, variables,  var, c_of_s);
@@ -501,7 +534,8 @@ int	any_commde_parceen(t_all *my_struct, t_var *variables, int var,
 		c_of_s++;
 		variables->j = var - 1;
 	}
-	else if (my_struct->tmp_cmd[variables->j] == 5)
+	else if (my_struct->tmp_cmd[variables->j]\
+	 && my_struct->tmp_cmd[variables->j] == 5)
 	{
 		initialisaion(my_struct, variables, c_of_s);
 		var = rediraction_calculate_input(my_struct, variables, var, c_of_s);
@@ -510,7 +544,8 @@ int	any_commde_parceen(t_all *my_struct, t_var *variables, int var,
 		c_of_s++;
 		variables->j = var - 1;
 	}
-	else if (my_struct->tmp_cmd[variables->j] != 5
+	else if (my_struct->tmp_cmd[variables->j] \
+	&& my_struct->tmp_cmd[variables->j] != 5
 			&& my_struct->tmp_cmd[variables->j] != 2)
 		commande_and_args(my_struct, variables, var);
 	return c_of_s;
@@ -555,13 +590,26 @@ void qouts(t_all *my_struct, t_var *variables, int var, int c_of_s)
 			variables->c, variables->j - variables->c));
 			variables->c = variables->j;
 		}
+		else if ( my_struct->tmp_cmd[variables->j] == '$' \
+		&& my_struct->tmp_cmd[variables->j + 1] \
+		&& my_struct->tmp_cmd[variables->j + 1] != ' ' \
+		&& my_struct->tmp_cmd[variables->j + 1] != 3 \
+		&& my_struct->each_cmd[variables->i].files[c_of_s].HERDOC == 0)
+		{
+			variables->c++;
+			my_struct->each_cmd[variables->i].files[c_of_s].files = ft_strjoin_v2(my_struct->each_cmd[variables->i].files[c_of_s].files,\
+			ft_substr(my_struct->tmp_cmd, variables->c, variables->j - variables->c));
+			variables->c = variables->j;
+			if(my_struct->tmp_cmd[variables->j + 1])
+				my_struct->each_cmd[variables->i].files[c_of_s].files =  variables_parceen_utils\
+				(my_struct->tmp_cmd, my_struct->each_cmd[variables->i].files[c_of_s].files, my_struct, variables);
+		}
 		variables->j++;
 	}
 	variables->c++;
 	my_struct->each_cmd[variables->i].files[c_of_s].files = \
 	ft_strjoin(my_struct->each_cmd[variables->i].files[c_of_s].files, \
-	ft_substr(my_struct->tmp_cmd, \
-		variables->c, variables->j - variables->c));
+	ft_substr(my_struct->tmp_cmd, variables->c, variables->j - variables->c));
 }
 
 void qouts_comnde(t_all *my_struct, t_var *variables, int var)
@@ -638,13 +686,6 @@ int	rederaction_parccen(t_all *my_struct, t_var *variables)
 	variables->i = 0;
 	while (my_struct->splite_pipe[variables->i])
 	{
-		char str[2];
-		str[0] = 6;
-		str[1] = 0;
-		variables->j = 0;
-		variables->c = -1;
-		my_struct->tmp_cmd = 0;
-		my_struct->tmp_cmd = ft_calloc(1, 1);
 		my_struct->status = OUTSIDE;
 		my_struct->tmp_cmd = ft_strdup(my_struct->splite_pipe[variables->i]);
 		variables->j = 0;
@@ -661,9 +702,9 @@ int	rederaction_parccen(t_all *my_struct, t_var *variables)
 		}
 		qouts_comnde(my_struct, variables, var);
 		free(my_struct->splite_pipe[variables->i]);
+		my_struct->splite_pipe[variables->i] = 0;
 		free(my_struct->the_commande);
 		my_struct->the_commande = 0;
-		my_struct->splite_pipe[variables->i] = 0;
 		variables->i++;
 	}
 	free(my_struct->splite_pipe);
@@ -692,12 +733,6 @@ int	fix_arg(t_all *my_struct)
 	free(my_struct->the_commande);
 	my_struct->the_commande = 0;
 	variables.i = 0;
-	// while(my_struct->splite_pipe[variables.i])
-	// {
-	// 	printf("[%s]\n", my_struct->splite_pipe[variables.i]);
-	// 	variables.i++;
-	// }
-	// exit(0);
 	my_struct->each_cmd = ft_calloc(sizeof(t_each_command),\
 		my_struct->number_of_pipes + 1);
 	if(rederaction_parccen(my_struct, &variables))

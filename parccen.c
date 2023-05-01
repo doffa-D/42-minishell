@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 12:31:35 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/05/01 00:42:50 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/01 16:31:21 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -311,13 +311,80 @@ int 	inistialisation_input(t_all *my_struct, t_var *variables, int c_of_s,
 		wait(&checher);
 		return -1;
 	}
+	variables->c = variables->j - 1;
+	my_struct->each_cmd[variables->i].files[c_of_s].files = ft_calloc(1, 1);
+	if (my_struct->each_cmd[variables->i].files[c_of_s].number_of_I == 2)
+		my_struct->each_cmd[variables->i].files[c_of_s].HERDOC = 1;
+	qouts(my_struct, variables, var , c_of_s);
+	// printf("%s\n",my_struct->each_cmd[variables->i].files[c_of_s].files);
 	if (my_struct->each_cmd[variables->i].files[c_of_s].number_of_I == 1)
 		my_struct->each_cmd[variables->i].files[c_of_s].INPUT = 1;
 	else if (my_struct->each_cmd[variables->i].files[c_of_s].number_of_I == 2)
-		my_struct->each_cmd[variables->i].files[c_of_s].HERDOC = 1;
-	variables->c = variables->j - 1;
-	my_struct->each_cmd[variables->i].files[c_of_s].files = ft_calloc(1, 1);
-	qouts(my_struct, variables, var , c_of_s);
+	{
+		// if(my_struct->fils_descreprot)
+		// 	close(my_struct->fils_descreprot);
+		int fd_by_pipe[2];
+		char *buffer = 0;
+		char *buffer_tmp = 0;
+		char *herdoc = ft_strdup("");
+		int i = 0;
+		int c = 0;
+		pipe(fd_by_pipe);
+		while (1)
+		{
+			buffer = readline("> ");
+			if(!buffer)
+				break;
+			if (!ft_strncmp(buffer, my_struct->each_cmd[variables->i].files[c_of_s].files,
+					ft_strlen(buffer) + 1))
+				break ;
+			if(ft_strchr(buffer, '$') && my_struct->each_cmd[c_of_s].files[c_of_s].HERDOC_OPTION == 0)
+			{
+				i = 0;
+				c = 0;
+				while (buffer[i])
+				{
+					if((buffer[i] == '$' \
+						&& buffer[i + 1] \
+						&& buffer[i + 1] != ' '))
+					{
+						herdoc = ft_strjoin_v2(herdoc, ft_substr(buffer, c, i - c));
+						i++;
+						if(buffer[i] == '?')
+						{
+							herdoc = ft_strjoin_v2(herdoc, ft_itoa(my_struct->exit_status));
+							i++;
+							c = i;
+						}
+						else
+						{
+							c = i;
+							while (ft_isalnum(buffer[i]))
+								i++;
+							buffer_tmp = ft_substr(buffer, c, i - c);
+							// printf("%s\n",buffer_tmp);
+							herdoc = ft_strjoin_v2(herdoc, my_getenv(my_struct->list, buffer_tmp));
+							// exit(0);
+							free(buffer_tmp);
+							c = i;
+						}
+						i--;
+					}
+					if(!buffer[i])
+						break;
+					i++;
+				}
+				herdoc = ft_strjoin_v2(herdoc, ft_substr(buffer, c, i - c));
+			}
+			else
+				herdoc = ft_strjoin(herdoc, buffer);
+			herdoc = ft_strjoin(herdoc, "\n");
+		}
+		ft_putstr_fd(herdoc, fd_by_pipe[1]);
+		close(fd_by_pipe[1]);
+		free(herdoc);
+		my_struct->fils_descreprot = fd_by_pipe[0];
+	}
 	if(ft_strchr(my_struct->each_cmd[variables->i].files[c_of_s].files, 6) && \
 	ft_strlen(my_struct->each_cmd[variables->i].files[c_of_s].files) == 1)
 		my_struct->each_cmd[variables->i].files[c_of_s].files = ft_strdup("");
@@ -684,6 +751,7 @@ int	rederaction_parccen(t_all *my_struct, t_var *variables)
 	c_of_s = 0;
 	var = 0;
 	variables->i = 0;
+	my_struct->fils_descreprot = 0;
 	while (my_struct->splite_pipe[variables->i])
 	{
 		my_struct->status = OUTSIDE;
@@ -708,6 +776,7 @@ int	rederaction_parccen(t_all *my_struct, t_var *variables)
 		variables->i++;
 	}
 	free(my_struct->splite_pipe);
+	// exit(0);
 	return 0;
 }
 

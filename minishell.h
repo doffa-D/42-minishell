@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 14:20:41 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/04/29 21:35:48 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/01 15:27:49 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ typedef struct s_all
 	char				*tmp_cmd;
 	int 				exit_status;
 	int					check;
+	int					fils_descreprot;
 	t_list				*list;
 }				t_all;
 

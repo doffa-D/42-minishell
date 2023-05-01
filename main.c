@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:07:52 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/01 17:36:34 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/01 19:06:47 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,6 +196,8 @@ int	somting_in_readline(t_all *my_struct)
 		return 258;
 	if(i == 2)
 		return 2;
+	if(i == 1)
+		return 1;
 	c_of_s = 0;
 	if(my_struct->number_of_pipes == 1)
 	{

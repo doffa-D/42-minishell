@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 12:31:35 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/05/01 18:45:25 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/01 19:28:47 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -357,7 +357,8 @@ int 	inistialisation_input(t_all *my_struct, t_var *variables, int c_of_s,
 			exit(1);
 		}
 		wait(&checher);
-		return -1;
+		my_struct->exit_status = checher >> 8;
+		return -2;
 	}
 	// printf("%s\n",my_struct->each_cmd[variables->i].files[c_of_s].files);
 	if (my_struct->each_cmd[variables->i].files[c_of_s].number_of_I == 1)
@@ -485,7 +486,8 @@ int		inistialisation_output(t_all *my_struct, t_var *variables, int c_of_s,
 			exit(1);
 		}
 		wait(&checher);
-		return -1;
+		my_struct->exit_status = checher >> 8;
+		return -2;
 	}
 	if(ft_strchr(my_struct->each_cmd[variables->i].files[c_of_s].files, 6) && \
 	ft_strlen(my_struct->each_cmd[variables->i].files[c_of_s].files) == 1)
@@ -658,13 +660,17 @@ void	if_rediraction_is_existe(t_all *my_struct, t_var *variables, int var)
 int	any_commde_parceen(t_all *my_struct, t_var *variables, int var,
 		int c_of_s)
 {
+	int i;
 	if (my_struct->tmp_cmd[variables->j] && \
 	my_struct->tmp_cmd[variables->j] == 2)
 	{
 		initialisaion(my_struct, variables, c_of_s);
 		var = rediraction_calculate_output(my_struct, variables,  var, c_of_s);
-		if(inistialisation_output(my_struct, variables, c_of_s, var))
+		i = inistialisation_output(my_struct, variables, c_of_s, var);
+		if(i == -1)
 			return -1;
+		if(i == -2)
+			return -2;
 		c_of_s++;
 		variables->j = var - 1;
 	}
@@ -673,8 +679,11 @@ int	any_commde_parceen(t_all *my_struct, t_var *variables, int var,
 	{
 		initialisaion(my_struct, variables, c_of_s);
 		var = rediraction_calculate_input(my_struct, variables, var, c_of_s);
-		if(inistialisation_input(my_struct, variables, c_of_s, var))
+		i = inistialisation_input(my_struct, variables, c_of_s, var);
+		if(i == -1)
 			return -1;
+		if(i == -2)
+			return -2;
 		c_of_s++;
 		variables->j = var - 1;
 	}
@@ -839,6 +848,8 @@ int	rederaction_parccen(t_all *my_struct, t_var *variables)
 			c_of_s = any_commde_parceen(my_struct, variables, var, c_of_s);
 			if(c_of_s == -1)
 				return -1;
+			if(c_of_s == -2)
+				return -2;
 			variables->j++;
 		}
 		// int i = 0;
@@ -883,7 +894,10 @@ int	fix_arg(t_all *my_struct)
 	variables.i = 0;
 	my_struct->each_cmd = ft_calloc(sizeof(t_each_command),\
 		my_struct->number_of_pipes + 1);
-	if(rederaction_parccen(my_struct, &variables))
+	variables.i = rederaction_parccen(my_struct, &variables);
+	if(variables.i == -1)
 		return 258;
+	if(variables.i == -2)
+		return 1;
 	return 0;
 }

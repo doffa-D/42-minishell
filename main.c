@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:07:52 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/01 16:29:10 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/01 17:36:34 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int cd_commade(t_all *my_struct, int c_of_s)
 		if(my_struct->each_cmd[c_of_s].cmd[1][0] == '~')
 		{
 
-        	chdir(my_getenv(my_struct->list,"HOME"));
+        	chdir(my_getenv(my_struct->list,"HOME", 0));
 
 		}
 		if(my_struct->each_cmd[c_of_s].cmd[1] && my_struct->each_cmd[c_of_s].cmd[1][1] == '/')
@@ -53,7 +53,7 @@ int cd_commade(t_all *my_struct, int c_of_s)
     }
 	if(ft_strlen(my_struct->each_cmd[c_of_s].cmd[0]) == 2 && !my_struct->each_cmd[c_of_s].cmd[1])
 	{
-        if(chdir(my_getenv(my_struct->list,"HOME")) == -1)
+        if(chdir(my_getenv(my_struct->list,"HOME", 0)) == -1)
 		{
 			pid = fork();
 			if(pid == 0)
@@ -205,7 +205,7 @@ int	somting_in_readline(t_all *my_struct)
 		if(c_of_s == -1)
 			return 1;
 	}
-	my_struct->my_path = ft_split(my_getenv(my_struct->list, "PATH"), ':');
+	my_struct->my_path = ft_split(my_getenv(my_struct->list, "PATH", 0), ':');
 	if(!my_struct->my_path[0])
 	{
 		i = fork();
@@ -227,7 +227,7 @@ int	somting_in_readline(t_all *my_struct)
 		if (i == 0)
 		{
 			if(my_struct->each_cmd[c_of_s].files)
-				 i = check_rediractions(my_struct, c_of_s);
+				i = check_rediractions(my_struct, c_of_s);
 			if((i == 0 || i == 2)&& my_struct->number_of_pipes > 1)
 			{
 				close(pipe_n[c_of_s][0]);

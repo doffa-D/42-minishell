@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 12:31:35 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/05/01 16:31:21 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/01 17:43:50 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,12 +93,14 @@ void	pipe_and_rederaction_parceen(t_all *my_struct, t_var *variables)
 	}
 }
 
-char *my_getenv(t_list *head , char *var)
+char *my_getenv(t_list *head , char *var, int trim)
 {
 	int j = 0;
 	(void)var;
 	int i = 0;
 	char *expande_variable = ft_calloc(1, 1);
+	// char *variable = 0;
+	// (void)trim;
 	while (head)
 	{
 		if(*(char *)head->content == var[0])
@@ -112,13 +114,18 @@ char *my_getenv(t_list *head , char *var)
 					expande_variable = ft_substr(head->content, \
 					j + 1, ft_strlen(head->content + (j + 1)));
 					i = 0;
-					while (expande_variable[i])
+					if(trim == 1)
 					{
-						if(expande_variable[i] == ' ')
-							expande_variable[i] = 3;
-						i++;
+						// variable = expande_variable;
+						// expande_variable = ft_strtrim(expande_variable, " ");
+						// free(variable);
+						while (expande_variable[i])
+						{
+							if(expande_variable[i] == ' ')
+								expande_variable[i] = 3;
+							i++;
+						}
 					}
-					
 					return(expande_variable);
 				}
 				j++;
@@ -154,11 +161,22 @@ char *variables_parceen(t_all *my_struct, t_var *variables,char *whotout_expande
 		{
 			variable = ft_substr(whotout_expande, variables->j + 1,
 					(var - (variables->j + 1)));
-			variable = my_getenv(my_struct->list,variable);
+			if(my_struct->status == IN_DCOTE)
+				variable = my_getenv(my_struct->list,variable, 0);
+			else
+				variable = my_getenv(my_struct->list,variable, 1);
 			if (variable)
 				my_string = ft_strjoin(my_string, variable);
 			variables->j = var - 1;
 		}
+	}
+	if (my_struct->status == IN_COTE)
+	{
+		variable = ft_substr(whotout_expande, variables->j,
+				(var - variables->j));
+		my_string = ft_strjoin_v2(my_string, \
+			variable);
+		variables->j = var - 1;
 	}
 	return my_string;
 }
@@ -224,6 +242,8 @@ char *variables_parceen_utils(char *whotout_expande, char *my_string ,t_all *my_
 				my_string = ft_strjoin(my_string,ft_itoa(my_struct->exit_status));
 				variables->c = variables->j;
 			}
+			else
+				variables->c = variables->j - 1;
 		}
 		else if(my_struct->status != OUTSIDE && (whotout_expande[variables->j + 1] == 34 || whotout_expande[variables->j + 1] == 39))
 			variables->c = variables->j - 1;
@@ -363,7 +383,7 @@ int 	inistialisation_input(t_all *my_struct, t_var *variables, int c_of_s,
 								i++;
 							buffer_tmp = ft_substr(buffer, c, i - c);
 							// printf("%s\n",buffer_tmp);
-							herdoc = ft_strjoin_v2(herdoc, my_getenv(my_struct->list, buffer_tmp));
+							herdoc = ft_strjoin_v2(herdoc, my_getenv(my_struct->list, buffer_tmp,0));
 							// exit(0);
 							free(buffer_tmp);
 							c = i;
@@ -521,7 +541,7 @@ int	rediraction_calculate_input(t_all *my_struct, t_var *variables, int var, int
 		}
 	return (var);
 }
-void	commande_and_args(t_all *my_struct, t_var *variables, int var)
+void	 commande_and_args(t_all *my_struct, t_var *variables, int var)
 {
 	var = variables->j;
 	variables->c = variables->j - 1;
@@ -543,7 +563,7 @@ void	commande_and_args(t_all *my_struct, t_var *variables, int var)
 			else
 				my_struct->status = IN_COTE;
 		}
-		else if (my_struct->status != IN_COTE && my_struct->tmp_cmd[variables->j] == '$' \
+		else if (my_struct->tmp_cmd[variables->j] == '$' \
 		&& my_struct->tmp_cmd[variables->j + 1] \
 		&& my_struct->tmp_cmd[variables->j + 1] != ' ' \
 		&& my_struct->tmp_cmd[variables->j + 1] != 3)

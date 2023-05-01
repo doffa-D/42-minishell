@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 14:20:41 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/01 15:27:49 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/01 16:54:50 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	free_all(t_all my_struct);
 void	exicut_echo(t_all *my_struct, int c_of_s);
 int		quote_check(char *cmd);
 int		fix_arg(t_all *my_struct);
-char 	*my_getenv(t_list *head , char *var);
+char *my_getenv(t_list *head , char *var, int trim);
 // void			rl_replace_line (const char *text, int clear_undo);
 char	*ft_strjoin_v2(char const *s1, char const *s2);
 // void check_leaks();

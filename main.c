@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:07:52 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/01 19:06:47 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/02 00:45:30 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -315,6 +315,32 @@ int	somting_in_readline(t_all *my_struct)
 		my_struct->number_of_pipes--;
 		c_of_s++;
 	}
+	i = 0;
+	while(my_struct->my_path[i])
+	{
+		free(my_struct->my_path[i]);
+		i++;
+	}
+	i = 0;
+	free(my_struct->my_path);
+	while(my_struct->each_cmd[i].files)
+	{
+		free(my_struct->each_cmd[i].files);
+		i++;
+	}
+	i = 0;
+	while(my_struct->each_cmd[i].cmd)
+	{
+		j = 0;
+		while (my_struct->each_cmd[i].cmd[j])
+		{
+			free(my_struct->each_cmd[i].cmd[j]);
+			j++;
+		}
+		free(my_struct->each_cmd[i].cmd);
+		i++;
+	}
+	free(my_struct->each_cmd);
 	return (my_struct->exit_status);
 }
 void    fill_linked_list(char **dst, t_list **list)
@@ -368,6 +394,7 @@ int main(int argc,char **argv,char **env)
             exit(my_struct.exit_status);
         if(ft_strlen(my_struct.cmd) != 0)
             my_struct.exit_status = somting_in_readline(&my_struct);
+		// free(my_struct.cmd);
         i++;
     }
 }

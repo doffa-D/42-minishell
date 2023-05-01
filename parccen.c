@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 12:31:35 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/05/01 17:43:50 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/01 18:30:13 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,8 +111,7 @@ char *my_getenv(t_list *head , char *var, int trim)
 			{
 				if(((char *)head->content)[j] == '=' && !var[j])
 				{
-					expande_variable = ft_substr(head->content, \
-					j + 1, ft_strlen(head->content + (j + 1)));
+					expande_variable = ft_substr(head->content, j + 1, ft_strlen(head->content + (j + 1)));
 					i = 0;
 					if(trim == 1)
 					{
@@ -312,6 +311,7 @@ void	initialisaion(t_all *my_struct, t_var *variables, int c_of_s)
 int 	inistialisation_input(t_all *my_struct, t_var *variables, int c_of_s,
 		int var)
 {
+	char **str;
 	int checher = 0;
 	if (my_struct->each_cmd[variables->i].files[c_of_s].number_of_I > 2)
 		checher = 1;
@@ -336,6 +336,26 @@ int 	inistialisation_input(t_all *my_struct, t_var *variables, int c_of_s,
 	if (my_struct->each_cmd[variables->i].files[c_of_s].number_of_I == 2)
 		my_struct->each_cmd[variables->i].files[c_of_s].HERDOC = 1;
 	qouts(my_struct, variables, var , c_of_s);
+	str = ft_split(my_struct->each_cmd[variables->i].files[c_of_s].files, 3);
+	checher = 0;
+	free(my_struct->each_cmd[variables->i].files[c_of_s].files);
+	my_struct->each_cmd[variables->i].files[c_of_s].files = 0;
+	while (str[checher])
+	{
+		my_struct->each_cmd[variables->i].files[c_of_s].files = str[checher];
+		checher++;
+	}
+	if(checher > 1)
+	{
+		checher = fork();
+		if(checher == 0)
+		{
+			ft_putstr_fd("minishell: ambiguous redirect\n", 2);
+			exit(1);
+		}
+		wait(&checher);
+		return -1;
+	}
 	// printf("%s\n",my_struct->each_cmd[variables->i].files[c_of_s].files);
 	if (my_struct->each_cmd[variables->i].files[c_of_s].number_of_I == 1)
 		my_struct->each_cmd[variables->i].files[c_of_s].INPUT = 1;
@@ -414,6 +434,7 @@ int 	inistialisation_input(t_all *my_struct, t_var *variables, int c_of_s,
 int		inistialisation_output(t_all *my_struct, t_var *variables, int c_of_s,
 		int var)
 {
+	char **str;
 	int checher = 0;
 	if (my_struct->each_cmd[variables->i].files[c_of_s].number_of_O > 2)
 		checher = 1;
@@ -440,6 +461,26 @@ int		inistialisation_output(t_all *my_struct, t_var *variables, int c_of_s,
 	variables->c = variables->j - 1;
 	my_struct->each_cmd[variables->i].files[c_of_s].files = ft_calloc(1, 1);
 	qouts(my_struct, variables, var , c_of_s);
+	str = ft_split(my_struct->each_cmd[variables->i].files[c_of_s].files, 3);
+	checher = 0;
+	free(my_struct->each_cmd[variables->i].files[c_of_s].files);
+	my_struct->each_cmd[variables->i].files[c_of_s].files = 0;
+	while (str[checher])
+	{
+		my_struct->each_cmd[variables->i].files[c_of_s].files = str[checher];
+		checher++;
+	}
+	if(checher > 1)
+	{
+		checher = fork();
+		if(checher == 0)
+		{
+			ft_putstr_fd("minishell: ambiguous redirect\n", 2);
+			exit(1);
+		}
+		wait(&checher);
+		return -1;
+	}
 	if(ft_strchr(my_struct->each_cmd[variables->i].files[c_of_s].files, 6) && \
 	ft_strlen(my_struct->each_cmd[variables->i].files[c_of_s].files) == 1)
 		my_struct->each_cmd[variables->i].files[c_of_s].files = ft_strdup("");
@@ -709,6 +750,12 @@ void qouts_comnde(t_all *my_struct, t_var *variables, int var)
 	int cas = 0;
 	while(my_struct->each_cmd[variables->i].cmd[var])
 	{
+		// int i = 0;
+		// while (my_struct->each_cmd[variables->i].cmd[var][i])
+		// {
+		// 	printf("[%d]\n", my_struct->the_commande[i]);
+		// 	i++;
+		// }
 		variables->j = 0;
 		variables->c = -1;
 		my_struct->tmp_cmd = ft_calloc(1, 1);
@@ -788,6 +835,12 @@ int	rederaction_parccen(t_all *my_struct, t_var *variables)
 				return -1;
 			variables->j++;
 		}
+		// int i = 0;
+		// while (my_struct->the_commande[i])
+		// {
+		// 	printf("{%d}\n", my_struct->the_commande[i]);
+		// 	i++;
+		// }
 		qouts_comnde(my_struct, variables, var);
 		free(my_struct->splite_pipe[variables->i]);
 		my_struct->splite_pipe[variables->i] = 0;

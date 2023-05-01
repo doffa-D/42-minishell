@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 12:31:35 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/05/01 18:30:13 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/01 18:45:25 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -338,8 +338,11 @@ int 	inistialisation_input(t_all *my_struct, t_var *variables, int c_of_s,
 	qouts(my_struct, variables, var , c_of_s);
 	str = ft_split(my_struct->each_cmd[variables->i].files[c_of_s].files, 3);
 	checher = 0;
-	free(my_struct->each_cmd[variables->i].files[c_of_s].files);
-	my_struct->each_cmd[variables->i].files[c_of_s].files = 0;
+	if(str[checher])
+	{
+		free(my_struct->each_cmd[variables->i].files[c_of_s].files);
+		my_struct->each_cmd[variables->i].files[c_of_s].files = 0;
+	}
 	while (str[checher])
 	{
 		my_struct->each_cmd[variables->i].files[c_of_s].files = str[checher];
@@ -463,8 +466,11 @@ int		inistialisation_output(t_all *my_struct, t_var *variables, int c_of_s,
 	qouts(my_struct, variables, var , c_of_s);
 	str = ft_split(my_struct->each_cmd[variables->i].files[c_of_s].files, 3);
 	checher = 0;
-	free(my_struct->each_cmd[variables->i].files[c_of_s].files);
-	my_struct->each_cmd[variables->i].files[c_of_s].files = 0;
+	if(str[checher])
+	{
+		free(my_struct->each_cmd[variables->i].files[c_of_s].files);
+		my_struct->each_cmd[variables->i].files[c_of_s].files = 0;
+	}
 	while (str[checher])
 	{
 		my_struct->each_cmd[variables->i].files[c_of_s].files = str[checher];

@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 12:31:35 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/05/02 15:25:08 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/02 16:36:54 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -912,7 +912,6 @@ int	fix_arg(t_all *my_struct)
 	my_struct->the_commande = 0;
 	my_struct->the_commande = ft_calloc(1, 1);
 	variables.i = parccen_part(my_struct, &variables, splite);
-	// while(1);
 	if(variables.i == -1)
 		return 2;
 	if(variables.i == 258)

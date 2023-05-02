@@ -24,6 +24,7 @@
         "get_next_line.h": "c",
         "complex": "c",
         "locale": "c",
-        "algorithm": "c"
+        "algorithm": "c",
+        "__locale": "c"
     }
 }

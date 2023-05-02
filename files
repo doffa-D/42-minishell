@@ -1,13 +1,11 @@
-total 440
--rwxr-xr-x   1 nouakhro  candidates      3 May  1 17:28 $USER
-drwxr-xr-x  38 nouakhro  candidates   1292 May  2 00:45 .
+total 424
+drwxr-xr-x  38 nouakhro  candidates   1292 May  2 15:20 .
 drwxr-xr-x  16 nouakhro  candidates    544 Apr 28 19:34 ..
--rw-r--r--   1 nouakhro  candidates  14340 May  2 00:39 .DS_Store
-drwxr-xr-x  15 nouakhro  candidates    510 May  1 19:31 .git
+-rw-r--r--   1 nouakhro  candidates  10244 May  2 14:03 .DS_Store
+drwxr-xr-x  15 nouakhro  candidates    510 May  2 00:48 .git
 -rw-r--r--   1 nouakhro  candidates     79 Apr 24 17:20 .gitignore
 drwxr-xr-x   3 nouakhro  candidates    102 Apr 25 19:40 .vscode
 -rw-r--r--   1 nouakhro  candidates   1693 May  1 18:35 Makefile
--rwxr-xr-x   1 nouakhro  candidates   2573 May  2 00:45 P%DF%C0
 -rw-r--r--   1 nouakhro  candidates  17026 Apr 28 19:02 buckup.c
 -rw-r--r--   1 nouakhro  candidates   3332 Apr 26 15:22 builtins.c
 -rw-r--r--   1 nouakhro  candidates   3384 May  1 16:34 check_rediraction.c
@@ -15,18 +13,20 @@ drwxr-xr-x   3 nouakhro  candidates    102 Apr 25 19:40 .vscode
 -rw-r--r--   1 nouakhro  candidates   2135 Apr 28 19:02 echo_command.c
 -rw-r--r--   1 nouakhro  candidates   1077 Apr 24 17:19 env_commd.c
 -rw-r--r--   1 nouakhro  candidates   2839 Apr 27 17:47 export_command.c
+-rw-r--r--   1 nouakhro  candidates      0 May  2 14:38 fiiiii
+-rwxr-xr-x   1 nouakhro  candidates      0 May  2 15:20 files
 -rwxr-xr-x   1 nouakhro  candidates      2 May  1 17:22 foowhitespace_left
 -rw-r--r--   1 nouakhro  candidates   1417 Mar 23 13:10 free_all.c
+-rwxr-xr-x   1 nouakhro  candidates     24 May  2 14:57 ggg.sh
 -rw-r--r--   1 nouakhro  candidates      4 May  1 18:51 hvldfdfv
-drwxr-xr-x  91 nouakhro  candidates   3094 May  1 21:05 libft
--rwxr-xr-x   1 nouakhro  candidates      0 May  2 00:45 ls
--rw-r--r--   1 nouakhro  candidates  10732 May  2 00:44 main.c
+drwxr-xr-x  91 nouakhro  candidates   3094 May  2 15:04 libft
+-rw-r--r--   1 nouakhro  candidates  10917 May  2 15:20 main.c
 drwxr-xr-x  15 nouakhro  candidates    510 Apr 26 19:26 mini-ms-tester
--rwxr-xr-x   1 nouakhro  candidates  50440 May  2 00:44 minishell
+-rwxr-xr-x   1 nouakhro  candidates  50440 May  2 15:20 minishell
 -rw-r--r--   1 nouakhro  candidates   3440 May  1 16:54 minishell.h
 -rw-r--r--   1 nouakhro  candidates     12 Apr 30 23:22 nouakhro
-drwxr-xr-x  19 nouakhro  candidates    646 May  2 00:44 object
--rw-r--r--   1 nouakhro  candidates  27280 May  2 00:15 parccen.c
+drwxr-xr-x  19 nouakhro  candidates    646 May  2 15:20 object
+-rw-r--r--   1 nouakhro  candidates  27296 May  2 15:17 parccen.c
 -rw-r--r--   1 nouakhro  candidates   2340 Apr 28 19:02 parceen.c
 -rw-r--r--   1 nouakhro  candidates   1707 Apr 26 01:52 pipe_and_rederaction.c
 -rw-r--r--   1 nouakhro  candidates   1073 Apr 25 19:57 pwd_command.c

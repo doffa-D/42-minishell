@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 15:02:29 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/04/27 16:47:49 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/02 16:23:01 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	handle_export(char *cmd, int print, t_list *list,t_all *my_struct)
 	print = check_export_error(cmd,my_struct);
 	if (print == 0)
 		return (print);
-	else if (cmd[ft_strlen(cmd) - 1] != '=' && ft_strchr(cmd, '=') && cmd && !duplicate_check_export(list, cmd) && print != 2)
+	else if (cmd && cmd[ft_strlen(cmd) - 1] != '=' && ft_strchr(cmd, '=') &&!duplicate_check_export(list, cmd) && print != 2)
 	{
 		string_dakche(list);
 		if (replace_varible(list, cmd) == 0)
@@ -93,7 +93,6 @@ void	export_command(t_all *my_struct, int c_of_s)
 	while (my_struct->each_cmd[c_of_s].cmd[i])
 	{
 		print = handle_export(my_struct->each_cmd[c_of_s].cmd[i], print, my_struct->list,my_struct);
-		// printf("(%d)\n",print);
 		if (print == 0)
 			break ;
 		i++;

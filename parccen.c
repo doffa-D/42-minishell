@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 12:31:35 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/05/02 00:15:52 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/02 15:25:08 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,6 @@ char *my_getenv(t_list *head , char *var, int trim)
 	(void)var;
 	int i = 0;
 	char *expande_variable = ft_calloc(1, 1);
-	// char *variable = 0;
-	// (void)trim;
 	while (head)
 	{
 		if(*(char *)head->content == var[0])
@@ -111,13 +109,11 @@ char *my_getenv(t_list *head , char *var, int trim)
 			{
 				if(((char *)head->content)[j] == '=' && !var[j])
 				{
+					free(expande_variable);
 					expande_variable = ft_substr(head->content, j + 1, ft_strlen(head->content + (j + 1)));
 					i = 0;
 					if(trim == 1)
 					{
-						// variable = expande_variable;
-						// expande_variable = ft_strtrim(expande_variable, " ");
-						// free(variable);
 						while (expande_variable[i])
 						{
 							if(expande_variable[i] == ' ')
@@ -353,7 +349,7 @@ int 	inistialisation_input(t_all *my_struct, t_var *variables, int c_of_s,
 	}
 	while (str[checher])
 	{
-		my_struct->each_cmd[variables->i].files[c_of_s].files = str[checher];
+		my_struct->each_cmd[variables->i].files[c_of_s].files = ft_strdup(str[checher]);
 		checher++;
 	}
 	if(checher > 1)
@@ -497,7 +493,7 @@ int		inistialisation_output(t_all *my_struct, t_var *variables, int c_of_s,
 	}
 	while (str[checher])
 	{
-		my_struct->each_cmd[variables->i].files[c_of_s].files = str[checher];
+		my_struct->each_cmd[variables->i].files[c_of_s].files = ft_strdup(str[checher]);
 		free(str[checher]);
 		checher++;
 	}
@@ -752,8 +748,7 @@ void qouts(t_all *my_struct, t_var *variables, int var, int c_of_s)
 			variables->c++;
 			my_struct->each_cmd[variables->i].files[c_of_s].files = \
 			ft_strjoin_v2(my_struct->each_cmd[variables->i].files[c_of_s].files, \
-			ft_substr(my_struct->tmp_cmd, \
-			variables->c, variables->j - variables->c));
+			ft_substr(my_struct->tmp_cmd, variables->c, variables->j - variables->c));
 			variables->c = variables->j;
 		}
 		else if (my_struct->tmp_cmd[variables->j] == 39 \
@@ -769,11 +764,11 @@ void qouts(t_all *my_struct, t_var *variables, int var, int c_of_s)
 				my_struct->status = IN_COTE;
 			variables->c++;
 			my_struct->each_cmd[variables->i].files[c_of_s].files = \
-			ft_strjoin_v2(my_struct->each_cmd[variables->i].files[c_of_s].files, ft_substr(my_struct->tmp_cmd, \
-			variables->c, variables->j - variables->c));
+			ft_strjoin_v2(my_struct->each_cmd[variables->i].files[c_of_s].files, \
+			ft_substr(my_struct->tmp_cmd, variables->c, variables->j - variables->c));
 			variables->c = variables->j;
 		}
-		else if ( my_struct->tmp_cmd[variables->j] == '$' \
+		else if (my_struct->tmp_cmd[variables->j] == '$' \
 		&& my_struct->tmp_cmd[variables->j + 1] \
 		&& my_struct->tmp_cmd[variables->j + 1] != ' ' \
 		&& my_struct->tmp_cmd[variables->j + 1] != 3 \

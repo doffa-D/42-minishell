@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:07:52 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/02 00:45:30 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/02 16:30:11 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,46 @@
 // 		return ;
 // }
 
-
+void free_all_v2(int num,t_all *my_struct)
+{
+	int i = 0;
+	int j = 0;
+	if(num == 1)
+	{
+		while(my_struct->my_path[i])
+		{
+			free(my_struct->my_path[i]);
+			i++;
+		}
+		free(my_struct->my_path);
+	}
+	i = 0;
+	j = 0;
+	while(my_struct->each_cmd[i].files)
+	{
+		j = 0;
+		while (my_struct->each_cmd[i].files[j].files)
+		{
+			free(my_struct->each_cmd[i].files[j].files);
+			j++;
+		}
+		free(my_struct->each_cmd[i].files);
+		i++;
+	}
+	i = 0;
+	while(my_struct->each_cmd[i].cmd)
+	{
+		j = 0;
+		while (my_struct->each_cmd[i].cmd[j])
+		{
+			free(my_struct->each_cmd[i].cmd[j]);
+			j++;
+		}
+		free(my_struct->each_cmd[i].cmd);
+		i++;
+	}
+	free(my_struct->each_cmd);
+}
 
 
 int cd_commade(t_all *my_struct, int c_of_s)
@@ -85,6 +124,7 @@ int builtins(t_all *my_struct, int c_of_s)
 	{
 		my_struct->check = 0;
 		export_command(my_struct,c_of_s);
+
 		if(my_struct->check == 1)
 			return (-1);
 		return (1);
@@ -124,6 +164,7 @@ int builtins(t_all *my_struct, int c_of_s)
 		}
 		exit(my_struct->exit_status);
 	}
+
 	return (0);
 }
 int	somting_in_readline(t_all *my_struct)
@@ -203,11 +244,19 @@ int	somting_in_readline(t_all *my_struct)
 	{
 		c_of_s = builtins(my_struct, c_of_s);
 		if(c_of_s == 1)
+		{
+			free_all_v2(0 ,my_struct);
 			return 0;
+		}
 		if(c_of_s == -1)
+		{
+			free_all_v2(0, my_struct);
 			return 1;
+		}
 	}
-	my_struct->my_path = ft_split(my_getenv(my_struct->list, "PATH", 0), ':');
+	char *str = my_getenv(my_struct->list, "PATH", 0);
+	my_struct->my_path = ft_split(str, ':');
+	free(str);
 	if(!my_struct->my_path[0])
 	{
 		i = fork();
@@ -220,6 +269,7 @@ int	somting_in_readline(t_all *my_struct)
 		wait(&i);
 		return 127;
 	}
+	
 	int pipe_n[my_struct->number_of_pipes][2];
 	while(my_struct->number_of_pipes > 0)
 	{
@@ -242,12 +292,14 @@ int	somting_in_readline(t_all *my_struct)
 				dup2(pipe_n[c_of_s - 1][0], STDIN_FILENO);
 				close(pipe_n[c_of_s - 1][0]);
 			}
-			if (my_struct->each_cmd[0].cmd[0] && !ft_strncmp(my_struct->each_cmd[c_of_s].cmd[0], "echo", ft_strlen("echo")+1))
+			if (my_struct->each_cmd[0].cmd[0] && \
+			!ft_strncmp(my_struct->each_cmd[c_of_s].cmd[0], "echo", ft_strlen("echo")+1))
 			{
 				echo_command(my_struct,c_of_s);
 				exit(0);
 			}
-			if (my_struct->each_cmd[c_of_s].cmd[0] && !ft_strncmp(my_struct->each_cmd[c_of_s].cmd[0], "pwd", ft_strlen("pwd")+1))
+			if (my_struct->each_cmd[c_of_s].cmd[0] && \
+			!ft_strncmp(my_struct->each_cmd[c_of_s].cmd[0], "pwd", ft_strlen("pwd")+1))
 			{
 				pwd_command();
 				exit(0);
@@ -258,7 +310,8 @@ int	somting_in_readline(t_all *my_struct)
 			if(j == -1)
 				exit(1);
 			j = 0;
-			if (my_struct->each_cmd[c_of_s].cmd[0] && !ft_strchr(my_struct->each_cmd[c_of_s].cmd[0], '/') && !get_the_path(my_struct, c_of_s))
+			if (my_struct->each_cmd[c_of_s].cmd[0] && \
+			!ft_strchr(my_struct->each_cmd[c_of_s].cmd[0], '/') && !get_the_path(my_struct, c_of_s))
 			{
 				i = 0;
 				while (my_struct->my_path && my_struct->my_path[i])
@@ -316,31 +369,8 @@ int	somting_in_readline(t_all *my_struct)
 		c_of_s++;
 	}
 	i = 0;
-	while(my_struct->my_path[i])
-	{
-		free(my_struct->my_path[i]);
-		i++;
-	}
-	i = 0;
-	free(my_struct->my_path);
-	while(my_struct->each_cmd[i].files)
-	{
-		free(my_struct->each_cmd[i].files);
-		i++;
-	}
-	i = 0;
-	while(my_struct->each_cmd[i].cmd)
-	{
-		j = 0;
-		while (my_struct->each_cmd[i].cmd[j])
-		{
-			free(my_struct->each_cmd[i].cmd[j]);
-			j++;
-		}
-		free(my_struct->each_cmd[i].cmd);
-		i++;
-	}
-	free(my_struct->each_cmd);
+	// while(1);
+	free_all_v2(0, my_struct);
 	return (my_struct->exit_status);
 }
 void    fill_linked_list(char **dst, t_list **list)
@@ -394,7 +424,7 @@ int main(int argc,char **argv,char **env)
             exit(my_struct.exit_status);
         if(ft_strlen(my_struct.cmd) != 0)
             my_struct.exit_status = somting_in_readline(&my_struct);
-		// free(my_struct.cmd);
+		free(my_struct.cmd);
         i++;
     }
 }

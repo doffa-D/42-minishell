@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 12:31:35 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/05/02 16:36:54 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/02 18:11:33 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ int	quote_and_dqout(t_all *my_struct, t_var *variables)
 	if ((my_struct->fix_cmd[variables->i][variables->j] == 34)
 		&& my_struct->status != IN_COTE)
 	{
-		if (my_struct->fix_cmd[variables->i][variables->j] == 34
+		my_struct->fix_cmd[variables->i][variables->j] = 8;
+		if (my_struct->fix_cmd[variables->i][variables->j] == 8
 			&& my_struct->status == IN_DCOTE)
 			my_struct->status = OUTSIDE;
 		else
@@ -62,7 +63,8 @@ int	quote_and_dqout(t_all *my_struct, t_var *variables)
 	if ((my_struct->fix_cmd[variables->i][variables->j] == 39)
 		&& my_struct->status != IN_DCOTE)
 	{
-		if (my_struct->fix_cmd[variables->i][variables->j] == 39
+		my_struct->fix_cmd[variables->i][variables->j] = 6;
+		if (my_struct->fix_cmd[variables->i][variables->j] == 6
 			&& my_struct->status == IN_COTE)
 			my_struct->status = OUTSIDE;
 		else
@@ -99,7 +101,9 @@ char *my_getenv(t_list *head , char *var, int trim)
 	(void)var;
 	int i = 0;
 	char *expande_variable = ft_calloc(1, 1);
-	while (head)
+
+	// printf("ssssss[%p]\n",head);
+	while (head != NULL)
 	{
 		if(*(char *)head->content == var[0])
 		{
@@ -114,6 +118,7 @@ char *my_getenv(t_list *head , char *var, int trim)
 					i = 0;
 					if(trim == 1)
 					{
+						// if
 						while (expande_variable[i])
 						{
 							if(expande_variable[i] == ' ')
@@ -240,10 +245,10 @@ char *variables_parceen_utils(char *whotout_expande, char *my_string ,t_all *my_
 			else
 				variables->c = variables->j - 1;
 		}
-		else if(my_struct->status != OUTSIDE && (whotout_expande[variables->j + 1] == 34 || whotout_expande[variables->j + 1] == 39))
+		else if(my_struct->status != OUTSIDE && (whotout_expande[variables->j + 1] == 8 || whotout_expande[variables->j + 1] == 6))
 			variables->c = variables->j - 1;
 		else if(!ft_isalnum(whotout_expande[variables->j + 1]) && whotout_expande[variables->j + 1] != '$' \
-		&& whotout_expande[variables->j + 1] != 34 && whotout_expande[variables->j + 1] != 39)
+		&& whotout_expande[variables->j + 1] != 8 && whotout_expande[variables->j + 1] != 6)
 		{
 			variables->j++;
 			variables->c = variables->j;
@@ -433,9 +438,9 @@ int 	inistialisation_input(t_all *my_struct, t_var *variables, int c_of_s,
 		free(herdoc);
 		my_struct->fils_descreprot = fd_by_pipe[0];
 	}
-	if(ft_strchr(my_struct->each_cmd[variables->i].files[c_of_s].files, 6) && \
-	ft_strlen(my_struct->each_cmd[variables->i].files[c_of_s].files) == 1)
-		my_struct->each_cmd[variables->i].files[c_of_s].files = ft_strdup("");
+	// if(ft_strchr(my_struct->each_cmd[variables->i].files[c_of_s].files, 6) && \
+	// ft_strlen(my_struct->each_cmd[variables->i].files[c_of_s].files) == 1)
+	// 	my_struct->each_cmd[variables->i].files[c_of_s].files = ft_strdup("");
 	return 0;
 }
 
@@ -525,9 +530,9 @@ int		inistialisation_output(t_all *my_struct, t_var *variables, int c_of_s,
 		free(my_struct->splite_pipe);
 		return -2;
 	}
-	if(ft_strchr(my_struct->each_cmd[variables->i].files[c_of_s].files, 6) && \
-	ft_strlen(my_struct->each_cmd[variables->i].files[c_of_s].files) == 1)
-		my_struct->each_cmd[variables->i].files[c_of_s].files = ft_strdup("");
+	// if(ft_strchr(my_struct->each_cmd[variables->i].files[c_of_s].files, 6) && \
+	// ft_strlen(my_struct->each_cmd[variables->i].files[c_of_s].files) == 1)
+	// 	my_struct->each_cmd[variables->i].files[c_of_s].files = ft_strdup("");
 	return 0;
 }
 
@@ -572,7 +577,7 @@ int	rediraction_calculate_output(t_all *my_struct, t_var *variables, int var, in
 		&& my_struct->tmp_cmd[var] != 5
 		&& my_struct->tmp_cmd[var] != 3)
 		{
-			if(my_struct->tmp_cmd[var] == 34 || my_struct->tmp_cmd[var] == 39)
+			if(my_struct->tmp_cmd[var] == 8 || my_struct->tmp_cmd[var] == 6)
 				my_struct->each_cmd[variables->i].files[c_of_s].HERDOC_OPTION = 1;
 			var++;
 		}
@@ -620,7 +625,7 @@ int	rediraction_calculate_input(t_all *my_struct, t_var *variables, int var, int
 		&& my_struct->tmp_cmd[var] != 5
 		&& my_struct->tmp_cmd[var] != 3)
 		{
-			if(my_struct->tmp_cmd[var] == 34 || my_struct->tmp_cmd[var] == 39)
+			if(my_struct->tmp_cmd[var] == 8 || my_struct->tmp_cmd[var] == 6)
 				my_struct->each_cmd[variables->i].files[c_of_s].HERDOC_OPTION = 1;
 			var++;
 		}
@@ -634,14 +639,14 @@ void	 commande_and_args(t_all *my_struct, t_var *variables, int var)
 		var++;
 	while (variables->j < var)
 	{
-		if (my_struct->tmp_cmd[variables->j] == 34 && my_struct->status != IN_COTE)
+		if (my_struct->tmp_cmd[variables->j] == 8 && my_struct->status != IN_COTE)
 		{
 			if(my_struct->status == IN_DCOTE)
 				my_struct->status = OUTSIDE;
 			else
 				my_struct->status = IN_DCOTE;
 		}
-		else if (my_struct->tmp_cmd[variables->j] == 39 && my_struct->status != IN_DCOTE)
+		else if (my_struct->tmp_cmd[variables->j] == 6 && my_struct->status != IN_DCOTE)
 		{
 			if(my_struct->status == IN_COTE)
 				my_struct->status = OUTSIDE;
@@ -658,8 +663,12 @@ void	 commande_and_args(t_all *my_struct, t_var *variables, int var)
 			ft_substr(my_struct->tmp_cmd, variables->c, variables->j - variables->c));
 			variables->c = variables->j;
 			if(my_struct->tmp_cmd[variables->j + 1])
+			{
+				my_struct->parccer = 1;
 				my_struct->the_commande =  variables_parceen_utils\
 				(my_struct->tmp_cmd, my_struct->the_commande, my_struct, variables);
+				
+			}
 		}
 		variables->j++;
 	}
@@ -734,7 +743,7 @@ void qouts(t_all *my_struct, t_var *variables, int var, int c_of_s)
 {
 	while (variables->j < var)
 	{
-		if (my_struct->tmp_cmd[variables->j] == 34 \
+		if (my_struct->tmp_cmd[variables->j] == 8 \
 		&& my_struct->status != IN_COTE)
 		{
 			if(my_struct->status == IN_DCOTE)
@@ -751,7 +760,7 @@ void qouts(t_all *my_struct, t_var *variables, int var, int c_of_s)
 			ft_substr(my_struct->tmp_cmd, variables->c, variables->j - variables->c));
 			variables->c = variables->j;
 		}
-		else if (my_struct->tmp_cmd[variables->j] == 39 \
+		else if (my_struct->tmp_cmd[variables->j] == 6 \
 		&& my_struct->status != IN_DCOTE)
 		{
 			if(my_struct->status == IN_COTE)
@@ -805,7 +814,7 @@ void qouts_comnde(t_all *my_struct, t_var *variables, int var)
 		my_struct->tmp_cmd = ft_calloc(1, 1);
 		while (my_struct->each_cmd[variables->i].cmd[var][variables->j])
 		{
-			if (my_struct->each_cmd[variables->i].cmd[var][variables->j] == 34 \
+			if (my_struct->each_cmd[variables->i].cmd[var][variables->j] == 8 \
 			&& my_struct->status != IN_COTE)
 			{
 				if(my_struct->status == IN_DCOTE)
@@ -820,7 +829,7 @@ void qouts_comnde(t_all *my_struct, t_var *variables, int var)
 				variables->c, variables->j - variables->c));
 				variables->c = variables->j;
 			}
-			else if (my_struct->each_cmd[variables->i].cmd[var][variables->j] == 39 \
+			else if (my_struct->each_cmd[variables->i].cmd[var][variables->j] == 6 \
 			&& my_struct->status != IN_DCOTE)
 			{
 				if(my_struct->status == IN_COTE)
@@ -874,6 +883,7 @@ int	rederaction_parccen(t_all *my_struct, t_var *variables)
 		variables->j = 0;
 		while (my_struct->tmp_cmd[variables->j])
 		{
+			my_struct->parccer = 0;
 			c_of_s = any_commde_parceen(my_struct, variables, var, c_of_s);
 			if(c_of_s == -1)
 				return -1;

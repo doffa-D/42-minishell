@@ -1,40 +1,62 @@
-total 432
-drwxr-xr-x  39 nouakhro  candidates   1326 May  2 15:26 .
-drwxr-xr-x  16 nouakhro  candidates    544 Apr 28 19:34 ..
--rw-r--r--   1 nouakhro  candidates  10244 May  2 14:03 .DS_Store
-drwxr-xr-x  15 nouakhro  candidates    510 May  2 00:48 .git
--rw-r--r--   1 nouakhro  candidates     79 Apr 24 17:20 .gitignore
-drwxr-xr-x   3 nouakhro  candidates    102 Apr 25 19:40 .vscode
--rw-r--r--   1 nouakhro  candidates   1693 May  1 18:35 Makefile
--rw-r--r--   1 nouakhro  candidates  17026 Apr 28 19:02 buckup.c
--rw-r--r--   1 nouakhro  candidates   3332 Apr 26 15:22 builtins.c
--rw-r--r--   1 nouakhro  candidates   3384 May  1 16:34 check_rediraction.c
--rw-r--r--   1 nouakhro  candidates   1255 Apr 30 23:37 commande.c
--rw-r--r--   1 nouakhro  candidates   2135 Apr 28 19:02 echo_command.c
--rw-r--r--   1 nouakhro  candidates   1077 Apr 24 17:19 env_commd.c
--rw-r--r--   1 nouakhro  candidates   2839 Apr 27 17:47 export_command.c
--rw-r--r--   1 nouakhro  candidates      0 May  2 14:38 fiiiii
--rwxr-xr-x   1 nouakhro  candidates      0 May  2 15:26 file
--rwxr-xr-x   1 nouakhro  candidates   2576 May  2 15:20 files
--rwxr-xr-x   1 nouakhro  candidates      2 May  1 17:22 foowhitespace_left
--rw-r--r--   1 nouakhro  candidates   1417 Mar 23 13:10 free_all.c
--rwxr-xr-x   1 nouakhro  candidates     24 May  2 14:57 ggg.sh
--rw-r--r--   1 nouakhro  candidates      4 May  1 18:51 hvldfdfv
-drwxr-xr-x  91 nouakhro  candidates   3094 May  2 15:04 libft
--rw-r--r--   1 nouakhro  candidates  10920 May  2 15:26 main.c
-drwxr-xr-x  15 nouakhro  candidates    510 Apr 26 19:26 mini-ms-tester
--rwxr-xr-x   1 nouakhro  candidates  50440 May  2 15:26 minishell
--rw-r--r--   1 nouakhro  candidates   3440 May  1 16:54 minishell.h
--rw-r--r--   1 nouakhro  candidates     12 Apr 30 23:22 nouakhro
-drwxr-xr-x  19 nouakhro  candidates    646 May  2 15:26 object
--rw-r--r--   1 nouakhro  candidates  27159 May  2 15:25 parccen.c
--rw-r--r--   1 nouakhro  candidates   2340 Apr 28 19:02 parceen.c
--rw-r--r--   1 nouakhro  candidates   1707 Apr 26 01:52 pipe_and_rederaction.c
--rw-r--r--   1 nouakhro  candidates   1073 Apr 25 19:57 pwd_command.c
-drwxr-xr-x  12 nouakhro  candidates    408 Mar 23 13:10 readline
-drwxr-xr-x   2 nouakhro  candidates     68 May  1 16:09 tttt
--rw-r--r--   1 nouakhro  candidates   2433 Apr 25 19:57 unset_command.c
--rw-r--r--   1 nouakhro  candidates   1735 Apr 28 19:02 utils.c
--rw-r--r--   1 nouakhro  candidates   2422 Apr 27 17:45 utils_export_command_1.c
--rw-r--r--   1 nouakhro  candidates   2196 Apr 21 17:10 utils_export_command_2.c
--rw-r--r--   1 nouakhro  candidates   2483 Apr 24 19:58 utils_export_command_3.c
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2023/03/03 12:19:16 by nouakhro          #+#    #+#              #
+#    Updated: 2023/05/01 18:35:02 by nouakhro         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+CC = cc
+CCFLAGS = -Wall -Werror -Wextra 
+# -fsanitize=address -g
+
+SRC = 	main.c\
+		utils.c\
+		free_all.c\
+		check_rediraction.c\
+		commande.c\
+		parccen.c\
+		echo_command.c\
+		env_commd.c\
+		export_command.c\
+		unset_command.c\
+		utils_export_command_1.c\
+		utils_export_command_2.c\
+		utils_export_command_3.c\
+		pwd_command.c\
+		builtins.c\
+		pipe_and_rederaction.c\
+		parceen.c
+
+OBJE = $(SRC:.c=.o)
+
+NAME = minishell
+LIBFT = libft
+
+ifeq ($(d),1)
+	g = -fsanitize=address -g
+endif
+
+all : $(NAME)
+
+$(NAME) : $(OBJE)
+	make -C $(LIBFT)
+	$(CC) $(CCFLAGS) $(OBJE) libft/libft.a -lreadline $(g) -o $(NAME)
+
+%.o : %.c
+	$(CC) $(CCFLAGS) -c $<
+
+clean :
+	rm -f $(OBJE)
+	make clean -C $(LIBFT)
+fclean : clean
+	make fclean -C $(LIBFT)
+	rm -f $(NAME)
+re:fclean $(NAME)
+
+run : all
+	mv $(OBJE) object && ./minishell

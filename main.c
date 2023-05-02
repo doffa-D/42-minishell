@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:07:52 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/02 16:30:11 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/02 22:00:25 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,11 +222,6 @@ int	somting_in_readline(t_all *my_struct)
 	}
 	i = 0;
 	my_struct->fix_cmd = ft_split(my_struct->the_commande, 3);
-	// while(my_struct->fix_cmd[i])
-	// {
-	// 	printf("[%s]\n", my_struct->fix_cmd[i]);
-	// 	i++;
-	// }
 	free(my_struct->the_commande);
 	free(my_struct->tmp_cmd);
 	add_history(my_struct->cmd);
@@ -254,6 +249,7 @@ int	somting_in_readline(t_all *my_struct)
 			return 1;
 		}
 	}
+	
 	char *str = my_getenv(my_struct->list, "PATH", 0);
 	my_struct->my_path = ft_split(str, ':');
 	free(str);
@@ -278,20 +274,20 @@ int	somting_in_readline(t_all *my_struct)
 		i = fork();
 		if (i == 0)
 		{
-			if(my_struct->each_cmd[c_of_s].files)
-				i = check_rediractions(my_struct, c_of_s);
-			if((i == 0 || i == 2)&& my_struct->number_of_pipes > 1)
-			{
-				close(pipe_n[c_of_s][0]);
-				dup2(pipe_n[c_of_s][1], STDOUT_FILENO);
-				close(pipe_n[c_of_s][1]);
-			}
 			if(c_of_s > 0)
 			{
 				close(pipe_n[c_of_s - 1][1]);
 				dup2(pipe_n[c_of_s - 1][0], STDIN_FILENO);
 				close(pipe_n[c_of_s - 1][0]);
 			}
+			if(my_struct->number_of_pipes > 1)
+			{
+				close(pipe_n[c_of_s][0]);
+				dup2(pipe_n[c_of_s][1], STDOUT_FILENO);
+				close(pipe_n[c_of_s][1]);
+			}
+			if(my_struct->each_cmd[c_of_s].files)
+				check_rediractions(my_struct, c_of_s);
 			if (my_struct->each_cmd[0].cmd[0] && \
 			!ft_strncmp(my_struct->each_cmd[c_of_s].cmd[0], "echo", ft_strlen("echo")+1))
 			{
@@ -368,8 +364,6 @@ int	somting_in_readline(t_all *my_struct)
 		my_struct->number_of_pipes--;
 		c_of_s++;
 	}
-	i = 0;
-	// while(1);
 	free_all_v2(0, my_struct);
 	return (my_struct->exit_status);
 }
@@ -391,30 +385,11 @@ int main(int argc,char **argv,char **env)
 {
     (void)argv;
     (void)argc;
-    (void)env;
     t_all my_struct;
     my_struct.list = NULL;
-    my_struct.the_commande = 0;
-    // my_struct.export = env;
+	// printf("[%s]\n", env[0]);
     fill_linked_list(env, &my_struct.list);
 	my_struct.exit_status = 0;
-    // my_struct.export = charge_varible(env);
-    // my_struct.env = charge_varible(env);
-    // int i = 0;
-    // int loop = -1;
-    // char cwd_path[PATH_MAX];
-    // char old_path[PATH_MAX];
-    // my_struct.my_path = 0;
-    // my_struct.my_command = 0;
-    // my_struct.my_curent_path = " ";
-    // my_struct.i = 1;
-    // getcwd(cwd_path, sizeof(cwd_path));
-    // getcwd(old_path, sizeof(cwd_path));
-    // my_struct.my_curent_path = ft_strjoin(my_struct.my_curent_path, cwd_path);
-    // my_struct.my_curent_path = ft_strjoin(my_struct.my_curent_path, " ");
-    // my_struct.my_all_path = ft_split(my_struct.my_curent_path, ' ');
-    // signal(SIGINT, &handler);
-    // signal(SIGQUIT, &handler);
     int i = 0;
     while (1)
     {
@@ -428,10 +403,3 @@ int main(int argc,char **argv,char **env)
         i++;
     }
 }
-			
-
-
-
-
-
-			

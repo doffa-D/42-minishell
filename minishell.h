@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 14:20:41 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/01 16:54:50 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/02 17:28:30 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,14 +48,13 @@ typedef struct s_all
 {
 	int 				status;
 	int 				if_rediraction;
-	char				**env;
-	char				**export;
 	char				**my_path;
 	t_each_command 		*each_cmd;
 	char				**splite_pipe;
 	char				**fix_cmd;
 	char				*the_commande;
 	char				*cmd;
+	int					parccer;
 	int					number_of_pipes;
 	char				*tmp_cmd;
 	int 				exit_status;

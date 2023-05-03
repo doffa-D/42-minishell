@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: hdagdagu <hdagdagu@student.42.fr>          +#+  +:+       +#+         #
+#    By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/01 12:21:10 by hdagdagu          #+#    #+#              #
-#    Updated: 2023/04/17 17:45:30 by hdagdagu         ###   ########.fr        #
+#    Updated: 2023/05/03 16:28:08 by nouakhro         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,6 +44,8 @@ FILS = 	ft_atoi.c\
 		ft_putstr_fd.c\
 		ft_putendl_fd.c\
 		ft_putnbr_fd.c\
+		get_next_line.c\
+		get_next_line_utils.c
 
 FILS_BOUNUS = 	ft_lstadd_front.c\
 				ft_lstnew.c\

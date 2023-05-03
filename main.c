@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:07:52 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/02 22:00:25 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/03 22:42:16 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -265,13 +265,19 @@ int	somting_in_readline(t_all *my_struct)
 		wait(&i);
 		return 127;
 	}
-	
+	int *pid = malloc(my_struct->number_of_pipes * sizeof(int));
+	c_of_s = 0;
 	int pipe_n[my_struct->number_of_pipes][2];
 	while(my_struct->number_of_pipes > 0)
 	{
 		if(my_struct->number_of_pipes > 1)
 			pipe(pipe_n[c_of_s]);
 		i = fork();
+		if (i == -1)
+		{
+			perror("fork");
+			exit(1);
+		}
 		if (i == 0)
 		{
 			if(c_of_s > 0)
@@ -323,9 +329,7 @@ int	somting_in_readline(t_all *my_struct)
 			else
 			{
 				if (my_struct->each_cmd[c_of_s].cmd[0] && access(my_struct->each_cmd[c_of_s].cmd[0], F_OK) == 0)
-				{
 					j = 1;
-				}
 			}
 			if (j != 1)
 			{
@@ -353,16 +357,28 @@ int	somting_in_readline(t_all *my_struct)
 				}
 			}
 			else
-			{
 				exicut_commande(my_struct, i, c_of_s, pipe_n[c_of_s]);
-			}
 		}
-		waitpid(-1, &my_struct->exit_status, 0);
-		my_struct->exit_status = my_struct->exit_status >> 8;
+		else
+			pid[c_of_s] = i;
 		if(my_struct->number_of_pipes > 1)
 			close(pipe_n[c_of_s][1]);
 		my_struct->number_of_pipes--;
 		c_of_s++;
+	}
+	i = 0;
+	while (i < c_of_s - 1)
+	{
+		close(pipe_n[i][1]);
+		close(pipe_n[i][0]);
+		i++;
+	}
+	i = 0;
+	while(i < c_of_s)
+	{
+		waitpid(pid[i], &my_struct->exit_status, 0);
+		my_struct->exit_status = my_struct->exit_status >> 8;
+		i++;
 	}
 	free_all_v2(0, my_struct);
 	return (my_struct->exit_status);
@@ -387,7 +403,6 @@ int main(int argc,char **argv,char **env)
     (void)argc;
     t_all my_struct;
     my_struct.list = NULL;
-	// printf("[%s]\n", env[0]);
     fill_linked_list(env, &my_struct.list);
 	my_struct.exit_status = 0;
     int i = 0;
@@ -395,6 +410,7 @@ int main(int argc,char **argv,char **env)
     {
 		my_struct.the_commande = 0;
         my_struct.cmd = readline("escanour > ");
+        // my_struct.cmd = ft_strtrim(get_next_line(0),"\n");
         if(!my_struct.cmd)
             exit(my_struct.exit_status);
         if(ft_strlen(my_struct.cmd) != 0)

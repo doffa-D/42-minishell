@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 12:31:35 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/05/02 18:11:33 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/03 23:08:58 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,8 +101,6 @@ char *my_getenv(t_list *head , char *var, int trim)
 	(void)var;
 	int i = 0;
 	char *expande_variable = ft_calloc(1, 1);
-
-	// printf("ssssss[%p]\n",head);
 	while (head != NULL)
 	{
 		if(*(char *)head->content == var[0])
@@ -118,7 +116,6 @@ char *my_getenv(t_list *head , char *var, int trim)
 					i = 0;
 					if(trim == 1)
 					{
-						// if
 						while (expande_variable[i])
 						{
 							if(expande_variable[i] == ' ')
@@ -140,6 +137,7 @@ char *variables_parceen(t_all *my_struct, t_var *variables,char *whotout_expande
 {
 	int		var;
 	char	*variable;
+	// int		i = 0;
 
 	var = variables->j + 1;
 	while (whotout_expande[var]
@@ -166,7 +164,18 @@ char *variables_parceen(t_all *my_struct, t_var *variables,char *whotout_expande
 			else
 				variable = my_getenv(my_struct->list,variable, 1);
 			if (variable)
-				my_string = ft_strjoin_v2 (my_string, variable);
+			{
+				my_string = ft_strjoin (my_string, variable);
+				if(my_struct->ambiguous == 1)
+				{
+					char *str = ft_strtrim(my_string, "\003\000");
+					if(!str || (ft_strlen(str) == 0 && ((whotout_expande[variables->j - 1] == 3 && \
+					(whotout_expande[var] == 3 || whotout_expande[var] == 0)) || ft_strchr(variable, 3))))
+						my_struct->error_ambiguous = 1;
+					free(str);
+				}
+				free(variable);
+			}
 			variables->j = var - 1;
 		}
 	}
@@ -315,6 +324,7 @@ void	initialisaion(t_all *my_struct, t_var *variables, int c_of_s)
 	my_struct->each_cmd[variables->i].files[c_of_s].ERROR_SYNTACSO = 0;
 	my_struct->each_cmd[variables->i].files[c_of_s].ERROR_SYNTACSI = 0;
 	my_struct->each_cmd[variables->i].files[c_of_s].HERDOC_OPTION = 0;
+	my_struct->each_cmd[variables->i].files[c_of_s].ambiguous = 0;
 }
 
 int 	inistialisation_input(t_all *my_struct, t_var *variables, int c_of_s,
@@ -344,6 +354,8 @@ int 	inistialisation_input(t_all *my_struct, t_var *variables, int c_of_s,
 	my_struct->each_cmd[variables->i].files[c_of_s].files = ft_calloc(1, 1);
 	if (my_struct->each_cmd[variables->i].files[c_of_s].number_of_I == 2)
 		my_struct->each_cmd[variables->i].files[c_of_s].HERDOC = 1;
+	my_struct->ambiguous = 1;
+	my_struct->error_ambiguous = 0;
 	qouts(my_struct, variables, var , c_of_s);
 	str = ft_split(my_struct->each_cmd[variables->i].files[c_of_s].files, 3);
 	checher = 0;
@@ -355,27 +367,16 @@ int 	inistialisation_input(t_all *my_struct, t_var *variables, int c_of_s,
 	while (str[checher])
 	{
 		my_struct->each_cmd[variables->i].files[c_of_s].files = ft_strdup(str[checher]);
+		free(str[checher]);
 		checher++;
 	}
-	if(checher > 1)
-	{
-		checher = fork();
-		if(checher == 0)
-		{
-			ft_putstr_fd("minishell: ambiguous redirect\n", 2);
-			exit(1);
-		}
-		wait(&checher);
-		my_struct->exit_status = checher >> 8;
-		return -2;
-	}
-	// printf("%s\n",my_struct->each_cmd[variables->i].files[c_of_s].files);
+	free(str);
+	if((my_struct->error_ambiguous == 1 && checher == 0) || checher > 1)
+		my_struct->each_cmd[variables->i].files[c_of_s].ambiguous = 1;
 	if (my_struct->each_cmd[variables->i].files[c_of_s].number_of_I == 1)
 		my_struct->each_cmd[variables->i].files[c_of_s].INPUT = 1;
 	else if (my_struct->each_cmd[variables->i].files[c_of_s].number_of_I == 2)
 	{
-		// if(my_struct->fils_descreprot)
-		// 	close(my_struct->fils_descreprot);
 		int fd_by_pipe[2];
 		char *buffer = 0;
 		char *buffer_tmp = 0;
@@ -415,9 +416,7 @@ int 	inistialisation_input(t_all *my_struct, t_var *variables, int c_of_s,
 							while (ft_isalnum(buffer[i]))
 								i++;
 							buffer_tmp = ft_substr(buffer, c, i - c);
-							// printf("%s\n",buffer_tmp);
 							herdoc = ft_strjoin_v2(herdoc, my_getenv(my_struct->list, buffer_tmp,0));
-							// exit(0);
 							free(buffer_tmp);
 							c = i;
 						}
@@ -438,9 +437,6 @@ int 	inistialisation_input(t_all *my_struct, t_var *variables, int c_of_s,
 		free(herdoc);
 		my_struct->fils_descreprot = fd_by_pipe[0];
 	}
-	// if(ft_strchr(my_struct->each_cmd[variables->i].files[c_of_s].files, 6) && \
-	// ft_strlen(my_struct->each_cmd[variables->i].files[c_of_s].files) == 1)
-	// 	my_struct->each_cmd[variables->i].files[c_of_s].files = ft_strdup("");
 	return 0;
 }
 
@@ -488,6 +484,8 @@ int		inistialisation_output(t_all *my_struct, t_var *variables, int c_of_s,
 		my_struct->each_cmd[variables->i].files[c_of_s].OUTPUT = 1;
 	variables->c = variables->j - 1;
 	my_struct->each_cmd[variables->i].files[c_of_s].files = ft_calloc(1, 1);
+	my_struct->ambiguous = 1;
+	my_struct->error_ambiguous = 0;
 	qouts(my_struct, variables, var , c_of_s);
 	str = ft_split(my_struct->each_cmd[variables->i].files[c_of_s].files, 3);
 	checher = 0;
@@ -503,47 +501,16 @@ int		inistialisation_output(t_all *my_struct, t_var *variables, int c_of_s,
 		checher++;
 	}
 	free(str);
-	if(checher > 1)
-	{
-		checher = fork();
-		if(checher == 0)
-		{
-			ft_putstr_fd("minishell: ambiguous redirect\n", 2);
-			exit(1);
-		}
-		wait(&checher);
-		my_struct->exit_status = checher >> 8;
-		checher = 0;
-		while(my_struct->each_cmd[checher].files)
-		{
-			free(my_struct->each_cmd[checher].files);
-			checher++;
-		}
-		free(my_struct->each_cmd);
-		free(my_struct->tmp_cmd);
-		free(my_struct->the_commande);
-		while (my_struct->splite_pipe[variables->i])
-		{
-			free(my_struct->splite_pipe[variables->i]);
-			variables->i++;
-		}
-		free(my_struct->splite_pipe);
-		return -2;
-	}
-	// if(ft_strchr(my_struct->each_cmd[variables->i].files[c_of_s].files, 6) && \
-	// ft_strlen(my_struct->each_cmd[variables->i].files[c_of_s].files) == 1)
-	// 	my_struct->each_cmd[variables->i].files[c_of_s].files = ft_strdup("");
+	if((my_struct->error_ambiguous == 1 && checher == 0) || checher > 1)
+		my_struct->each_cmd[variables->i].files[c_of_s].ambiguous = 1;
 	return 0;
 }
 
 int	rediraction_calculate_output(t_all *my_struct, t_var *variables, int var, int c_of_s)
 {
 
-	while (my_struct->tmp_cmd[variables->j] \
-		&& my_struct->tmp_cmd[variables->j] != 3
-		&& !ft_isalnum(my_struct->tmp_cmd[variables->j]) \
-		&& (my_struct->tmp_cmd[variables->j] == 2
-			|| my_struct->tmp_cmd[variables->j] == 5))
+	while (my_struct->tmp_cmd[variables->j] &&  (my_struct->tmp_cmd[variables->j] == 2
+		|| my_struct->tmp_cmd[variables->j] == 5))
 	{
 		if(my_struct->tmp_cmd[variables->j] == 2)
 		{
@@ -562,8 +529,7 @@ int	rediraction_calculate_output(t_all *my_struct, t_var *variables, int var, in
 			}
 		}
 		if(my_struct->tmp_cmd[variables->j] == 0 \
-		|| my_struct->tmp_cmd[variables->j] == 3 \
-		|| ft_isalnum(my_struct->tmp_cmd[variables->j]) \
+		|| (my_struct->tmp_cmd[variables->j] != 5 && my_struct->tmp_cmd[variables->j] != 2) \
 		|| (my_struct->each_cmd[variables->i].files[c_of_s].number_of_O \
 		&& my_struct->each_cmd[variables->i].files[c_of_s].number_of_I))
 			break;
@@ -587,10 +553,7 @@ int	rediraction_calculate_output(t_all *my_struct, t_var *variables, int var, in
 int	rediraction_calculate_input(t_all *my_struct, t_var *variables, int var, int c_of_s)
 {
 
-	while (my_struct->tmp_cmd[variables->j] \
-		&& my_struct->tmp_cmd[variables->j] != 3 \
-		&& !ft_isalnum(my_struct->tmp_cmd[variables->j]) \
-		&& (my_struct->tmp_cmd[variables->j] == 2 \
+	while (my_struct->tmp_cmd[variables->j] && (my_struct->tmp_cmd[variables->j] == 2 \
 		|| my_struct->tmp_cmd[variables->j] == 5))
 	{
 		if(my_struct->tmp_cmd[variables->j] == 5)
@@ -610,8 +573,7 @@ int	rediraction_calculate_input(t_all *my_struct, t_var *variables, int var, int
 			}
 		}
 		if(my_struct->tmp_cmd[variables->j] == 0 \
-		|| my_struct->tmp_cmd[variables->j] == 3 \
-		|| ft_isalnum(my_struct->tmp_cmd[variables->j])\
+		|| (my_struct->tmp_cmd[variables->j] != 5 && my_struct->tmp_cmd[variables->j] != 2)
 		|| (my_struct->each_cmd[variables->i].files[c_of_s].number_of_O \
 		&& my_struct->each_cmd[variables->i].files[c_of_s].number_of_I))
 			break;
@@ -635,6 +597,7 @@ void	 commande_and_args(t_all *my_struct, t_var *variables, int var)
 {
 	var = variables->j;
 	variables->c = variables->j - 1;
+	my_struct->ambiguous = 2;
 	while (my_struct->tmp_cmd[var] && (my_struct->tmp_cmd[var] != 2 && my_struct->tmp_cmd[var] != 5))
 		var++;
 	while (variables->j < var)
@@ -891,12 +854,6 @@ int	rederaction_parccen(t_all *my_struct, t_var *variables)
 				return -2;
 			variables->j++;
 		}
-		// int i = 0;
-		// while (my_struct->the_commande[i])
-		// {
-		// 	printf("{%d}\n", my_struct->the_commande[i]);
-		// 	i++;
-		// }
 		qouts_comnde(my_struct, variables, var);
 		free(my_struct->splite_pipe[variables->i]);
 		my_struct->splite_pipe[variables->i] = 0;
@@ -905,7 +862,6 @@ int	rederaction_parccen(t_all *my_struct, t_var *variables)
 		variables->i++;
 	}
 	free(my_struct->splite_pipe);
-	// exit(0);
 	return 0;
 }
 

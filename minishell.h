@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 14:20:41 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/02 17:28:30 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/03 22:29:34 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef struct s_files
 	int APPEND;
 	int ERROR_SYNTACSI;
 	int ERROR_SYNTACSO;
+	int ambiguous;
 	int number_of_I;
 	int number_of_O;
 
@@ -46,20 +47,22 @@ typedef struct each_command
 
 typedef struct s_all
 {
-	int 				status;
-	int 				if_rediraction;
-	char				**my_path;
-	t_each_command 		*each_cmd;
 	char				**splite_pipe;
-	char				**fix_cmd;
 	char				*the_commande;
-	char				*cmd;
-	int					parccer;
-	int					number_of_pipes;
+	char				**fix_cmd;
+	char				**my_path;
 	char				*tmp_cmd;
+	char				*cmd;
+	int 				if_rediraction;
+	int					number_of_pipes;
 	int 				exit_status;
-	int					check;
 	int					fils_descreprot;
+	int					parccer;
+	int					ambiguous;
+	int					error_ambiguous;
+	int 				status;
+	int					check;
+	t_each_command 		*each_cmd;
 	t_list				*list;
 }				t_all;
 

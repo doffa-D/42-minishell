@@ -25,6 +25,7 @@
         "complex": "c",
         "locale": "c",
         "algorithm": "c",
-        "__locale": "c"
+        "__locale": "c",
+        "stdlib.h": "c"
     }
 }

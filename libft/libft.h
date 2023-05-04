@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/02 14:47:38 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/03 16:28:25 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/04 15:28:30 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define LIBFT_H
 # include<unistd.h>
 # include<stdlib.h>
-# include"get_next_line.h"
 
 typedef struct s_list
 {

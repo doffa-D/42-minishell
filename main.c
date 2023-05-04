@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:07:52 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/03 22:42:16 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/04 01:23:47 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -237,6 +237,8 @@ int	somting_in_readline(t_all *my_struct)
 	c_of_s = 0;
 	if(my_struct->number_of_pipes == 1)
 	{
+		// if(my_struct->each_cmd[c_of_s].files)
+		// 	check_rediractions(my_struct, c_of_s, 1);
 		c_of_s = builtins(my_struct, c_of_s);
 		if(c_of_s == 1)
 		{
@@ -249,7 +251,6 @@ int	somting_in_readline(t_all *my_struct)
 			return 1;
 		}
 	}
-	
 	char *str = my_getenv(my_struct->list, "PATH", 0);
 	my_struct->my_path = ft_split(str, ':');
 	free(str);
@@ -380,7 +381,8 @@ int	somting_in_readline(t_all *my_struct)
 		my_struct->exit_status = my_struct->exit_status >> 8;
 		i++;
 	}
-	free_all_v2(0, my_struct);
+	free(pid);
+	free_all_v2(1, my_struct);
 	return (my_struct->exit_status);
 }
 void    fill_linked_list(char **dst, t_list **list)
@@ -410,7 +412,6 @@ int main(int argc,char **argv,char **env)
     {
 		my_struct.the_commande = 0;
         my_struct.cmd = readline("escanour > ");
-        // my_struct.cmd = ft_strtrim(get_next_line(0),"\n");
         if(!my_struct.cmd)
             exit(my_struct.exit_status);
         if(ft_strlen(my_struct.cmd) != 0)

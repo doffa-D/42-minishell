@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset_command.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hdagdagu <hdagdagu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 15:05:18 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/04/25 17:27:20 by hdagdagu         ###   ########.fr       */
+/*   Updated: 2023/05/04 01:18:17 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	unset_command(t_all *my_struct, int c_of_s)
 	{
 		if (mini_check_export(my_struct->each_cmd[c_of_s].cmd[i], 1) == 1 || ft_strchr(my_struct->each_cmd[c_of_s].cmd[i], '='))
 		{
-			printf("export: `%s': not a valid identifier\n",
+			printf("unset: `%s': not a valid identifier\n",
 				my_struct->each_cmd[c_of_s].cmd[i]);
 			i++;
 		}

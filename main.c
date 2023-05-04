@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:07:52 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/04 01:23:47 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/04 01:30:44 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -381,7 +381,7 @@ int	somting_in_readline(t_all *my_struct)
 		my_struct->exit_status = my_struct->exit_status >> 8;
 		i++;
 	}
-	free(pid);
+	// free(pid);
 	free_all_v2(1, my_struct);
 	return (my_struct->exit_status);
 }

@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 12:31:35 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/05/04 01:14:48 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/04 01:32:30 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -281,10 +281,8 @@ int	parccen_part(t_all *my_struct, t_var *variables, char *splite)
 		{
 			quote_and_dqout(my_struct, variables);
 			pipe_and_rederaction_parceen(my_struct, variables);
-			if(my_struct->fix_cmd[variables->i][variables->j] == 4 \
-			&& ((variables->j - 1 >= 0 && my_struct->fix_cmd[variables->i][variables->j - 1] == 4) \
-			|| (!my_struct->fix_cmd[variables->i][variables->j + 1] && !my_struct->fix_cmd[variables->i + 1]) \
-			|| (!my_struct->fix_cmd[variables->i][variables->j - 1] && variables->i == 0)))
+			if((my_struct->fix_cmd[variables->i][variables->j] == 4 && !my_struct->fix_cmd[variables->i + 1]) || \
+			(my_struct->fix_cmd[variables->i][variables->j] == 4 && variables->i == 0))
 			{
 				ft_putstr_fd("minishell: syntax error\n", 2);
 				while (my_struct->fix_cmd[variables->i])

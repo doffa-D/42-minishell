@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:07:52 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/04 15:07:08 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/04 15:25:12 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -385,21 +385,6 @@ int	somting_in_readline(t_all *my_struct)
 			return 1;
 		}
 	}
-	char *str = my_getenv(my_struct->list, "PATH", 0);
-	my_struct->my_path = ft_split(str, ':');
-	free(str);
-	if(!my_struct->my_path[0])
-	{
-		i = fork();
-		if(i == 0)
-		{
-			dup2(2, 1);
-			printf("minishell: %s: No such file or directory\n", my_struct->each_cmd[c_of_s].cmd[0]);
-			exit(1);
-		}
-		wait(&i);
-		return 127;
-	}
 	int *pid = malloc(my_struct->number_of_pipes * sizeof(int));
 	c_of_s = 0;
 	int pipe_n[my_struct->number_of_pipes][2];
@@ -415,6 +400,21 @@ int	somting_in_readline(t_all *my_struct)
 		}
 		if (i == 0)
 		{
+			char *str = my_getenv(my_struct->list, "PATH", 0);
+			my_struct->my_path = ft_split(str, ':');
+			free(str);
+			if(!my_struct->my_path[0])
+			{
+				i = fork();
+				if(i == 0)
+				{
+					dup2(2, 1);
+					printf("minishell: %s: No such file or directory\n", my_struct->each_cmd[c_of_s].cmd[0]);
+					exit(1);
+				}
+				wait(&i);
+				return 127;
+			}
 			if(c_of_s > 0)
 			{
 				close(pipe_n[c_of_s - 1][1]);

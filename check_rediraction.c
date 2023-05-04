@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 14:18:08 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/04 00:40:36 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/04 01:41:48 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 // 	}
 // }
 
-int	check_rediractions(t_all *my_struct, int c_of_s, int parent_chiled)
+int	check_rediractions(t_all *my_struct, int c_of_s)
 {
 	int j = 0;
 	int returnv = 0;
@@ -107,11 +107,8 @@ int	check_rediractions(t_all *my_struct, int c_of_s, int parent_chiled)
 			}
 			j++;
 		}
-	if(parent_chiled == 0)
-	{
 		if(!my_struct->each_cmd[c_of_s].cmd[0])
 			exit(0);
-	}
 	// signal(SIGINT, &handler);
 	return returnv;
 }

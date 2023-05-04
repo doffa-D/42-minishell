@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 14:20:41 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/04 01:23:45 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/04 13:20:55 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,4 +109,5 @@ void	pipe_and_rederaction(int j, int c_of_s, t_all *my_struct, int **pipe_n);
 void	parccen(t_all *my_struct);
 int 	builtins(t_all *my_struct, int c_of_s);
 void qouts(t_all *my_struct, t_var *variables, int var, int c_of_s);
+int	check_rediractions_in_parent(t_all *my_struct, int c_of_s);
 #endif

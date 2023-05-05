@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 12:31:35 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/05/05 01:34:30 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/05 16:40:16 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -301,12 +301,9 @@ int	parccen_part(t_all *my_struct, t_var *variables, char *splite)
 			quote_and_dqout(my_struct, variables);
 			pipe_and_rederaction_parceen(my_struct, variables);
 			if (my_struct->fix_cmd[variables->i][variables->j] == 4 &&
-				((variables->j == 0 && variables->i == 0)
-						|| (my_struct->fix_cmd[variables->i][variables->j
-							- 1] == 4 && variables->j - 1 != 0)
-						|| (my_struct->fix_cmd[variables->i][variables->j
-							+ 1] == 0 && my_struct->fix_cmd[variables->i
-							+ 1] == 0)))
+				((variables->j == 0 && variables->i == 0) \
+				|| (variables->j - 1 >= 0 && my_struct->fix_cmd[variables->i][variables->j - 1] == 4) \
+				|| (my_struct->fix_cmd[variables->i][variables->j + 1] == 0 && my_struct->fix_cmd[variables->i + 1] == 0)))
 			{
 				ft_putstr_fd("minishell: syntax error\n", 2);
 				while (my_struct->fix_cmd[variables->i])
@@ -947,8 +944,7 @@ int	fix_arg(t_all *my_struct)
 	free(my_struct->the_commande);
 	my_struct->the_commande = 0;
 	variables.i = 0;
-	my_struct->each_cmd = ft_calloc(sizeof(t_each_command),
-									my_struct->number_of_pipes + 1);
+	my_struct->each_cmd = ft_calloc(sizeof(t_each_command), my_struct->number_of_pipes + 1);
 	variables.i = rederaction_parccen(my_struct, &variables);
 	if (variables.i == -1)
 		return 258;

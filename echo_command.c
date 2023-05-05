@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 18:00:54 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/05/04 14:43:42 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/05 16:42:04 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int check_n(char *str)
 	int x;
 	x = ft_strlen(str);
 	i = 0;
-	if(str[0] == '-')
+	if(str && str[0] == '-' && str[1])
 	{
 		i++;
 		while(str[i])
@@ -65,6 +65,7 @@ void	echo_command(t_all *my_struct, int c_of_s)
 			printf(" ");
 		i++;
 	}
+	// printf("%d\n", j);
 	if(j == 0)
 		printf("\n");
 }

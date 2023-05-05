@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 14:20:11 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/04/24 13:27:06 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/05 18:15:13 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,4 @@ int get_the_path(t_all *my_struct ,int c_of_s)
             return 1;
     }
     return 0;
-}
-
-void exit_the_program(t_all my_struct)
-{
-    if(!ft_strncmp(my_struct.cmd, "exit", ft_strlen("exit")) || \
-	!ft_strncmp(my_struct.cmd, "quit", ft_strlen("quit")) || \
-    !ft_strncmp(my_struct.cmd, "q", ft_strlen("q")) ||\
-    !ft_strncmp(my_struct.cmd, "e", ft_strlen("e")))
-        exit(0);
 }

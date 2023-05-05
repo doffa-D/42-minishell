@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 14:19:24 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/05 00:50:54 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/05 18:09:21 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char **new_env(t_list *list)
 		list = list->next;
 		i++;
 	}
-	char **dst = malloc(sizeof(char*) * i +1);
+	char **dst = malloc(sizeof(char*) * (i + 1));
 	i = 0;
 	list = ptr;
 	while(list != NULL)
@@ -33,6 +33,7 @@ char **new_env(t_list *list)
 		i++;
 	}
 	list = ptr;
+	dst[i] = 0;
 	return dst;
 }
 void	exicut_commande(t_all *my_struct, int i, int c_of_s, int *pipe_n)

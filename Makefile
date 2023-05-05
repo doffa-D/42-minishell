@@ -6,7 +6,7 @@
 #    By: hdagdagu <hdagdagu@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/03 12:19:16 by nouakhro          #+#    #+#              #
-#    Updated: 2023/05/05 15:29:21 by hdagdagu         ###   ########.fr        #
+#    Updated: 2023/05/05 19:44:31 by hdagdagu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,9 +33,7 @@ SRC = 	main.c\
 		utils_export_command_2.c\
 		utils_export_command_3.c\
 		pwd_command.c\
-		builtins.c\
 		pipe_and_rederaction.c\
-		parceen.c
 
 OBJE = $(SRC:.c=.o)
 

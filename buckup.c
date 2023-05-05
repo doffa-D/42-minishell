@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   buckup.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hdagdagu <hdagdagu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 12:31:35 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/04/26 00:35:38 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/05 17:11:12 by hdagdagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,8 +197,6 @@ void	variables_parceen_utils(t_all *my_struct, t_var *variables)
 			variables->c = variables->j;
 		}
 	}
-// 	export a=" b"$
-// echo foo $a bar$
 	else
 	{
 		if(my_struct->fix_cmd[variables->i][variables->j + 1] == '?')

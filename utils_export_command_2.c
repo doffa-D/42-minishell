@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_export_command_2.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hdagdagu <hdagdagu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 15:52:51 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/05/02 16:15:48 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/05 17:01:21 by hdagdagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ int	replace_varible(t_list *list, char *cmd)
 		x++;
 	}
 	fill_varible(j, x, list, cmd);
-
 	return (j);
 }
 

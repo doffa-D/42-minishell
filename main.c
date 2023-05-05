@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:07:52 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/04 15:26:34 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/04 23:29:56 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -388,18 +388,6 @@ int	somting_in_readline(t_all *my_struct)
 	char *str = my_getenv(my_struct->list, "PATH", 0);
 	my_struct->my_path = ft_split(str, ':');
 	free(str);
-	if(!my_struct->my_path[0])
-	{
-		i = fork();
-		if(i == 0)
-		{
-			dup2(2, 1);
-			printf("minishell: %s: No such file or directory\n", my_struct->each_cmd[c_of_s].cmd[0]);
-			exit(1);
-		}
-		wait(&i);
-		return 127;
-	}
 	int *pid = malloc(my_struct->number_of_pipes * sizeof(int));
 	c_of_s = 0;
 	int pipe_n[my_struct->number_of_pipes][2];
@@ -415,6 +403,12 @@ int	somting_in_readline(t_all *my_struct)
 		}
 		if (i == 0)
 		{
+			if(!my_struct->my_path[0] && !if_builtins_in_chiled(my_struct, c_of_s))
+			{
+				dup2(2, 1);
+				printf("minishell: %s: No such file or directory\n", my_struct->each_cmd[c_of_s].cmd[0]);
+				exit(127);
+			}
 			if(c_of_s > 0)
 			{
 				close(pipe_n[c_of_s - 1][1]);
@@ -430,10 +424,6 @@ int	somting_in_readline(t_all *my_struct)
 			if(my_struct->each_cmd[c_of_s].files)
 				check_rediractions(my_struct, c_of_s);
 			j = builtins(my_struct, c_of_s);
-			if(j == 1)
-				exit(0);
-			if(j == -1)
-				exit(1);
 			j = 0;
 			if (my_struct->each_cmd[c_of_s].cmd[0] && \
 			!ft_strchr(my_struct->each_cmd[c_of_s].cmd[0], '/') && !get_the_path(my_struct, c_of_s))

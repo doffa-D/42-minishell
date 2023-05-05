@@ -6,7 +6,7 @@
 /*   By: hdagdagu <hdagdagu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:07:52 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/05 18:34:24 by hdagdagu         ###   ########.fr       */
+/*   Updated: 2023/05/05 19:21:16 by hdagdagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,53 @@ void free_all_v2(int num,t_all *my_struct)
 	free(my_struct->each_cmd);
 }
 
+t_list *searcher(t_list *list,char *cmd)
+{
+	int x;
+	int i;
+	x = 0;
+	i = 0;
+	while (list != NULL)
+	{
+		while (cmd[i])
+		{
+			if (((char *)list->content)[i]
+				&& ((char *)list->content)[i] == cmd[i])
+			{
+				i++;
+				if (((char *)list->content)[i] == '='
+					|| ((char *)list->content)[i] == 0)
+					x = 1;
+			}
+			else
+				break ;
+		}
+		if (x == 1)
+			break ;
+		list = list->next;
+	}
+	return list;
+}
+
+void	replace(t_list *list,char *cmd)
+{
+	char *cmd1;
+	t_list *old_list = list;
+	t_list *new = searcher(list,cmd);
+	char	wd[255];
+	wd[255 - 1] = '\0';
+	free(new->content);
+	cmd1 = ft_strjoin(ft_strdup(cmd),"=");
+	new->content = ft_strjoin(ft_strdup(cmd1),getcwd(wd, 255 - 1));
+	free(cmd1);
+	list = old_list;
+}
 
 int cd_commade(t_all *my_struct, int c_of_s)
 {
-	int pid = 0;
+	int pid ;
+	pid = 0;
+	
 	if(my_struct->each_cmd[c_of_s].cmd[1] && access(my_struct->each_cmd[c_of_s].cmd[1], F_OK) == -1)
 	{
 		dup2(2, 1);
@@ -107,37 +150,7 @@ int cd_commade(t_all *my_struct, int c_of_s)
 	}
     else
         chdir(my_struct->each_cmd[c_of_s].cmd[1]);
-	int x;
-	int i;
-	char *cmd = ft_strdup("PWD");
-	x = 0;
-	i = 0;
-	t_list *old_list = my_struct->list;
-	while (my_struct->list != NULL)
-	{
-		while (cmd[i])
-		{
-			if (((char *)my_struct->list->content)[i]
-				&& ((char *)my_struct->list->content)[i] == cmd[i])
-			{
-				i++;
-				if (((char *)my_struct->list->content)[i] == '='
-					|| ((char *)my_struct->list->content)[i] == 0)
-					x = 1;
-			}
-			else
-				break ;
-		}
-		if (x == 1)
-			break ;
-		my_struct->list = my_struct->list->next;
-	}
-	char	wd[255];
-	wd[255 - 1] = '\0';
-	free(my_struct->list->content);
-	my_struct->list->content = ft_strjoin(ft_strdup("PWD="),getcwd(wd, 255 - 1));
-	free(cmd);
-	my_struct->list = old_list;
+	replace(my_struct->list,"PWD=");
     return (0);
 }
 
@@ -185,13 +198,9 @@ int builtins_in_parent(t_all *my_struct, int c_of_s)
 	if(my_struct->each_cmd[c_of_s].cmd[0] && ft_strlen(my_struct->each_cmd[c_of_s].cmd[0]) \
 	 &&!ft_strncmp(my_struct->each_cmd[c_of_s].cmd[0], "cd", ft_strlen(my_struct->each_cmd[c_of_s].cmd[0])))
 	{
+		replace(my_struct->list,"OLDPWD");
 		if(cd_commade(my_struct, c_of_s))
 			return (-1);
-		while(my_struct->list != NULL)
-		{
-			printf("%s\n",my_struct->list->content);
-			my_struct->list = my_struct->list->next;
-		}
 		return (1);
 	}
 	if (my_struct->each_cmd[c_of_s].cmd[0] && !ft_strncmp(my_struct->each_cmd[c_of_s].cmd[0], "export", ft_strlen("export")+1))
@@ -211,7 +220,6 @@ int builtins_in_parent(t_all *my_struct, int c_of_s)
 	else if (my_struct->each_cmd[c_of_s].cmd[0] && !ft_strncmp(my_struct->each_cmd[c_of_s].cmd[0], "unset", ft_strlen("unset")+1))
 	{
 		unset_command(my_struct,c_of_s);
-		// while(1);
 		return (1);
 	}
 	else if (my_struct->each_cmd[c_of_s].cmd && my_struct->each_cmd[c_of_s].cmd[0] && !ft_strncmp(my_struct->each_cmd[c_of_s].cmd[0], "exit", ft_strlen("exit")))

@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 14:20:41 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/05 18:09:15 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/05 18:25:44 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct s_files
 typedef struct each_command
 {
 	char **cmd;
+	int fd[2];
 	t_files *files;
 
 } t_each_command;

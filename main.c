@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:07:52 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/05 18:14:47 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/05 18:44:18 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -330,6 +330,11 @@ int	somting_in_readline(t_all *my_struct)
 	}
 	i = 0;
 	my_struct->fix_cmd = ft_split(my_struct->the_commande, 3);
+	// while(my_struct->fix_cmd[i])
+	// {
+	// 	printf("[%s]\n", my_struct->fix_cmd[i]);
+	// 	i++;
+	// }
 	free(my_struct->the_commande);
 	free(my_struct->tmp_cmd);
 	add_history(my_struct->cmd);
@@ -390,11 +395,15 @@ int	somting_in_readline(t_all *my_struct)
 	free(str);
 	int *pid = malloc(my_struct->number_of_pipes * sizeof(int));
 	c_of_s = 0;
-	int pipe_n[my_struct->number_of_pipes][2];
+	while (c_of_s < my_struct->number_of_pipes - 1)
+	{
+		pipe(my_struct->each_cmd[c_of_s].fd);
+		c_of_s++;
+	}
+
+	c_of_s = 0;
 	while(my_struct->number_of_pipes > 0)
 	{
-		if(my_struct->number_of_pipes > 1)
-			pipe(pipe_n[c_of_s]);
 		i = fork();
 		if (i == -1)
 		{
@@ -411,15 +420,15 @@ int	somting_in_readline(t_all *my_struct)
 			}
 			if(c_of_s > 0)
 			{
-				close(pipe_n[c_of_s - 1][1]);
-				dup2(pipe_n[c_of_s - 1][0], STDIN_FILENO);
-				close(pipe_n[c_of_s - 1][0]);
+				close(my_struct->each_cmd[c_of_s - 1].fd[1]);
+				dup2(my_struct->each_cmd[c_of_s - 1].fd[0], STDIN_FILENO);
+				close(my_struct->each_cmd[c_of_s - 1].fd[0]);
 			}
 			if(my_struct->number_of_pipes > 1)
 			{
-				close(pipe_n[c_of_s][0]);
-				dup2(pipe_n[c_of_s][1], STDOUT_FILENO);
-				close(pipe_n[c_of_s][1]);
+				close(my_struct->each_cmd[c_of_s].fd[0]);
+				dup2(my_struct->each_cmd[c_of_s].fd[1], STDOUT_FILENO);
+				close(my_struct->each_cmd[c_of_s].fd[1]);
 			}
 			if(my_struct->each_cmd[c_of_s].files)
 				check_rediractions(my_struct, c_of_s);
@@ -470,20 +479,20 @@ int	somting_in_readline(t_all *my_struct)
 				}
 			}
 			else
-				exicut_commande(my_struct, i, c_of_s, pipe_n[c_of_s]);
+				exicut_commande(my_struct, i, c_of_s, 0);
 		}
 		else
 			pid[c_of_s] = i;
 		if(my_struct->number_of_pipes > 1)
-			close(pipe_n[c_of_s][1]);
+			close(my_struct->each_cmd[c_of_s].fd[1]);
 		my_struct->number_of_pipes--;
 		c_of_s++;
 	}
 	i = 0;
 	while (i < c_of_s - 1)
 	{
-		close(pipe_n[i][1]);
-		close(pipe_n[i][0]);
+		// close(my_struct->each_cmd[i].fd[1]);
+		close(my_struct->each_cmd[i].fd[0]);
 		i++;
 	}
 	i = 0;

@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 18:00:54 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/05/05 20:29:34 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/06 19:43:43 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int check_n(char *str)
 	return 0;
 }
 
-void	echo_command(t_all *_struct, int c_of_s)
+void	echo_command(int c_of_s)
 {
 	int		i;
 	int		j;
@@ -50,18 +50,18 @@ void	echo_command(t_all *_struct, int c_of_s)
 
 	j = 0;
 	i = 1;
-	while (_struct->each_cmd[c_of_s].cmd[i])
+	while (g_struct.each_cmd[c_of_s].cmd[i])
 	{
-		if (check_n(_struct->each_cmd[c_of_s].cmd[i]) == 1 && x == 0)
+		if (check_n(g_struct.each_cmd[c_of_s].cmd[i]) == 1 && x == 0)
 		{
 			j = 1;
 		}
 		else
 		{
-			printf("%s", _struct->each_cmd[c_of_s].cmd[i]);
+			printf("%s", g_struct.each_cmd[c_of_s].cmd[i]);
 			x = 1;
 		}
-		if(i < len_2(_struct->each_cmd[c_of_s].cmd) - 1 && x == 1)
+		if(i < len_2(g_struct.each_cmd[c_of_s].cmd) - 1 && x == 1)
 			printf(" ");
 		i++;
 	}
@@ -70,7 +70,7 @@ void	echo_command(t_all *_struct, int c_of_s)
 		printf("\n");
 }
 
-// void	echo_command(t_all *_struct, int c_of_s)
+// void	echo_command(int c_of_s)
 // {
 // 	int i;
 // 	int j;
@@ -81,19 +81,19 @@ void	echo_command(t_all *_struct, int c_of_s)
 // 	x = 0;
 // 	z = 0;
 
-// 	while(_struct->each_cmd[c_of_s].cmd[i])
+// 	while(g_struct.each_cmd[c_of_s].cmd[i])
 // 	{
 // 		j = 0;
-// 		if(ft_strncmp(_struct->each_cmd[c_of_s].cmd[i],"-n",ft_strlen) && x == 0)
+// 		if(ft_strncmp(g_struct.each_cmd[c_of_s].cmd[i],"-n",ft_strlen) && x == 0)
 // 		{
 // 			z = 1;
 // 		}
 // 		else
 // 		{
 // 			x = 1;
-// 			while(_struct->each_cmd[c_of_s].cmd[i][j])
+// 			while(g_struct.each_cmd[c_of_s].cmd[i][j])
 // 			{
-// 				printf("%c",_struct->each_cmd[c_of_s].cmd[i][j]);
+// 				printf("%c",g_struct.each_cmd[c_of_s].cmd[i][j]);
 // 				j++;
 // 			}
 // 		}		

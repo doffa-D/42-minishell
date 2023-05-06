@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 15:05:18 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/05/05 20:29:34 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/06 19:43:43 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,29 +78,29 @@ void	unset_checker(t_list *list, char *cmd, t_list *head, int i)
 	delete_node(list, head, x);
 }
 
-void	unset_command(t_all *_struct, int c_of_s)
+void	unset_command(int c_of_s)
 {
 	t_list	*ptr;
 	int		i;
 
-	ptr = _struct->list;
+	ptr = g_struct.list;
 	i = 0;
-	while (_struct->each_cmd[c_of_s].cmd[i])
+	while (g_struct.each_cmd[c_of_s].cmd[i])
 	{
-		if (mini_check_export(_struct->each_cmd[c_of_s].cmd[i], 1) == 1
-			|| ft_strchr(_struct->each_cmd[c_of_s].cmd[i], '='))
+		if (mini_check_export(g_struct.each_cmd[c_of_s].cmd[i], 1) == 1
+			|| ft_strchr(g_struct.each_cmd[c_of_s].cmd[i], '='))
 		{
 			printf("unset: `%s': not a valid identifier\n",
-				_struct->each_cmd[c_of_s].cmd[i]);
+				g_struct.each_cmd[c_of_s].cmd[i]);
 			i++;
 		}
 		else
 		{
-			unset_checker(_struct->list, _struct->each_cmd[c_of_s].cmd[i],
+			unset_checker(g_struct.list, g_struct.each_cmd[c_of_s].cmd[i],
 				ptr, 0);
 			i++;
 		}
 	}
-	_struct->list = ptr;
+	g_struct.list = ptr;
 	i = 0;
 }

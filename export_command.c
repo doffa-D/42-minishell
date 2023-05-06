@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 15:02:29 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/05/05 20:29:34 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/06 19:52:25 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,18 +26,18 @@ void	print_erro(void)
 	wait(&pid);
 }
 
-int	check_export_error(char *cmd, t_all *_struct)
+int	check_export_error(char *cmd)
 {
 	if ((cmd[0] == '=' && !cmd[1]) || cmd[0] == '=')
 	{
 		print_erro();
-		_struct->check = 1;
+		g_struct.check = 1;
 		return (2);
 	}
 	else if (mini_check_export(cmd, 1) == 1)
 	{
 		print_erro();
-		_struct->check = 1;
+		g_struct.check = 1;
 		return (2);
 	}
 	return (1);
@@ -62,9 +62,9 @@ void	last(t_list *list, char *cmd)
 		add_node_back(cmd, &list);
 }
 
-int	handle_export(char *cmd, int print, t_list *list, t_all *_struct)
+int	handle_export(char *cmd, int print, t_list *list)
 {
-	print = check_export_error(cmd, _struct);
+	print = check_export_error(cmd);
 	if (print == 0)
 		return (print);
 	else if (cmd && cmd[ft_strlen(cmd) - 1] != '=' && ft_strchr(cmd, '=')
@@ -86,24 +86,24 @@ int	handle_export(char *cmd, int print, t_list *list, t_all *_struct)
 	return (print);
 }
 
-void	export_command(t_all *_struct, int c_of_s)
+void	export_command(int c_of_s)
 {
 	int		i;
 	int		print;
 	t_list	*ptr;
 
 	i = 1;
-	ptr = _struct->list;
+	ptr = g_struct.list;
 	print = 1;
-	while (_struct->each_cmd[c_of_s].cmd[i])
+	while (g_struct.each_cmd[c_of_s].cmd[i])
 	{
-		print = handle_export(_struct->each_cmd[c_of_s].cmd[i], print,
-				_struct->list, _struct);
+		print = handle_export(g_struct.each_cmd[c_of_s].cmd[i], print,
+				g_struct.list);
 		if (print == 0)
 			break ;
 		i++;
 	}
-	if (print == 1 && !_struct->each_cmd[c_of_s].cmd[1])
-		print_export(_struct->list);
-	_struct->list = ptr;
+	if (print == 1 && !g_struct.each_cmd[c_of_s].cmd[1])
+		print_export(g_struct.list);
+	g_struct.list = ptr;
 }

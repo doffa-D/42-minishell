@@ -11,52 +11,52 @@
 /* ************************************************************************** */
 
 #include"minishell.h"
-// void parccc(t_all *_struct)
+// void parccc()
 // {
 //     int		i;
 // 	int		j;
 // 	int		checker;
 // 	char	splite_char;
 // 	i = 0;
-//     // _struct->tmp_cmd = 0;
-// 	// _struct->tmp_cmd = ft_strdup(_struct->cmd);
-// 	// _struct->the_commande = 0;
-// 	// while (_struct->tmp_cmd[i])
+//     // g_struct.tmp_cmd = 0;
+// 	// g_struct.tmp_cmd = ft_strdup(g_struct.cmd);
+// 	// g_struct.the_commande = 0;
+// 	// while (g_struct.tmp_cmd[i])
 // 	// {
 // 	// 	splite_char = ' ';
 // 	// 	checker = 0;
-// 	// 	while (_struct->tmp_cmd[i] && _struct->tmp_cmd[i] != splite_char)
+// 	// 	while (g_struct.tmp_cmd[i] && g_struct.tmp_cmd[i] != splite_char)
 // 	// 	{
-// 	// 		if (_struct->tmp_cmd[i] == 34 && !checker)
+// 	// 		if (g_struct.tmp_cmd[i] == 34 && !checker)
 // 	// 		{
 // 	// 			splite_char = 34;
 // 	// 			checker = 1;
 // 	// 		}
-// 	// 		if (_struct->tmp_cmd[i] == 39 && !checker)
+// 	// 		if (g_struct.tmp_cmd[i] == 39 && !checker)
 // 	// 		{
 // 	// 			splite_char = 39;
 // 	// 			checker = 1;
 // 	// 		}
 // 	// 		i++;
 // 	// 	}
-// 	// 	if (splite_char != ' ' && _struct->tmp_cmd[i])
+// 	// 	if (splite_char != ' ' && g_struct.tmp_cmd[i])
 // 	// 		i++;
-// 	// 	if (_struct->tmp_cmd[i] == ' ')
+// 	// 	if (g_struct.tmp_cmd[i] == ' ')
 // 	// 	{
-// 	// 		if (!_struct->the_commande)
-// 	// 			_struct->the_commande = ft_calloc(1, 1);
-// 	// 		_struct->tmp_cmd[i] = 3;
+// 	// 		if (!g_struct.the_commande)
+// 	// 			g_struct.the_commande = ft_calloc(1, 1);
+// 	// 		g_struct.tmp_cmd[i] = 3;
 // 	// 		i++;
-// 	// 		_struct->the_commande = ft_strjoin_v2(_struct->the_commande,
-// 	// 				ft_substr(_struct->tmp_cmd, j, i - j));
+// 	// 		g_struct.the_commande = ft_strjoin_v2(g_struct.the_commande,
+// 	// 				ft_substr(g_struct.tmp_cmd, j, i - j));
 // 	// 		j = i;
 // 	// 	}
-// 	// 	if (!_struct->tmp_cmd[i])
+// 	// 	if (!g_struct.tmp_cmd[i])
 // 	// 	{
-// 	// 		if (!_struct->the_commande)
-// 	// 			_struct->the_commande = ft_calloc(1, 1);
-// 	// 		_struct->the_commande = ft_strjoin_v2(_struct->the_commande,
-// 	// 				ft_substr(_struct->tmp_cmd, j, i - j));
+// 	// 		if (!g_struct.the_commande)
+// 	// 			g_struct.the_commande = ft_calloc(1, 1);
+// 	// 		g_struct.the_commande = ft_strjoin_v2(g_struct.the_commande,
+// 	// 				ft_substr(g_struct.tmp_cmd, j, i - j));
 // 	// 		break ;
 // 	// 	}
 // 	// }

@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 12:31:35 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/05/06 19:44:38 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/06 23:14:14 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,8 +151,8 @@ void	variables_parceen(t_var *variables)
 		ft_substr(g_struct.fix_cmd[variables->i], variables->c, \
         variables->j - variables->c));
 	while (g_struct.fix_cmd[variables->i][var]
-		&& (ft_isalpha(g_struct.fix_cmd[variables->i][var])
-			|| ft_isdigit(g_struct.fix_cmd[variables->i][var])))
+	&& (ft_isalpha(g_struct.fix_cmd[variables->i][var])
+	|| ft_isdigit(g_struct.fix_cmd[variables->i][var]) || g_struct.fix_cmd[variables->i][var] == '_'))
 		var++;
 	if (g_struct.status == IN_DCOTE || g_struct.status == OUTSIDE)
 	{

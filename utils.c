@@ -6,11 +6,11 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 14:20:11 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/06 19:44:11 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/06 21:37:24 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"minishell.h"
+#include "minishell.h"
 
 int get_the_path(int c_of_s)
 {
@@ -25,7 +25,7 @@ int get_the_path(int c_of_s)
             i++;
         }
 		else
-            return 1;
-    }
-    return 0;
+			return (1);
+	}
+	return (0);
 }

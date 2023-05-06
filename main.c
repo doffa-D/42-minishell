@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:07:52 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/06 19:49:46 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/06 23:30:08 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,11 +211,21 @@ int builtins_in_parent(int c_of_s)
 	else if (g_struct.each_cmd[c_of_s].cmd && g_struct.each_cmd[c_of_s].cmd[0] && !ft_strncmp(g_struct.each_cmd[c_of_s].cmd[0], "exit", ft_strlen("exit")))
 	{
 		
-		if(g_struct.each_cmd[c_of_s].cmd && g_struct.each_cmd[c_of_s].cmd[1])
+		i = 0;
+		if(g_struct.each_cmd[c_of_s].cmd[1])
 		{
+			if (!ft_isdigit(g_struct.each_cmd[c_of_s].cmd[1][i]) \
+			&& g_struct.each_cmd[c_of_s].cmd[1][i] != '-' \
+			&& g_struct.each_cmd[c_of_s].cmd[1][i] != '+')
+			{
+				dup2(2, 1);
+				printf("minishell: exit: %s: numeric argument required\n", g_struct.each_cmd[c_of_s].cmd[1]);
+				exit(255);
+			}
+			i++;
 			while (g_struct.each_cmd[c_of_s].cmd[1][i])
 			{
-				if(ft_isalpha(g_struct.each_cmd[c_of_s].cmd[1][i]))
+				if(!ft_isdigit(g_struct.each_cmd[c_of_s].cmd[1][i]))
 				{
 					dup2(2, 1);
 					printf("minishell: exit: %s: numeric argument required\n", g_struct.each_cmd[c_of_s].cmd[1]);
@@ -223,13 +233,14 @@ int builtins_in_parent(int c_of_s)
 				}
 				i++;
 			}
+
 			if(!g_struct.each_cmd[c_of_s].cmd[2])
 				exit(ft_atoi(g_struct.each_cmd[c_of_s].cmd[1]));
 		}
-		if(g_struct.each_cmd[c_of_s].cmd && g_struct.each_cmd[c_of_s].cmd[1] && g_struct.each_cmd[c_of_s].cmd[2])
+		if(g_struct.each_cmd[c_of_s].cmd[1] && g_struct.each_cmd[c_of_s].cmd[2])
 		{
 			ft_putstr_fd("minishell: exit: too many arguments\n", 2);
-			return -1;
+			exit(1);
 		}
 		exit(g_struct.exit_status);
 	}
@@ -246,7 +257,7 @@ int builtins(int c_of_s)
 			exit(1);
 		exit(0);
 	}
-	if (g_struct.each_cmd[0].cmd[0] && \
+	if (g_struct.each_cmd[c_of_s].cmd[0] && \
 	!ft_strncmp(g_struct.each_cmd[c_of_s].cmd[0], "echo", ft_strlen("echo")+1))
 	{
 		echo_command(c_of_s);
@@ -280,12 +291,22 @@ int builtins(int c_of_s)
 	}
 	else if (g_struct.each_cmd[c_of_s].cmd && g_struct.each_cmd[c_of_s].cmd[0] && !ft_strncmp(g_struct.each_cmd[c_of_s].cmd[0], "exit", ft_strlen("exit")))
 	{
-		
-		if(g_struct.each_cmd[c_of_s].cmd && g_struct.each_cmd[c_of_s].cmd[1])
+		i = 0;
+		if(g_struct.each_cmd[c_of_s].cmd[1])
 		{
+			printf("ddd\n");
+			if (!ft_isdigit(g_struct.each_cmd[c_of_s].cmd[1][i]) \
+			&& g_struct.each_cmd[c_of_s].cmd[1][i] != '-' \
+			&& g_struct.each_cmd[c_of_s].cmd[1][i] != '+')
+			{
+				dup2(2, 1);
+				printf("minishell: exit: %s: numeric argument required\n", g_struct.each_cmd[c_of_s].cmd[1]);
+				exit(255);
+			}
+			i++;
 			while (g_struct.each_cmd[c_of_s].cmd[1][i])
 			{
-				if(ft_isalpha(g_struct.each_cmd[c_of_s].cmd[1][i]))
+				if(!ft_isdigit(g_struct.each_cmd[c_of_s].cmd[1][i]))
 				{
 					dup2(2, 1);
 					printf("minishell: exit: %s: numeric argument required\n", g_struct.each_cmd[c_of_s].cmd[1]);
@@ -296,7 +317,7 @@ int builtins(int c_of_s)
 			if(!g_struct.each_cmd[c_of_s].cmd[2])
 				exit(ft_atoi(g_struct.each_cmd[c_of_s].cmd[1]));
 		}
-		if(g_struct.each_cmd[c_of_s].cmd && g_struct.each_cmd[c_of_s].cmd[1] && g_struct.each_cmd[c_of_s].cmd[2])
+		if(g_struct.each_cmd[c_of_s].cmd[1] && g_struct.each_cmd[c_of_s].cmd[2])
 		{
 			ft_putstr_fd("minishell: exit: too many arguments\n", 2);
 			exit(1);
@@ -416,9 +437,27 @@ int	somting_in_readline()
 			return 1;
 		}
 	}
+	i = 0;
+	j = 0;
+	char *path = ft_strdup("");
 	char *str = my_getenv(g_struct.list, "PATH", 0);
-	g_struct.my_path = ft_split(str, ':');
+	while (str[i])
+	{
+		if(str[i] == ':')
+		{
+			path = ft_strjoin_v2(path, ft_substr(str, j + 1, i - j));
+			j = i;
+			if((str[i + 1] && str[i + 1] == ':') || i == 0 || i == (int)ft_strlen(str))
+			{
+				path = ft_strjoin(path, ".");
+				i++;
+			}
+		}
+		i++;
+	}
 	free(str);
+	g_struct.my_path = ft_split(path, ':');
+	free(path);
 	int *pid = malloc(g_struct.number_of_pipes * sizeof(int));
 	c_of_s = 0;
 	while (c_of_s < g_struct.number_of_pipes - 1)
@@ -467,8 +506,16 @@ int	somting_in_readline()
 				{
 					if (access(g_struct.my_path[i], F_OK) == 0)
 					{
-						j = 1;
-						break ;
+						if(access(g_struct.my_path[i], X_OK) == 0)
+						{
+							j = 1;
+							break ;
+						}
+						else
+						{
+							printf("minishell: %s: Permission denied\n", g_struct.each_cmd[c_of_s].cmd[0]);
+							exit(126);
+						}
 					}
 					i++;
 				}
@@ -476,7 +523,17 @@ int	somting_in_readline()
 			else
 			{
 				if (g_struct.each_cmd[c_of_s].cmd[0] && access(g_struct.each_cmd[c_of_s].cmd[0], F_OK) == 0)
-					j = 1;
+				{
+					// printf("csdcds\n");
+					if(access(g_struct.each_cmd[c_of_s].cmd[0], X_OK) == 0)
+						j = 1;
+					else
+					{
+						printf("minishell: %s: Permission denied\n", g_struct.each_cmd[c_of_s].cmd[0]);
+						exit(126);
+					}
+
+				}
 			}
 			if (j != 1)
 			{

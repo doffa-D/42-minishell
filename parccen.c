@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 12:31:35 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/05/06 20:31:49 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/06 20:39:23 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -234,7 +234,7 @@ char *other_character_after_dolar(char *whotout_expande, char *my_string,
 	return my_string;
 }
 
-char	*variables_parceen_rederaction(char *whotout_expande, char *my_string,
+char	*expande_all(char *whotout_expande, char *my_string,
 		t_var *variables)
 {
 	if (ft_isalnum(whotout_expande[variables->index_j + 1]))
@@ -894,7 +894,7 @@ void expande_variables(t_var *var, int cas)
 	var->start = var->index_j;
 	if (g_struct.tmp_cmd[var->index_j + 1])
 		g_struct.each_cmd[var->index_i].files[cas].files = \
-		var_parceen_utils(g_struct.tmp_cmd, \
+		expande_all(g_struct.tmp_cmd, \
 		g_struct.each_cmd[var->index_i].files[cas].files, var);
 }
 

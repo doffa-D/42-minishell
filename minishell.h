@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hdagdagu <hdagdagu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 14:20:41 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/06 19:47:24 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/07 13:18:44 by hdagdagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,10 +85,7 @@ void	exicut_echo(int c_of_s);
 int		quote_check(char *cmd);
 int		fix_arg();
 char *my_getenv(t_list *head , char *var, int trim);
-// void			rl_replace_line (const char *text, int clear_undo);
 char	*ft_strjoin_v2(char const *s1, char const *s2);
-// void check_leaks();
-// void	handler(int sig);
 int		cd_commade(int c_of_s);
 void	fill_linked_list(char **dst, t_list **list);
 int		mini_check_export(char *src,int x);
@@ -113,4 +110,5 @@ void	parccen();
 int 	builtins(int c_of_s);
 void	qouts(t_var *variables, int c_of_s);
 int	check_rediractions_in_parent(int c_of_s);
+char	*_get_env(t_list *head, int j, int trim, char *expande_variable);
 #endif

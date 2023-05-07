@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commande.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hdagdagu <hdagdagu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 14:19:24 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/06 20:47:13 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/07 12:00:59 by hdagdagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	**new_env(t_list *list)
 		list = list->next;
 		i++;
 	}
-	dst = malloc(sizeof(char*) * (i + 1));
+	dst = malloc(sizeof(char *) * (i + 1));
 	i = 0;
 	list = ptr;
 	while (list != NULL)
@@ -45,7 +45,8 @@ void	exicut_commande(int i, int c_of_s, int *pipe_n)
 	if (g_struct.each_cmd[c_of_s].cmd[0]
 		&& ft_strchr(g_struct.each_cmd[c_of_s].cmd[0], '/'))
 		execve(g_struct.each_cmd[c_of_s].cmd[0],
-				g_struct.each_cmd[c_of_s].cmd, new_env(g_struct.list));
-	execve(g_struct.my_path[i], g_struct.each_cmd[c_of_s].cmd,
+			g_struct.each_cmd[c_of_s].cmd,
 			new_env(g_struct.list));
+	execve(g_struct.my_path[i], g_struct.each_cmd[c_of_s].cmd,
+		new_env(g_struct.list));
 }

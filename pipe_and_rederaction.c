@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_and_rederaction.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hdagdagu <hdagdagu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 00:42:18 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/06 20:48:58 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/07 11:58:34 by hdagdagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	close_pip(int **pipe_n, int c_of_s, int i)
 	}
 }
 
-void	pipe_and_rederaction(int j, int c_of_s,int **pipe_n)
+void	pipe_and_rederaction(int j, int c_of_s, int **pipe_n)
 {
 	if (g_struct.each_cmd[c_of_s].files && c_of_s == 0)
 		check_rediractions(c_of_s);

@@ -3,21 +3,21 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+         #
+#    By: hdagdagu <hdagdagu@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/03 12:19:16 by nouakhro          #+#    #+#              #
-#    Updated: 2023/05/06 20:43:50 by nouakhro         ###   ########.fr        #
+#    Updated: 2023/05/07 11:59:28 by hdagdagu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 
-ifeq ($(d),1)
-	g = -fsanitize=address -g
+ifeq ($(DEBUG),1)
+	OPT = -fsanitize=address -g
 endif
 
 CC = cc
 
-CCFLAGS = -Wall -Werror -Wextra $(g)
+CCFLAGS = -Wall -Werror -Wextra $(OPT)
 
 SRC = 	main.c\
 		utils.c\
@@ -56,6 +56,3 @@ fclean : clean
 	make fclean -C $(LIBFT)
 	rm -f $(NAME)
 re:fclean $(NAME)
-
-run : all
-	mv $(OBJE) object && ./minishell

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hdagdagu <hdagdagu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 18:00:54 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/05/06 20:47:57 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/07 12:00:14 by hdagdagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	check_n(char *str)
 
 	x = ft_strlen(str);
 	i = 0;
-	if(str && str[0] == '-' && str[1])
+	if (str && str[0] == '-' && str[1])
 	{
 		i++;
 		while (str[i])

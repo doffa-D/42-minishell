@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hdagdagu <hdagdagu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 20:46:23 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/06 23:34:00 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/07 11:54:59 by hdagdagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,6 @@ int	ft_atoi(const char *str)
 	while (ft_isdigit(str[i]) > 0)
 	{
 		result = (result * 10) + (str[i] - 48) * j;
-		// if(result >= 255)
-		// 	return result % 255;
 		i++;
 	}
 	return (result);

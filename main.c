@@ -6,7 +6,7 @@
 /*   By: hdagdagu <hdagdagu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:07:52 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/07 13:22:12 by hdagdagu         ###   ########.fr       */
+/*   Updated: 2023/05/07 13:49:01 by hdagdagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -601,35 +601,6 @@ void    fill_linked_list(char **dst, t_list **list)
         i++;
     }
 }
-
-// char	*my_getenv_v2(t_list *head, char *var)
-// {
-// 	int		j;
-// 	char	*expande_variable;
-
-// 	j = 0;
-// 	expande_variable = ft_calloc(1, 1);
-// 	while (head != NULL)
-// 	{
-// 		if (*(char *)head->content == var[0])
-// 		{
-// 			j = 0;
-// 			while (((char *)head->content)[j] == var[j] ||
-// 					((char *)head->content)[j] == '=')
-// 			{
-// 				if (((char *)head->content)[j] == '=' && !var[j])
-// 				{
-// 					if()
-// 					return ((&head->content)[j]);
-// 				}
-// 				j++;
-// 			}
-// 		}
-// 		head = head->next;
-// 	}
-
-// 	return (expande_variable);
-// }
 
 int main(int argc,char **argv,char **env)
 {

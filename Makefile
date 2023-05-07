@@ -6,7 +6,7 @@
 #    By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/03 12:19:16 by nouakhro          #+#    #+#              #
-#    Updated: 2023/05/06 20:43:50 by nouakhro         ###   ########.fr        #
+#    Updated: 2023/05/07 18:06:47 by nouakhro         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,6 +38,7 @@ SRC = 	main.c\
 OBJE = $(SRC:.c=.o)
 
 NAME = minishell
+
 LIBFT = libft
 
 all : $(NAME)

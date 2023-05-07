@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 12:31:35 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/05/06 23:21:02 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/07 14:12:38 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char	*ft_strjoin_v2(char const *s1, char const *s2)
 	return (b);
 }
 
-int	quote_and_dqout(t_var *variables)
+int	quote_and_dquote(t_var *variables)
 {
 	if ((g_struct.fix_cmd[variables->index_i][variables->index_j] == 34)
 		&& g_struct.status != IN_COTE)
@@ -314,11 +314,11 @@ char	*variables_parceen_utils(char *whotout_expande, char *my_string,
 	return (my_string);
 }
 
-int	change_qouts_and_pipe_and_rederaction(t_var *variables)
+int	change_quotes_and_pipe_and_rederaction(t_var *variables)
 {
 	while (g_struct.fix_cmd[variables->index_i][variables->index_j])
 	{
-		quote_and_dqout(variables);
+		quote_and_dquote(variables);
 		pipe_and_rederaction_parceen(variables);
 		if (g_struct.fix_cmd[variables->index_i][variables->index_j] == 4 &&
 			((variables->index_j == 0 && variables->index_i == 0) \
@@ -349,7 +349,7 @@ int	parccen_part(t_var *variables)
 	{
 		variables->index_j = 0;
 		g_struct.status = OUTSIDE;
-		if (change_qouts_and_pipe_and_rederaction(variables) == 258)
+		if (change_quotes_and_pipe_and_rederaction(variables) == 258)
 			return (258);
 		if (g_struct.status != OUTSIDE)
 		{
@@ -475,7 +475,7 @@ void	parrcing_of_insied_herdoc(t_var *variables, int c_of_s)
 	g_struct.fils_descreprot = fd_by_pipe[0];
 }
 
-int	remove_qouts_and_expande_variables_in_input(t_var \
+int	remove_quotes_and_expande_variables_in_input(t_var \
 *variables, int cas, int if_error)
 {
 	char	**str;
@@ -486,7 +486,7 @@ int	remove_qouts_and_expande_variables_in_input(t_var \
 		g_struct.each_cmd[variables->index_i].files[cas].HERDOC = 1;
 	g_struct.ambiguous = 1;
 	g_struct.error_ambiguous = 0;
-	qouts(variables, cas);
+	quotes(variables, cas);
 	str = ft_split(g_struct.each_cmd[variables->index_i].files[cas].files, 3);
 	if_error = 0;
 	if (str[if_error])
@@ -547,7 +547,7 @@ int	inistialisation_input(t_var *variables, int c_of_s)
 		if_error = 1;
 	if (if_error == 1)
 		return (syntax_error(variables), -1);
-	if_error = remove_qouts_and_expande_variables_in_input(variables, \
+	if_error = remove_quotes_and_expande_variables_in_input(variables, \
 		c_of_s, if_error);
 	if ((g_struct.error_ambiguous == 1 && if_error == 0) || if_error > 1)
 		g_struct.each_cmd[variables->index_i].files[c_of_s].ambiguous = 1;
@@ -560,7 +560,7 @@ int	inistialisation_input(t_var *variables, int c_of_s)
 	return (0);
 }
 
-void	remove_qouts_and_expande_in_rederaction(t_var *variables, int c_of_s)
+void	remove_quotes_and_expande_in_rederaction(t_var *variables, int c_of_s)
 {
 	if (g_struct.each_cmd[variables->index_i].files[c_of_s].number_of_O == 2)
 	g_struct.each_cmd[variables->index_i].files[c_of_s].APPEND = 1;
@@ -571,7 +571,7 @@ void	remove_qouts_and_expande_in_rederaction(t_var *variables, int c_of_s)
 	g_struct.each_cmd[variables->index_i].files[c_of_s].files = ft_calloc(1, 1);
 	g_struct.ambiguous = 1;
 	g_struct.error_ambiguous = 0;
-	qouts(variables, c_of_s);
+	quotes(variables, c_of_s);
 }
 
 int	if_multiple_argemnt_in_rederaction_files(t_var \
@@ -579,7 +579,7 @@ int	if_multiple_argemnt_in_rederaction_files(t_var \
 {
 	char	**str;
 
-	remove_qouts_and_expande_in_rederaction(variables, c_of_s);
+	remove_quotes_and_expande_in_rederaction(variables, c_of_s);
 	str = ft_split(g_struct.each_cmd[variables->index_i].files[c_of_s].files,
 			3);
 	if (str[if_error])
@@ -848,7 +848,7 @@ int	commande_and_rederaction_parceen(t_var *variables,
 	return (c_of_s);
 }
 
-void	remove_double_qouts(t_var *variables, int c_of_s)
+void	remove_double_quotes(t_var *variables, int c_of_s)
 {
 	if (g_struct.status == IN_DCOTE)
 	{
@@ -867,7 +867,7 @@ void	remove_double_qouts(t_var *variables, int c_of_s)
 	variables->start = variables->index_j;
 }
 
-void	remove_single_qouts(t_var *variables, int c_of_s)
+void	remove_single_quotes(t_var *variables, int c_of_s)
 {
 	if (g_struct.status == IN_COTE)
 	{
@@ -900,16 +900,16 @@ void	expande_variables(t_var *var, int cas)
 		g_struct.each_cmd[var->index_i].files[cas].files, var);
 }
 
-void	qouts(t_var *variables, int c_of_s)
+void	quotes(t_var *variables, int c_of_s)
 {
 	while (variables->index_j < variables->end)
 	{
 		if (g_struct.tmp_cmd[variables->index_j] == 8
 			&& g_struct.status != IN_COTE)
-			remove_double_qouts(variables, c_of_s);
+			remove_double_quotes(variables, c_of_s);
 		else if (g_struct.tmp_cmd[variables->index_j] == 6 \
 				&& g_struct.status != IN_DCOTE)
-			remove_single_qouts(variables, c_of_s);
+			remove_single_quotes(variables, c_of_s);
 		else if (g_struct.tmp_cmd[variables->index_j] == '$' \
 		&& g_struct.tmp_cmd[variables->index_j + 1] \
 		&& g_struct.tmp_cmd[variables->index_j + 1] != ' ' \
@@ -925,7 +925,7 @@ void	qouts(t_var *variables, int c_of_s)
 	variables->index_j - variables->start));
 }
 
-void	remove_double_qouts_in_commande_parccing_part(t_var *variables)
+void	remove_double_quotes_in_commande_parccing_part(t_var *variables)
 {
 	if (g_struct.status == IN_DCOTE)
 	{
@@ -941,7 +941,7 @@ void	remove_double_qouts_in_commande_parccing_part(t_var *variables)
 	variables->start = variables->index_j;
 }
 
-void	remove_single_qouts_in_commande_parccing_part(t_var *variables)
+void	remove_single_quotes_in_commande_parccing_part(t_var *variables)
 {
 	if (g_struct.status == IN_COTE)
 	{
@@ -988,7 +988,7 @@ void	splite_commande(t_var *variables)
 	variables->end = 0;
 }
 
-void	qouts_comnde(t_var *variables)
+void	quotes_comnde(t_var *variables)
 {
 	int	cas;
 
@@ -1005,11 +1005,11 @@ void	qouts_comnde(t_var *variables)
 			if (g_struct.each_cmd[variables->index_i] \
 			.cmd[variables->end][variables->index_j] == 8
 				&& g_struct.status != IN_COTE)
-				remove_double_qouts_in_commande_parccing_part(variables);
+				remove_double_quotes_in_commande_parccing_part(variables);
 			else if (g_struct.each_cmd[variables->index_i] \
 			.cmd[variables->end][variables->index_j] == 6
 					&& g_struct.status != IN_DCOTE)
-				remove_single_qouts_in_commande_parccing_part(variables);
+				remove_single_quotes_in_commande_parccing_part(variables);
 			variables->index_j++;
 		}
 		cas = other_string_beffor_end_of_line(variables, cas);
@@ -1034,7 +1034,7 @@ int	partition_of_comande_and_rederaction(t_var *variables, int c_of_s)
 			return (c_of_s);
 		variables->index_j++;
 	}
-	qouts_comnde(variables);
+	quotes_comnde(variables);
 	free(g_struct.splite_pipe[variables->index_i]);
 	g_struct.splite_pipe[variables->index_i] = 0;
 	free(g_struct.the_commande);

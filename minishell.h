@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 14:20:41 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/06 19:47:24 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/07 14:12:38 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,6 @@ void	pwd_command(void);
 void	pipe_and_rederaction(int j, int c_of_s, int **pipe_n);
 void	parccen();
 int 	builtins(int c_of_s);
-void	qouts(t_var *variables, int c_of_s);
+void	quotes(t_var *variables, int c_of_s);
 int	check_rediractions_in_parent(int c_of_s);
 #endif

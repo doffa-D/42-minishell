@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:07:52 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/06 23:30:08 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/07 17:24:14 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,28 +66,120 @@ void free_all_v2(int num)
 	free(g_struct.each_cmd);
 }
 
+int idont_have(t_list *list,char *cmd)
+{
+    int x;
+    int i;
+    x = 0;
+    i = 0;
+    t_list *old_list = list;
+    
+    while (list != NULL)
+    {
+        while (cmd[i])
+        {
+            if (((char *)list->content)[i]
+                && ((char *)list->content)[i] == cmd[i])
+            {
+                i++;
+                if (((char *)list->content)[i] == '='
+                    || ((char *)list->content)[i] == 0)
+                    x = 1;
+            }
+            else
+                break ;
+        }
+        if (x == 1)
+            break ;
+        list = list->next;
+    }
+    list = old_list;
+    return x;
+}
+
+t_list *i_have(t_list *list,char *cmd)
+{
+    int x;
+    int i;
+    x = 0;
+    i = 0;
+    
+    while (list != NULL)
+    {
+        while (cmd[i])
+        {
+            if (((char *)list->content)[i]
+                && ((char *)list->content)[i] == cmd[i])
+            {
+                i++;
+                if (((char *)list->content)[i] == '='
+                    || ((char *)list->content)[i] == 0)
+                    x = 1;
+            }
+            else
+                break ;
+        }
+        if (x == 1)
+            break ;
+        list = list->next;
+    }
+    return list;
+}
+
+t_list *searcher(t_list *list,char *old)
+{
+    int x;
+    int i;
+    
+    x = 0;
+    i = 0;
+    t_list *old_list = list;
+    if(idont_have(list,"OLDPWD=") == 0)
+    {
+        t_list  *new_node; 
+        new_node = ft_lstnew(ft_strjoin(ft_strdup("OLDPWD="),old));
+        ft_lstadd_back(&list, new_node);
+    }
+    t_list *new = i_have(list,"OLDPWD");
+    free(new->content);
+    new->content = ft_strjoin(ft_strdup("OLDPWD="),old);
+    list = old_list;
+    t_list *new_1 = i_have(list,"PWD");
+    free(new_1->content);
+    new_1->content = ft_strjoin(ft_strdup("PWD="),getcwd(NULL, 255));
+    list = old_list;
+    return list;
+}
 
 int cd_commade(int c_of_s)
 {
 	int pid = 0;
-	if(g_struct.each_cmd[c_of_s].cmd[1] && access(g_struct.each_cmd[c_of_s].cmd[1], F_OK) == -1)
-	{
-		dup2(2, 1);
-		ft_putstr_fd("minishell: No such file or directory\n", 2);
-		return 1;
-	}
+	char *str;
+	char *old;
+    old = getcwd(NULL, 255);
     if((ft_strlen(g_struct.each_cmd[c_of_s].cmd[0]) == 2 && g_struct.each_cmd[c_of_s].cmd[1] && (g_struct.each_cmd[c_of_s].cmd[1][0] == '~' \
 	|| g_struct.each_cmd[c_of_s].cmd[1][1] == '/')))
     {
 		if(g_struct.each_cmd[c_of_s].cmd[1][0] == '~')
 		{
-
-        	chdir(my_getenv(g_struct.list,"HOME", 0));
-
+			str = ft_strjoin(my_getenv(g_struct.list,"HOME",0),&g_struct.each_cmd[c_of_s].cmd[1][1]);
+			if(chdir(str) == -1)
+			{
+				free(str);
+				dup2(2, 1);
+				ft_putstr_fd("minishell: No such file or directory\n", 2);
+				return 1;
+			}
+			free(str);
 		}
-		if(g_struct.each_cmd[c_of_s].cmd[1] && g_struct.each_cmd[c_of_s].cmd[1][1] == '/')
+		else if(g_struct.each_cmd[c_of_s].cmd[1] && g_struct.each_cmd[c_of_s].cmd[1][1] == '/')
 		{
-            chdir(g_struct.each_cmd[c_of_s].cmd[1]);
+			if(g_struct.each_cmd[c_of_s].cmd[1] && chdir(g_struct.each_cmd[c_of_s].cmd[1]) == -1)
+			{
+				dup2(2, 1);
+				ft_putstr_fd("minishell: No such file or directory\n", 2);
+				return 1;
+			}
 		}
     }
 	if(ft_strlen(g_struct.each_cmd[c_of_s].cmd[0]) == 2 && !g_struct.each_cmd[c_of_s].cmd[1])
@@ -106,38 +198,15 @@ int cd_commade(int c_of_s)
 		}
 	}
     else
-        chdir(g_struct.each_cmd[c_of_s].cmd[1]);
-	int x;
-	int i;
-	char *cmd = ft_strdup("PWD");
-	x = 0;
-	i = 0;
-	t_list *old_list = g_struct.list;
-	while (g_struct.list != NULL)
 	{
-		while (cmd[i])
+		if(g_struct.each_cmd[c_of_s].cmd[1] && chdir(g_struct.each_cmd[c_of_s].cmd[1]) == -1)
 		{
-			if (((char *)g_struct.list->content)[i]
-				&& ((char *)g_struct.list->content)[i] == cmd[i])
-			{
-				i++;
-				if (((char *)g_struct.list->content)[i] == '='
-					|| ((char *)g_struct.list->content)[i] == 0)
-					x = 1;
-			}
-			else
-				break ;
+			dup2(2, 1);
+			ft_putstr_fd("minishell: No such file or directory\n", 2);
+			return 1;
 		}
-		if (x == 1)
-			break ;
-		g_struct.list = g_struct.list->next;
 	}
-	char	wd[255];
-	wd[255 - 1] = '\0';
-	free(g_struct.list->content);
-	g_struct.list->content = ft_strjoin(ft_strdup("PWD="),getcwd(wd, 255 - 1));
-	free(cmd);
-	g_struct.list = old_list;
+	searcher(g_struct.list,old);
     return (0);
 }
 
@@ -294,7 +363,6 @@ int builtins(int c_of_s)
 		i = 0;
 		if(g_struct.each_cmd[c_of_s].cmd[1])
 		{
-			printf("ddd\n");
 			if (!ft_isdigit(g_struct.each_cmd[c_of_s].cmd[1][i]) \
 			&& g_struct.each_cmd[c_of_s].cmd[1][i] != '-' \
 			&& g_struct.each_cmd[c_of_s].cmd[1][i] != '+')

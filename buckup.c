@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 12:31:35 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/05/06 23:14:14 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/07 14:12:38 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ char	*ft_strjoin_v2(char const *s1, char const *s2)
 	return (b);
 }
 
-int	quote_and_dqout(t_var *variables)
+int	quote_and_dquote(t_var *variables)
 {
 	char str[2];
 	str[0] = 6;
@@ -229,7 +229,7 @@ int	parccen_part(t_var *variables, char *splite)
 		g_struct.status = OUTSIDE;
 		while (g_struct.fix_cmd[variables->i][variables->j])
 		{
-			quote_and_dqout(_struct, variables);
+			quote_and_dquote(_struct, variables);
 			pipe_and_rederaction_parceen(_struct, variables);
 			if (g_struct.fix_cmd[variables->i][variables->j] == '$'
 				&& g_struct.fix_cmd[variables->i][variables->j + 1])

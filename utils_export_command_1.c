@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_export_command_1.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hdagdagu <hdagdagu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 15:31:05 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/05/05 17:01:06 by hdagdagu         ###   ########.fr       */
+/*   Updated: 2023/05/07 18:05:53 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,18 @@ int	mini_check_export(char *src, int x)
 
 	i = 0;
 	if ((src[i] >= '0' && src[i] <= '9') || (ft_strchr(src, '-')
-			&& !ft_strchr(src, '=')) || (ft_strchr(src, '|') && !ft_strchr(src,
-				'=')))
+			&& !ft_strchr(src, '=')) || (ft_strchr(src, '|') && !ft_strchr(src, '=')))
 		return (1);
+	if((src[i] == '-' && !src[i+1]) || (src[i] == '+' && !src[i+1]))
+		return 1;
 	while (src[i])
 	{
 		if (x == 0 && (src[i] == 58 || src[i] == 47))
 			return (1);
+		if((src[i] == '=' && src[i+1] == '-' && !src[i+2]) ||  (src[i] == '=' && src[i+1] == '+' && !src[i+2]))
+			return 1;
 		if (src[i] == 33 || src[i] == 35 || src[i] == 37 || src[i] == 38
-			|| src[i] == 60 || (src[i] >= 40 && src[i] <= 44) || src[i] == 64
+			|| src[i] == 60 || src[i] == 46 || (src[i] >= 40 && src[i] <= 44) || src[i] == 64
 			|| (src[i] >= 91 && src[i] <= 94) || src[i] == 123 || src[i] == 125)
 			return (1);
 		i++;

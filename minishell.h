@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 14:20:41 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/08 11:13:04 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/08 12:52:49 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,5 +203,8 @@ void	splite_commande(t_var *variables);
 void	quotes_comnde(t_var *variables);
 int		partition_of_comande_and_rederaction(t_var *variables, int c_of_s);
 int		partition_part(t_var *variables);
+t_list	*searcher(t_list *list, char *old);
+t_list	*i_have(t_list *list, char *cmd);
+int	idont_have(t_list *list, char *cmd);
 int		fix_arg(void);
 #endif

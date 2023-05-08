@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_export_command_2.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hdagdagu <hdagdagu@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 15:52:51 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/05/05 17:01:21 by hdagdagu         ###   ########.fr       */
+/*   Updated: 2023/05/08 12:00:04 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void	fill_varible(int j, int x, t_list *list, char *cmd)
 			}
 			i++;
 		}
+		free(backup);
 		backup = ft_strjoin_v2(old, ft_strdup(&cmd[x + 1]));
 		free(list->content);
 		list->content = ft_strdup(backup);

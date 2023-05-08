@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 12:31:35 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/05/07 22:35:26 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/08 12:40:54 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -448,15 +448,20 @@ char	*read_line_herdoc(int c_of_s, t_var *variables,
 	{
 		buffer = readline("> ");
 		if (!buffer || !ft_strncmp(buffer,
-				g_struct.each_cmd[variables->index_i].files[c_of_s].files,
-				ft_strlen(buffer) + 1))
-			break ;
+			g_struct.each_cmd[variables->index_i].files[c_of_s].files,
+			ft_strlen(buffer) + 1))
+			{
+				if(buffer)
+					free(buffer);
+				break ;
+			}
 		if (ft_strchr(buffer, '$')
 			&& g_struct.each_cmd[c_of_s].files[c_of_s].HERDOC_OPTION == 0)
 			herdoc = fill_herdoc(buffer, &indes, herdoc);
 		else
 			herdoc = ft_strjoin(herdoc, buffer);
 		herdoc = ft_strjoin(herdoc, "\n");
+		free(buffer);
 	}
 	return (herdoc);
 }
@@ -465,7 +470,8 @@ void	parrcing_of_insied_herdoc(t_var *variables, int c_of_s)
 {
 	int		fd_by_pipe[2];
 	char	*herdoc;
-
+	if(g_struct.fils_descreprot != 0)
+		close(g_struct.fils_descreprot);
 	herdoc = ft_strdup("");
 	pipe(fd_by_pipe);
 	herdoc = read_line_herdoc(c_of_s, variables, herdoc);
@@ -1081,6 +1087,7 @@ int	fix_arg(void)
 	variables.index_i = 0;
 	g_struct.each_cmd = ft_calloc(sizeof(t_each_command), \
 	g_struct.number_of_pipes + 1);
+	g_struct.fils_descreprot = 0;
 	variables.index_i = partition_part(&variables);
 	if (variables.index_i == -1)
 		return (258);

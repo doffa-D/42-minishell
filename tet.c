@@ -1,1 +1,0 @@
-cntl insined herdoc

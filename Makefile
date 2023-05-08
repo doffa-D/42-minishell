@@ -6,7 +6,7 @@
 #    By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/03 12:19:16 by nouakhro          #+#    #+#              #
-#    Updated: 2023/05/07 22:59:49 by nouakhro         ###   ########.fr        #
+#    Updated: 2023/05/08 12:54:10 by nouakhro         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,6 +34,8 @@ SRC = 	main.c\
 		utils_export_command_3.c\
 		pwd_command.c\
 		pipe_and_rederaction.c\
+		cd_commande.c\
+		utils_cd_command.c\
 
 OBJE = $(SRC:.c=.o)
 

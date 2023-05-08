@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:07:52 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/08 01:58:03 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/08 13:00:47 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,212 +72,6 @@ void	free_all_v2(int num)
 		free(g_struct.my_path);
 	}
 	free_commande_whit_out_path(i, j);
-}
-
-int	idont_have(t_list *list, char *cmd)
-{
-	int		x;
-	int		i;
-	t_list	*old_list;
-
-	x = 0;
-	i = 0;
-	old_list = list;
-	while (list != NULL)
-	{
-		while (cmd[i])
-		{
-			if (((char *)list->content)[i]
-				&& ((char *)list->content)[i] == cmd[i])
-			{
-				i++;
-				if (((char *)list->content)[i] == '='
-					|| ((char *)list->content)[i] == 0)
-					x = 1;
-			}
-			else
-				break ;
-		}
-		if (x == 1)
-			break ;
-		list = list->next;
-	}
-	list = old_list;
-	return (x);
-}
-
-t_list	*i_have(t_list *list, char *cmd)
-{
-	int	x;
-	int	i;
-
-	x = 0;
-	i = 0;
-	while (list != NULL)
-	{
-		while (cmd[i])
-		{
-			if (((char *)list->content)[i]
-				&& ((char *)list->content)[i] == cmd[i])
-			{
-				i++;
-				if (((char *)list->content)[i] == '='
-					|| ((char *)list->content)[i] == 0)
-					x = 1;
-			}
-			else
-				break ;
-		}
-		if (x == 1)
-			break ;
-		list = list->next;
-	}
-	return (list);
-}
-
-t_list	*searcher(t_list *list, char *old)
-{
-	int		x;
-	int		i;
-	t_list	*old_list;
-	t_list	*new_node;
-	t_list	*new;
-	t_list	*new_1;
-
-	x = 0;
-	i = 0;
-	old_list = list;
-	if (idont_have(list, "OLDPWD=") == 0)
-	{
-		new_node = ft_lstnew(ft_strjoin(ft_strdup("OLDPWD="), old));
-		ft_lstadd_back(&list, new_node);
-	}
-	new = i_have(list, "OLDPWD");
-	free(new->content);
-	new->content = ft_strjoin(ft_strdup("OLDPWD="), old);
-	list = old_list;
-	new_1 = i_have(list, "PWD");
-	free(new_1->content);
-	new_1->content = ft_strjoin(ft_strdup("PWD="), getcwd(NULL, 255));
-	list = old_list;
-	return (list);
-}
-
-int	cd_commade(int c_of_s)
-{
-	char	*old;
-	int		pid;
-
-	pid = 0;
-	old = getcwd(NULL, 255);
-	if ((ft_strlen(g_struct.each_cmd[c_of_s].cmd[0]) == 2
-			&& g_struct.each_cmd[c_of_s].cmd[1]
-			&& (g_struct.each_cmd[c_of_s].cmd[1][0] == '~'
-				|| g_struct.each_cmd[c_of_s].cmd[1][1] == '/')))
-	{
-		if (g_struct.each_cmd[c_of_s].cmd[1][0] == '~')
-		{
-			if (_cd_whith_tilde(c_of_s, pid))
-				return (1);
-		}
-		else if (g_struct.each_cmd[c_of_s].cmd[1]
-				&& g_struct.each_cmd[c_of_s].cmd[1][1] == '/')
-			if (_cd_whith_slash(c_of_s, pid))
-				return (1);
-	}
-	if (_cd(c_of_s, pid))
-		return (1);
-	searcher(g_struct.list, old);
-	return (0);
-}
-
-int	_cd(int c_of_s, int pid)
-{
-	if (ft_strlen(g_struct.each_cmd[c_of_s].cmd[0]) == 2
-		&& !g_struct.each_cmd[c_of_s].cmd[1])
-	{
-		if (_only_cd(pid, c_of_s))
-			return (1);
-	}
-	else if (_cd_whith_somthing(c_of_s, pid))
-		return (1);
-	return (0);
-}
-
-int	_cd_whith_slash(int c_of_s, int pid)
-{
-	if (g_struct.each_cmd[c_of_s].cmd[1]
-		&& chdir(g_struct.each_cmd[c_of_s].cmd[1]) == -1)
-	{
-		pid = fork();
-		if (pid == 0)
-		{
-			dup2(2, 1);
-			ft_putstr_fd("minishell: No such file or directory\n", 2);
-			exit(1);
-		}
-		wait(&pid);
-		return (1);
-	}
-	return (0);
-}
-
-int	_cd_whith_tilde(int c_of_s, int pid)
-{
-	char	*str;
-
-	str = ft_strjoin(my_getenv(g_struct.list, "HOME", 0),
-						&g_struct.each_cmd[c_of_s].cmd[1][1]);
-	if (chdir(str) == -1)
-	{
-		pid = fork();
-		if (pid == 0)
-		{
-			dup2(2, 1);
-			ft_putstr_fd("minishell: No such file or directory\n", 2);
-			exit(1);
-		}
-		wait(&pid);
-		return (1);
-	}
-	free(str);
-	return (0);
-}
-
-int	_cd_whith_somthing(int c_of_s, int pid)
-{
-	if (g_struct.each_cmd[c_of_s].cmd[1]
-		&& chdir(g_struct.each_cmd[c_of_s].cmd[1]) == -1)
-	{
-		pid = fork();
-		if (pid == 0)
-		{
-			dup2(2, 1);
-			ft_putstr_fd("minishell: No such file or directory\n", 2);
-			exit(1);
-		}
-		wait(&pid);
-		return (1);
-	}
-	return (0);
-}
-
-int	_only_cd(int pid, int c_of_s)
-{
-	if (chdir(my_getenv(g_struct.list, "HOME", 0)) == -1)
-	{
-		pid = fork();
-		if (pid == 0)
-		{
-			dup2(2, 1);
-			printf("minishell: %s: HOME not set\n",
-					g_struct.each_cmd[c_of_s].cmd[0]);
-			exit(1);
-		}
-		wait(&pid);
-		return (1);
-	}
-	return (0);
 }
 
 int	if_builtins_in_parent(int c_of_s)
@@ -878,6 +672,8 @@ void	wait_and_close_all(int c_of_s, int *pid)
 	int	i;
 
 	i = 0;
+	if(g_struct.fils_descreprot != 0)
+		close(g_struct.fils_descreprot);
 	while (i < c_of_s - 1)
 	{
 		close(g_struct.each_cmd[i].fd[1]);

@@ -6,7 +6,7 @@
 #    By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/03 12:19:16 by nouakhro          #+#    #+#              #
-#    Updated: 2023/05/08 12:54:10 by nouakhro         ###   ########.fr        #
+#    Updated: 2023/05/08 14:03:43 by nouakhro         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,6 +36,31 @@ SRC = 	main.c\
 		pipe_and_rederaction.c\
 		cd_commande.c\
 		utils_cd_command.c\
+		builtins_in_chiled.c\
+		builtins_in_parent.c\
+		builtins_is_exist.c\
+		bultins_execut_in_parent.c\
+		close_and_free.c\
+		environment_creat_linked_list.c\
+		excution_errors.c\
+		exit.c\
+		get_enviroment.c\
+		manage_pipe_and_rederaction.c\
+		parccing_represent_pipe_and_rediraction.c\
+		parccing_whith_just_represent.c\
+		partition_commande_by_commande.c\
+		path_is_exist_or_not.c\
+		pipe_is_exist_or_its_not_builtins.c\
+		readline_return_somthing.c\
+		split_each_argemnt_whithout_parccing.c\
+		split_path.c\
+		utils_exit_commande.c\
+		
+
+
+
+		
+		
 
 OBJE = $(SRC:.c=.o)
 

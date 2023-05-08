@@ -6,17 +6,11 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 12:31:35 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/05/08 12:40:54 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/08 14:04:59 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-#define IN_DCOTE 0
-#define IN_COTE 1
-#define VAR 3
-#define WORD 4
-#define OUTSIDE 5
 
 char	*ft_strjoin_v2(char const *s1, char const *s2)
 {
@@ -43,102 +37,6 @@ char	*ft_strjoin_v2(char const *s1, char const *s2)
 	free((char *)s1);
 	free((char *)s2);
 	return (b);
-}
-
-int	quote_and_dquote(t_var *variables)
-{
-	if ((g_struct.fix_cmd[variables->index_i][variables->index_j] == 34)
-		&& g_struct.status != IN_COTE)
-	{
-		g_struct.fix_cmd[variables->index_i][variables->index_j] = 8;
-		if (g_struct.fix_cmd[variables->index_i][variables->index_j] == 8
-			&& g_struct.status == IN_DCOTE)
-			g_struct.status = OUTSIDE;
-		else
-			g_struct.status = IN_DCOTE;
-	}
-	if ((g_struct.fix_cmd[variables->index_i][variables->index_j] == 39)
-		&& g_struct.status != IN_DCOTE)
-	{
-		g_struct.fix_cmd[variables->index_i][variables->index_j] = 6;
-		if (g_struct.fix_cmd[variables->index_i][variables->index_j] == 6
-			&& g_struct.status == IN_COTE)
-			g_struct.status = OUTSIDE;
-		else
-			g_struct.status = IN_COTE;
-	}
-	return (variables->start);
-}
-
-void	pipe_and_rederaction_parceen(t_var *variables)
-{
-	if (g_struct.fix_cmd[variables->index_i][variables->index_j] == '|'
-		&& g_struct.status == OUTSIDE)
-	{
-		g_struct.fix_cmd[variables->index_i][variables->index_j] = 4;
-		g_struct.number_of_pipes++;
-	}
-	if (g_struct.fix_cmd[variables->index_i][variables->index_j] == '>'
-		&& g_struct.status == OUTSIDE)
-	{
-		g_struct.fix_cmd[variables->index_i][variables->index_j] = 2;
-		g_struct.if_rediraction = 1;
-	}
-	if (g_struct.fix_cmd[variables->index_i][variables->index_j] == '<'
-		&& g_struct.status == OUTSIDE)
-	{
-		g_struct.fix_cmd[variables->index_i][variables->index_j] = 5;
-		g_struct.if_rediraction = 1;
-	}
-}
-
-char	*_get_env(t_list *head, int j, int trim, char *expande_variable)
-{
-	int	i;
-
-	free(expande_variable);
-	expande_variable = ft_substr(head->content, j + 1,
-			ft_strlen(head->content + (j + 1)));
-	i = 0;
-	if (trim == 1)
-	{
-		while (expande_variable[i])
-		{
-			if (expande_variable[i] == ' ')
-				expande_variable[i] = 3;
-			i++;
-		}
-	}
-	return (expande_variable);
-}
-
-char	*my_getenv(t_list *head, char *var, int trim)
-{
-	int		j;
-	char	*expande_variable;
-
-	j = 0;
-	expande_variable = ft_calloc(1, 1);
-	while (head != NULL)
-	{
-		if (*(char *)head->content == var[0])
-		{
-			j = 0;
-			while (((char *)head->content)[j] == var[j] ||
-					((char *)head->content)[j] == '=')
-			{
-				if (((char *)head->content)[j] == '=' && !var[j])
-				{
-					expande_variable = _get_env(head, \
-					j, trim, expande_variable);
-					return (expande_variable);
-				}
-				j++;
-			}
-		}
-		head = head->next;
-	}
-	return (expande_variable);
 }
 
 char	*split_variable_or_not(char *variable)
@@ -312,60 +210,6 @@ char	*variables_parceen_utils(char *whotout_expande, char *my_string,
 		my_string = _not_alphanum_after_dolar(whotout_expande, \
 		my_string, variables);
 	return (my_string);
-}
-
-int	change_quotes_and_pipe_and_rederaction(t_var *variables)
-{
-	while (g_struct.fix_cmd[variables->index_i][variables->index_j])
-	{
-		quote_and_dquote(variables);
-		pipe_and_rederaction_parceen(variables);
-		if (g_struct.fix_cmd[variables->index_i][variables->index_j] == 4 &&
-			((variables->index_j == 0 && variables->index_i == 0) \
-			|| (variables->index_j - 1 >= 0 && g_struct.fix_cmd \
-			[variables->index_i][variables->index_j - 1] == 4)
-			|| (g_struct.fix_cmd[variables->index_i][variables->index_j
-			+ 1] == 0 && g_struct.fix_cmd[variables->index_i + 1] == 0)))
-		{
-			ft_putstr_fd("minishell: syntax error\n", 2);
-			while (g_struct.fix_cmd[variables->index_i])
-			{
-				free(g_struct.fix_cmd[variables->index_i]);
-				variables->index_i++;
-			}
-			free(g_struct.fix_cmd);
-			if (g_struct.the_commande)
-				free(g_struct.the_commande);
-			return (258);
-		}
-		variables->index_j++;
-	}
-	return (0);
-}
-
-int	parccen_part(t_var *variables)
-{
-	while (g_struct.fix_cmd[variables->index_i])
-	{
-		variables->index_j = 0;
-		g_struct.status = OUTSIDE;
-		if (change_quotes_and_pipe_and_rederaction(variables) == 258)
-			return (258);
-		if (g_struct.status != OUTSIDE)
-		{
-			ft_putstr_fd
-				("minishell: unexpected EOF while looking for matching\n", 2);
-			return (2);
-		}
-		g_struct.the_commande = ft_strjoin_v2(g_struct.the_commande, \
-			g_struct.fix_cmd[variables->index_i]);
-		if (g_struct.fix_cmd[variables->index_i + 1])
-			g_struct.the_commande = ft_strjoin(g_struct.the_commande, \
-			"\003\000");
-		g_struct.fix_cmd[variables->index_i] = 0;
-		variables->index_i++;
-	}
-	return (1);
 }
 
 void	initialisaion(t_var *variables, int c_of_s)
@@ -1020,51 +864,6 @@ void	quotes_comnde(t_var *variables)
 		}
 		cas = other_string_beffor_end_of_line(variables, cas);
 	}
-}
-
-int	partition_of_comande_and_rederaction(t_var *variables, int c_of_s)
-{
-	g_struct.status = OUTSIDE;
-	g_struct.tmp_cmd = ft_strdup(g_struct.splite_pipe[variables->index_i]);
-	variables->index_j = 0;
-	g_struct.the_commande = ft_calloc(1, 1);
-	if_rediraction_is_existe(variables);
-	c_of_s = 0;
-	variables->index_j = 0;
-	while (g_struct.tmp_cmd[variables->index_j])
-	{
-		g_struct.parccer = 0;
-		c_of_s = commande_and_rederaction_parceen(variables,
-				c_of_s);
-		if (c_of_s < 0)
-			return (c_of_s);
-		variables->index_j++;
-	}
-	quotes_comnde(variables);
-	free(g_struct.splite_pipe[variables->index_i]);
-	g_struct.splite_pipe[variables->index_i] = 0;
-	free(g_struct.the_commande);
-	g_struct.the_commande = 0;
-	return (0);
-}
-
-int	partition_part(t_var *variables)
-{
-	int	c_of_s;
-
-	c_of_s = 0;
-	variables->end = 0;
-	variables->index_i = 0;
-	g_struct.fils_descreprot = 0;
-	while (g_struct.splite_pipe[variables->index_i])
-	{
-		c_of_s = partition_of_comande_and_rederaction(variables, c_of_s);
-		if (c_of_s != 0)
-			return (c_of_s);
-		variables->index_i++;
-	}
-	free(g_struct.splite_pipe);
-	return (0);
 }
 
 int	fix_arg(void)

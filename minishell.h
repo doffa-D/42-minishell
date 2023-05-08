@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 14:20:41 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/08 12:52:49 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/08 14:03:14 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,11 @@
 # include <stdio.h>
 # include <signal.h>
 
+#define IN_DCOTE 0
+#define IN_COTE 1
+#define VAR 3
+#define WORD 4
+#define OUTSIDE 5
 
 typedef struct s_files
 {
@@ -207,4 +212,6 @@ t_list	*searcher(t_list *list, char *old);
 t_list	*i_have(t_list *list, char *cmd);
 int	idont_have(t_list *list, char *cmd);
 int		fix_arg(void);
+int	somting_in_readline(void);
+int	builtins_in_parent(int c_of_s);
 #endif

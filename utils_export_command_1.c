@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 15:31:05 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/05/07 21:55:36 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/08 11:18:28 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	mini_check_export(char *src)
 	while (src && src[i] && src[i] != '=')
 		i++;
 	char *variable = ft_substr(src , 0, i);
-	if (!ft_isalpha(variable[0]))
+	if (!ft_isalpha(variable[0]) && variable[0] != '_')
 	{
 		free(variable);
 		return (1);
@@ -27,7 +27,7 @@ int	mini_check_export(char *src)
 	i = 1;
 	while(variable[i])
 	{
-		if(!ft_isalnum(variable[i]))
+		if(!ft_isalnum(variable[i]) && variable[i] != '_')
 		{
 			free(variable);
 			return 1;

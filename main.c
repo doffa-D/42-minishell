@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hdagdagu <hdagdagu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:07:52 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/08 13:00:47 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/08 13:48:24 by hdagdagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -718,15 +718,26 @@ int	main(int argc, char **argv, char **env)
 	// signal(SIGINT, &handler);
 	// signal(SIGQUIT, &handler);
 	i = 0;
+	// char **str = ft_split(my_getenv(g_struct.list,"PWD",0),'/');
+	// char *str2 = my_getenv(g_struct.list,"USER",0);
+	// char *str3;
+	// while(str[i])
+	// 	i++;
+	// if(str2 && str[i-1] && !ft_strncmp(str2,"hdagdagu",ft_strlen(str2)+1))
+	// 	str3 = ft_strjoin_v2(ft_strdup("\033[0;31m𝗗 𝗢 𝗙 𝗟 𝗔 𝗠 𝗜 𝗡 𝗚 𝗢 🦩 \033[0;37m-> "),ft_strjoin(ft_strdup(str[i-1])," "));
+	// else if(str2 && !ft_strncmp(str2,"nouakhro",ft_strlen(str2)+1))
+	// 	str3 = ft_strjoin_v2(ft_strdup("\033[0;32mE S C A N O R ☀️ \033[0;37m-> "),ft_strjoin(ft_strdup(str[i-1])," "));
+	// else
+	// 	str3 = ft_strjoin_v2(ft_strdup("\033[0;32mE R E N Y E A G E R 💀 \033[0;37m-> "),ft_strjoin(ft_strdup(str[i-1])," "));
 	while (1)
 	{
 		g_struct.the_commande = 0;
-		g_struct.cmd = readline("escanour > ");
+		g_struct.cmd = readline("hi -> ");
+		// g_struct.cmd = readline(str3);
 		if (!g_struct.cmd)
 			exit(g_struct.exit_status);
 		if (ft_strlen(g_struct.cmd) != 0)
 			g_struct.exit_status = somting_in_readline();
 		free(g_struct.cmd);
-		i++;
 	}
 }

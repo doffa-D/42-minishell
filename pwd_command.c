@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd_command.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hdagdagu <hdagdagu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 14:19:18 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/05/08 13:14:03 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/08 13:51:38 by hdagdagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ t_list	*searcher(t_list *list, char *old)
 	new->content = ft_strjoin(ft_strdup("OLDPWD="), old);
 	list = old_list;
 	new_1 = i_have(list, "PWD");
+	printf("sss[%s]\n",new_1->content);
 	free(new_1->content);
 	new_1->content = ft_strjoin(ft_strdup("PWD="), getcwd(NULL, 255));
 	list = old_list;

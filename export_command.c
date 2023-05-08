@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 15:02:29 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/05/07 17:23:05 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/07 22:00:47 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	check_export_error(char *cmd)
 		g_struct.check = 1;
 		return (2);
 	}
-	else if (mini_check_export(cmd, 1) == 1)
+	else if (mini_check_export(cmd) == 1)
 	{
 		print_erro();
 		g_struct.check = 1;
@@ -47,7 +47,7 @@ void	last(t_list *list, char *cmd)
 {
 	int	pid;
 
-	if (mini_check_export(cmd, 0) == 1)
+	if (mini_check_export(cmd) == 1)
 	{
 		pid = fork();
 		if (pid == 0)

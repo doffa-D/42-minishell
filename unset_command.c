@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 15:05:18 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/05/06 19:43:43 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/07 21:59:14 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	unset_checker(t_list *list, char *cmd, t_list *head, int i)
 	delete_node(list, head, x);
 }
 
-void	unset_command(int c_of_s)
+int	unset_command(int c_of_s)
 {
 	t_list	*ptr;
 	int		i;
@@ -87,11 +87,12 @@ void	unset_command(int c_of_s)
 	i = 0;
 	while (g_struct.each_cmd[c_of_s].cmd[i])
 	{
-		if (mini_check_export(g_struct.each_cmd[c_of_s].cmd[i], 1) == 1
+		if (mini_check_export(g_struct.each_cmd[c_of_s].cmd[i]) == 1
 			|| ft_strchr(g_struct.each_cmd[c_of_s].cmd[i], '='))
 		{
 			printf("unset: `%s': not a valid identifier\n",
 				g_struct.each_cmd[c_of_s].cmd[i]);
+			return -1;
 			i++;
 		}
 		else
@@ -103,4 +104,5 @@ void	unset_command(int c_of_s)
 	}
 	g_struct.list = ptr;
 	i = 0;
+	return 0;
 }

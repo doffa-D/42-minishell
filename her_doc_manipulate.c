@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 15:06:06 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/08 15:06:14 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/08 18:02:37 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,14 +82,25 @@ char	*read_line_herdoc(int c_of_s, t_var *variables,
 
 void	parrcing_of_insied_herdoc(t_var *variables, int c_of_s)
 {
+	int i;
 	int		fd_by_pipe[2];
 	char	*herdoc;
 	if(g_struct.fils_descreprot != 0)
 		close(g_struct.fils_descreprot);
 	herdoc = ft_strdup("");
 	pipe(fd_by_pipe);
-	herdoc = read_line_herdoc(c_of_s, variables, herdoc);
-	ft_putstr_fd(herdoc, fd_by_pipe[1]);
+	i = fork();
+	if(i == 0)
+	{
+		signal(SIGINT, &handler_herdoc);
+		herdoc = read_line_herdoc(c_of_s, variables, herdoc);
+		ft_putstr_fd(herdoc, fd_by_pipe[1]);
+		close(fd_by_pipe[1]);
+		exit(0);
+	}
+	else
+		wait(&i);
+	signal(SIGINT, &handler);
 	close(fd_by_pipe[1]);
 	free(herdoc);
 	g_struct.fils_descreprot = fd_by_pipe[0];

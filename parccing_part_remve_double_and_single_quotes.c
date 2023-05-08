@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 14:17:39 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/08 14:20:01 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/08 22:30:17 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	splite_commande(t_var *variables)
 {
 	g_struct.each_cmd[variables->index_i].cmd \
 	= ft_split(g_struct.the_commande, 3);
+	free_parccing_part_after_error(g_struct.each_cmd[variables->index_i].cmd);
 	free(g_struct.tmp_cmd);
 	g_struct.tmp_cmd = 0;
 	variables->end = 0;
@@ -26,6 +27,7 @@ void	remove_double_quotes_in_commande_parccing_part(t_var *variables)
 	if (g_struct.status == IN_DCOTE)
 	{
 		g_struct.tmp_cmd = ft_strjoin(g_struct.tmp_cmd, "");
+		free_parccing_part_after_error(g_struct.tmp_cmd);
 		g_struct.status = OUTSIDE;
 	}
 	else
@@ -34,6 +36,7 @@ void	remove_double_quotes_in_commande_parccing_part(t_var *variables)
 	g_struct.tmp_cmd = ft_strjoin_v2(g_struct.tmp_cmd, \
 	ft_substr(g_struct.each_cmd[variables->index_i].cmd[variables->end], \
 	variables->start, variables->index_j - variables->start));
+	free_parccing_part_after_error(g_struct.tmp_cmd);
 	variables->start = variables->index_j;
 }
 
@@ -43,6 +46,7 @@ void	remove_single_quotes_in_commande_parccing_part(t_var *variables)
 	{
 		g_struct.status = OUTSIDE;
 		g_struct.tmp_cmd = ft_strjoin(g_struct.tmp_cmd, "");
+		free_parccing_part_after_error(g_struct.tmp_cmd);
 	}
 	else
 		g_struct.status = IN_COTE;
@@ -50,10 +54,11 @@ void	remove_single_quotes_in_commande_parccing_part(t_var *variables)
 	g_struct.tmp_cmd = ft_strjoin_v2(g_struct.tmp_cmd, \
 	ft_substr(g_struct.each_cmd[variables->index_i].cmd[variables->end], \
 	variables->start, variables->index_j - variables->start));
+	free_parccing_part_after_error(g_struct.tmp_cmd);
 	variables->start = variables->index_j;
 }
 
-void	quotes_comnde(t_var *variables)
+int	quotes_comnde(t_var *variables)
 {
 	int	cas;
 
@@ -64,6 +69,7 @@ void	quotes_comnde(t_var *variables)
 		variables->index_j = 0;
 		variables->start = -1;
 		g_struct.tmp_cmd = ft_calloc(1, 1);
+		free_parccing_part_after_error(g_struct.tmp_cmd);
 		while (g_struct.each_cmd[variables->index_i] \
 		.cmd[variables->end][variables->index_j])
 		{
@@ -78,5 +84,8 @@ void	quotes_comnde(t_var *variables)
 			variables->index_j++;
 		}
 		cas = other_string_beffor_end_of_line(variables, cas);
+		if(!cas)
+			return -1;
 	}
+	return 0;
 }

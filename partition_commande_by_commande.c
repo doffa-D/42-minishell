@@ -6,18 +6,36 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 13:52:38 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/08 13:52:47 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/08 22:30:48 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"minishell.h"
 
+void free_parccing_part_after_error(void *malloc_error)
+{
+	int i;
+	i = 0;
+	if(!malloc_error)
+	{
+		while (g_struct.splite_pipe[i])
+		{
+			free(g_struct.splite_pipe[i]);
+			i++;
+		}
+		free_commande_whit_out_path(0, 0);
+		exit(1);
+	}
+}
+
 int	partition_of_comande_and_rederaction(t_var *variables, int c_of_s)
 {
 	g_struct.status = OUTSIDE;
 	g_struct.tmp_cmd = ft_strdup(g_struct.splite_pipe[variables->index_i]);
+	free_parccing_part_after_error(g_struct.tmp_cmd);
 	variables->index_j = 0;
 	g_struct.the_commande = ft_calloc(1, 1);
+	free_parccing_part_after_error(g_struct.tmp_cmd);
 	if_rediraction_is_existe(variables);
 	c_of_s = 0;
 	variables->index_j = 0;

@@ -3,18 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   git_branch.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hdagdagu <hdagdagu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 16:47:06 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/05/08 17:24:15 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/08 23:26:58 by hdagdagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <fcntl.h>
-#include <unistd.h>
 #include "minishell.h"
 
 
@@ -42,15 +37,17 @@ char	*get_next_line(int fd)
 	return (ft_strdup(line));
 }
 
-char* get_git_branch_name()
+char **find_git()
 {
     int fd ;
-    char *str1;
     char *l;
     char **str;
-    l = ft_strjoin(getcwd(NULL,554),"/.git/HEAD");
+    char *dst;
+
+    dst = getcwd(NULL,554);
+    l = NULL;
+    l = ft_strjoin(dst,"/.git/HEAD");
     fd = open(l,O_RDONLY);
-    printf("%s\n",l);
     free(l);
     l = get_next_line(fd);
     if (l == NULL)
@@ -59,15 +56,23 @@ char* get_git_branch_name()
         return NULL;
     }
     str = ft_split(l,'/');
-    printf("%p\t%d\n",l,fd);
     free(l);
+    close(fd);
+    return str;
+}
+
+char* get_git_branch_name()
+{
+    char *str1;
+    char *l;
+    char **str;
     int i;
+
+    l = NULL;
+    str = find_git();
     i = 0;
-        // printf("===== %s\n", str[i]);
     while(str[i])
-    {
         i++;
-    }
     if(str[i-1])
     {
         str1 = ft_strdup(str[i-1]);
@@ -75,7 +80,5 @@ char* get_git_branch_name()
         l = ft_strtrim(str1,"\n");
         free(str1);
     }
-    
-    close(fd);
     return l;
 }

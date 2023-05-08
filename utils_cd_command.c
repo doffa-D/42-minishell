@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 15:52:51 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/05/08 13:14:43 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/08 22:34:35 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	_cd_whith_tilde(int c_of_s, int pid)
 	char	*str;
 
 	str = ft_strjoin(my_getenv(g_struct.list, "HOME", 0),
-						&g_struct.each_cmd[c_of_s].cmd[1][1]);
+	&g_struct.each_cmd[c_of_s].cmd[1][1]);
 	if (chdir(str) == -1)
 	{
 		pid = fork();
@@ -46,6 +46,7 @@ int	_cd_whith_tilde(int c_of_s, int pid)
 			exit(1);
 		}
 		wait(&pid);
+		free(str);
 		return (1);
 	}
 	free(str);

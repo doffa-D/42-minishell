@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 14:23:53 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/08 15:21:33 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/08 22:10:41 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ char	*other_character_after_dolar(char *whotout_expande, char *my_string,
 			variables->index_j++;
 			my_string = \
 			ft_strjoin(my_string, ft_itoa(g_struct.exit_status));
+			free_parccing_part_after_error(my_string);
 			variables->start = variables->index_j;
 		}
 	}
@@ -67,6 +68,7 @@ char	*exit_status(char *my_string, t_var *variables)
 		variables->index_j++;
 		my_string = ft_strjoin_v2(my_string, \
 		ft_itoa(g_struct.exit_status));
+		free_parccing_part_after_error(my_string);
 		variables->start = variables->index_j;
 	}
 	else

@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 14:18:08 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/08 16:51:15 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/08 18:01:58 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 #include <string.h>
 
 
-// void	handler_herdoc(int sig)
-// {
-// 	if (sig == SIGINT)
-// 	{
-// 		signal(SIGINT, &handler);
-// 		exit(0);
-// 	}
-// }
+void	handler_herdoc(int sig)
+{
+	if (sig == SIGINT)
+	{
+		signal(SIGINT, &handler);
+		exit(0);
+	}
+}
 
 int error_rediraction(int c_of_s, int j)
 {

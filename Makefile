@@ -6,7 +6,7 @@
 #    By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/03 12:19:16 by nouakhro          #+#    #+#              #
-#    Updated: 2023/05/08 17:00:14 by nouakhro         ###   ########.fr        #
+#    Updated: 2023/05/08 23:51:08 by nouakhro         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -69,7 +69,6 @@ SRC = 	main.c\
 		parccing_whith_just_represent.c\
 		split_commande_rederaction.c\
 		syntax_error.c\
-		git_branch.c\
 
 
 

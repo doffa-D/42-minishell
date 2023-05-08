@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 14:22:56 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/08 14:24:46 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/08 22:01:22 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,16 @@ char *whotout_expande, char *my_string, int end)
 
 	variable = ft_substr(whotout_expande, variables->index_j + 1, (end
 				- (variables->index_j + 1)));
+	free_parccing_part_after_error(variable);
 	variable = split_variable_or_not(variable);
 	if (variable)
 	{
 		my_string = ft_strjoin(my_string, variable);
+		free_parccing_part_after_error(my_string);
 		if (g_struct.ambiguous == 1)
 		{
 			str = ft_strtrim(my_string, "\003\000");
+			free_parccing_part_after_error(str);
 			if (!str || (ft_strlen(str) == 0 \
 			&& ((whotout_expande[variables->index_j - 1] == 3 \
 			&& (whotout_expande[end] == 3 || whotout_expande[end] == 0))
@@ -72,7 +75,9 @@ char *whotout_expande, char *my_string)
 	{
 		variable = ft_substr(whotout_expande, variables->index_j, (end \
 			- variables->index_j));
+		free_parccing_part_after_error(variable);
 		my_string = ft_strjoin_v2(my_string, variable);
+		free_parccing_part_after_error(my_string);
 		variables->index_j = end - 1;
 	}
 	return (my_string);

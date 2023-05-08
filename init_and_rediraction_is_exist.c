@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 15:17:42 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/08 15:17:50 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/08 22:30:11 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,5 +47,6 @@ void	if_rediraction_is_existe(t_var *variables)
 		}
 		g_struct.each_cmd[variables->index_i].files = \
 		ft_calloc(sizeof(t_files), (variables->end + 1));
+		free_parccing_part_after_error(g_struct.each_cmd[variables->index_i].files);
 	}
 }

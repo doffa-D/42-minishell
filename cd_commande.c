@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 12:50:10 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/08 16:41:43 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/08 22:37:18 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,11 @@ int	cd_commade(int c_of_s)
 			if (_cd_whith_slash(c_of_s, pid))
 				return (1);
 	}
-	if (_cd(c_of_s, pid))
+	else if (_cd(c_of_s, pid))
+	{
+		free(old);
 		return (1);
+	}
 	searcher(g_struct.list, old);
 	free(old);
 	return (0);

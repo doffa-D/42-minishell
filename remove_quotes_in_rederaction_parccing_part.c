@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 14:21:05 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/08 14:21:36 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/08 22:22:09 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	remove_double_quotes(t_var *variables, int c_of_s)
 		g_struct.each_cmd[variables->index_i].files[c_of_s].files \
 		= ft_strjoin(g_struct.each_cmd[variables->index_i].files[c_of_s].files, \
 		"");
+		free_parccing_part_after_error(g_struct.each_cmd[variables->index_i].files[c_of_s].files);
 		g_struct.status = OUTSIDE;
 	}
 	else
@@ -28,6 +29,7 @@ void	remove_double_quotes(t_var *variables, int c_of_s)
 	ft_strjoin_v2(g_struct.each_cmd[variables->index_i].\
 	files[c_of_s].files, ft_substr(g_struct.tmp_cmd, \
 	variables->start, variables->index_j - variables->start));
+	free_parccing_part_after_error(g_struct.each_cmd[variables->index_i].files[c_of_s].files);
 	variables->start = variables->index_j;
 }
 
@@ -39,6 +41,7 @@ void	remove_single_quotes(t_var *variables, int c_of_s)
 		g_struct.each_cmd[variables->index_i].files[c_of_s].files = \
 		ft_strjoin(g_struct.each_cmd[variables->index_i].\
 		files[c_of_s].files, "");
+		free_parccing_part_after_error(g_struct.each_cmd[variables->index_i].files[c_of_s].files);
 	}
 	else
 		g_struct.status = IN_COTE;
@@ -47,6 +50,7 @@ void	remove_single_quotes(t_var *variables, int c_of_s)
 	= ft_strjoin_v2(g_struct.each_cmd[variables->index_i] \
 	.files[c_of_s].files, ft_substr(g_struct.tmp_cmd, \
 	variables->start, variables->index_j - variables->start));
+	free_parccing_part_after_error(g_struct.each_cmd[variables->index_i].files[c_of_s].files);
 	variables->start = variables->index_j;
 }
 
@@ -58,6 +62,7 @@ void	expande_variables(t_var *var, int cas)
 	ft_substr(g_struct.tmp_cmd, var->start \
 	, var->index_j - var->start));
 	var->start = var->index_j;
+	free_parccing_part_after_error(g_struct.each_cmd[var->index_i].files[cas].files);
 	if (g_struct.tmp_cmd[var->index_j + 1])
 		g_struct.each_cmd[var->index_i].files[cas].files = \
 		expande_all(g_struct.tmp_cmd, \
@@ -87,4 +92,5 @@ void	quotes(t_var *variables, int c_of_s)
 	ft_strjoin_v2(g_struct.each_cmd[variables->index_i].files[c_of_s].files, \
 	ft_substr(g_struct.tmp_cmd, variables->start, \
 	variables->index_j - variables->start));
+	free_parccing_part_after_error(g_struct.each_cmd[variables->index_i].files[c_of_s].files);
 }

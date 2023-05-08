@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 14:20:41 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/08 16:59:34 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/08 23:51:18 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,7 +205,7 @@ void	return_fils_to_default(int output_buckup, int input_buckup);
 int		how_many_rederaction_output(t_var *variables, int c_of_s);
 void	remove_double_quotes_in_commande_parccing_part(t_var *variables);
 void	remove_single_quotes_in_commande_parccing_part(t_var *variables);
-void	quotes_comnde(t_var *variables);
+int		quotes_comnde(t_var *variables);
 int		partition_of_comande_and_rederaction(t_var *variables, int c_of_s);
 t_list	*searcher(t_list *list, char *old);
 t_list	*i_have(t_list *list, char *cmd);
@@ -213,6 +213,6 @@ int		idont_have(t_list *list, char *cmd);
 int		fix_arg(void);
 int		somting_in_readline(void);
 int		builtins_in_parent(int c_of_s);
-void	free_split(char **str);
 char* get_git_branch_name();
+void free_parccing_part_after_error(void *malloc_error);
 #endif

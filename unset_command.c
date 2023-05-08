@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 15:05:18 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/05/07 21:59:14 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/08 22:58:10 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,10 @@ int	first_varible(char *str, char *cmd, t_list *list)
 		*list = *list->next;
 		return (1);
 	}
+	i = -1;
+	while (dst[++i])
+		free(dst[i]);
+	free(dst);
 	return (0);
 }
 

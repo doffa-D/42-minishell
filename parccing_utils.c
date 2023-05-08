@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 15:18:12 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/08 15:18:19 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/08 22:17:08 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,9 @@ char	*expande_variables_insied_herdoc(t_var *indes, char *buffer,
 	|| buffer[indes->index_i] == '_')
 		indes->index_i++;
 	buffer_tmp = ft_substr(buffer, indes->start, indes->index_i - indes->start);
+	free_parccing_part_after_error(buffer_tmp);
 	herdoc = ft_strjoin_v2(herdoc, my_getenv(g_struct.list, buffer_tmp, 0));
+	free_parccing_part_after_error(herdoc);
 	free(buffer_tmp);
 	indes->start = indes->index_i;
 	return (herdoc);
@@ -63,6 +65,7 @@ int	other_string_beffor_end_of_line(t_var *variables, int cas)
 	ft_substr(g_struct.each_cmd[variables->index_i].cmd \
 	[variables->end], variables->start, variables->index_j \
 	- variables->start));
+	free_parccing_part_after_error(g_struct.tmp_cmd);
 	free(g_struct.each_cmd[variables->index_i].cmd[variables->end]);
 	g_struct.each_cmd[variables->index_i].cmd[variables->end] = 0;
 	if (!(ft_strchr(g_struct.tmp_cmd, 7) && \
@@ -70,6 +73,7 @@ int	other_string_beffor_end_of_line(t_var *variables, int cas)
 	{
 		g_struct.each_cmd[variables->index_i].cmd[cas] \
 		= ft_strdup(g_struct.tmp_cmd);
+		free_parccing_part_after_error(g_struct.each_cmd[variables->index_i].cmd[cas]);
 		cas++;
 	}
 	free(g_struct.tmp_cmd);

@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 15:11:31 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/08 15:29:13 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/08 22:30:14 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,14 @@ int	remove_quotes_and_expande_variables_in_input(t_var \
 
 	variables->start = variables->index_j - 1;
 	g_struct.each_cmd[variables->index_i].files[cas].files = ft_calloc(1, 1);
+	free_parccing_part_after_error(g_struct.each_cmd[variables->index_i].files[cas].files);
 	if (g_struct.each_cmd[variables->index_i].files[cas].number_of_I == 2)
 		g_struct.each_cmd[variables->index_i].files[cas].HERDOC = 1;
 	g_struct.ambiguous = 1;
 	g_struct.error_ambiguous = 0;
 	quotes(variables, cas);
 	str = ft_split(g_struct.each_cmd[variables->index_i].files[cas].files, 3);
+	free_parccing_part_after_error(str);
 	if_error = 0;
 	if (str[if_error])
 	{
@@ -35,6 +37,7 @@ int	remove_quotes_and_expande_variables_in_input(t_var \
 	{
 		g_struct.each_cmd[variables->index_i].files[cas].files \
 		= ft_strdup(str[if_error]);
+		free_parccing_part_after_error(g_struct.each_cmd[variables->index_i].files[cas].files);
 		free(str[if_error]);
 		if_error++;
 	}

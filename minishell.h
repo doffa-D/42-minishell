@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 14:20:41 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/08 16:22:13 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/08 16:59:34 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -213,4 +213,6 @@ int		idont_have(t_list *list, char *cmd);
 int		fix_arg(void);
 int		somting_in_readline(void);
 int		builtins_in_parent(int c_of_s);
+void	free_split(char **str);
+char* get_git_branch_name();
 #endif

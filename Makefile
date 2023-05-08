@@ -6,18 +6,18 @@
 #    By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/03 12:19:16 by nouakhro          #+#    #+#              #
-#    Updated: 2023/05/08 16:24:56 by nouakhro         ###   ########.fr        #
+#    Updated: 2023/05/08 17:00:14 by nouakhro         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 
-ifeq ($(d),1)
-	g = -fsanitize=address -g
+ifeq ($(DEBUG),1)
+	OPTS = -fsanitize=address -g
 endif
 
 CC = cc
 
-CCFLAGS = -Wall -Werror -Wextra $(g)
+CCFLAGS = -Wall -Werror -Wextra $(OPTS)
 
 SRC = 	main.c\
 		utils.c\
@@ -69,6 +69,7 @@ SRC = 	main.c\
 		parccing_whith_just_represent.c\
 		split_commande_rederaction.c\
 		syntax_error.c\
+		git_branch.c\
 
 
 

@@ -28,6 +28,7 @@
         "__locale": "c",
         "stdlib.h": "c",
         "__bit_reference": "c",
-        "ios": "c"
+        "ios": "c",
+        "__mutex_base": "c"
     }
 }

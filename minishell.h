@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 14:20:41 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/08 14:03:14 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/08 16:22:13 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,11 +81,77 @@ typedef struct s_var
 
 t_all g_struct;
 
-void	exicut_commande(int i, int c_of_s, int *pipe_n);
+void	print_erro(void);
+int		check_rediractions_in_parent(int c_of_s);
 int		check_rediractions(int c_of_s);
+int		check_export_error(char *cmd);
+void	wait_and_close_all(int c_of_s, int *pid);
+int		handle_export(char *cmd, int print, t_list *list);
+void	export_command(int c_of_s);
+void	last(t_list *list, char *cmd);
+char	*variables_parceen(t_var *variables, char *whotout_expande, char *my_string);
+int		len_2(char **str);
+int		check_n(char *str);
+void	env_command(t_list *list);
+void	echo_command(int c_of_s);
+char	*_get_env(t_list *head, int j, int trim, char *expande_variable);
+char	*what_insied_herdoc(t_var *indes, char *buffer, char *herdoc);
+char	*read_line_herdoc(int c_of_s, t_var *variables, char *herdoc);
+void	comande_parcen_part(t_var *variables);
+char	*variables_parceen_utils(char *whotout_expande, char *my_string, t_var *variables);
+void	commande_and_args(t_var *variables);
+void	splite_commande(t_var *variables);
+int		remove_quotes_and_expande_variables_in_input(t_var *variables, int cas, int if_error);
+int		inistialisation_input(t_var *variables, int c_of_s);
+int		if_multiple_argemnt_in_rederaction_files(t_var *variables, int c_of_s, int if_error);
+int		inistialisation_output(t_var *variables, int c_of_s);
+int		change_quotes_and_pipe_and_rederaction(t_var *variables);
+int		quote_and_dquote(t_var *variables);
+char	*expande_variables_insied_herdoc(t_var *indes, char *buffer, char *herdoc);
+int		parccen_part(t_var *variables);
+int		partition_part(t_var *variables);
+void	path_doase_not_exist(int c_of_s);
+int		path_is_exist(int c_of_s, int j);
+int		join_path_whit_commade(int c_of_s, int j, int *i);
+void	pipe_is_exist_or_its_not_builtins(int c_of_s, int i);
+int		other_string_beffor_end_of_line(t_var *variables, int cas);
+void	pipe_and_rederaction_parceen(t_var *variables);
+void	remove_quotes_and_expande_in_rederaction(t_var *variables, int c_of_s);
+void	expande_variables_in_comande_parcen_part(t_var *variables);
+void	parrcing_of_insied_herdoc(t_var *variables, int c_of_s);
+void	initialisaion(t_var *variables, int c_of_s);
+void	if_rediraction_is_existe(t_var *variables);
+void	pwd_command(void);
+int		commande_and_rederaction_parceen(t_var *variables, int c_of_s);
+void	quotes(t_var *variables, int c_of_s);
+void	expande_variables(t_var *var, int cas);
+void	remove_single_quotes(t_var *variables, int c_of_s);
+void	remove_double_quotes(t_var *variables, int c_of_s);
+char	*fill_herdoc(char *buffer, t_var *indes, char *herdoc);
+char	*my_getenv(t_list *head, char *var, int trim);
+char	*split_variable_or_not(char *variable);
+char	*exit_status(char *my_string, t_var *variables);
+void	fill_linked_list(char **dst, t_list **list);
+void	free_commande_whit_out_path(int i, int j);
+void	error_in_commande(int c_of_s);
+char	*_not_alphanum_after_dolar(char *whotout_expande, char *my_string, t_var *variables);
+int		splite_argemnt(int i, int checker, char *splite_char);
+void	_exit(int c_of_s);
+void	error_is_exist(int c_of_s);
+void	exicut_commande(int i, int c_of_s, int *pipe_n);
+char	**new_env(t_list *list);
+void	rediraction_calculate_input(t_var *variables, int c_of_s);
+int		each_argemnt(int i, int j);
+void	rediraction_calculate_output(t_var *variables, int c_of_s);
+void	_path_comanmde(void);
+void	syntax_error(t_var *variables);
+char	*other_character_after_dolar(char *whotout_expande, char *my_string, t_var *variables);
+char	*expande_all(char *whotout_expande, char *my_string, t_var *variables);
+char	*is_alphabet_after_dolar(t_var *variables, char *whotout_expande, char *my_string, int end);
+int		how_many_rederaction_input(t_var *variables, int c_of_s);
 int		get_the_path(int c_of_s);
-void	exit_the_program(t_all );
-void	free_all(t_all );
+void	exit_the_program(t_all);
+void	free_all(t_all);
 void	exicut_echo(int c_of_s);
 int		quote_check(char *cmd);
 char	*my_getenv(t_list *head , char *var, int trim);
@@ -94,15 +160,10 @@ char	*ft_strjoin_v2(char const *s1, char const *s2);
 // void check_leaks();
 void	handler(int sig);
 int		cd_commade(int c_of_s);
-void	fill_linked_list(char **dst, t_list **list);
 int		mini_check_export(char *src);
 int		unset_command(int c_of_s);
-void	env_command(t_list *list);
-void	echo_command(int c_of_s);
-void	export_command(int c_of_s);
 int 	mini_search(char *str,char c);
 int 	duplicate_check_export(t_list *list,char *dst);
-int 	mini_search(char *str,char c);
 void	add_node_back(char *str,t_list  **list);
 void	string_dakche(t_list *list);
 void	search_varible(char *cmd,t_list *list);
@@ -111,26 +172,17 @@ int		mini_checker_export(t_list *list,char *cmd);
 int 	check_varible_if_have(t_list *list,char *cmd);
 void	print_export(t_list *list);
 int 	builtins(int c_of_s);
-void	pwd_command(void);
 void	pipe_and_rederaction(int j, int c_of_s, int **pipe_n);
 void	parccen();
-int 	builtins(int c_of_s);
-void	quotes(t_var *variables, int c_of_s);
-int		check_rediractions_in_parent(int c_of_s);
 void	handler_herdoc(int sig);
-void	wait_and_close_all(int c_of_s, int *pid);
 void 	error_is_exist(int c_of_s);
-int		join_path_whit_commade(int c_of_s, int j, int *i);
 int 	path_is_exist(int c_of_s, int j);
 void 	handel_pipe_and_rederaction(int c_of_s);
-void 	path_doase_not_exist(int c_of_s);
 void 	check_error_and_excute_comande(int c_of_s);
-void	pipe_is_exist_or_its_not_builtins(int c_of_s, int i);
 int		rederaction_and_builtins(int c_of_s);
 void 	_path_comanmde();
 int 	_parent_builtins(int c_of_s);
 int 	after_parccing(int c_of_s);
-int 	splite_argemnt(int i, int checker, char *splite_char);
 int 	represent_between_each_argemnt(char	splite_char, int i, int *j);
 int 	each_argemnt(int i, int j);
 void 	exit_error_not_numeric(int c_of_s, int i);
@@ -150,68 +202,15 @@ void 	free_commande_whit_out_path(int i, int j);
 void	free_all_v2(int num);
 int		exicut_bultins(int c_of_s, int output_buckup, int input_buckup);
 void	return_fils_to_default(int output_buckup, int input_buckup);
-int		quote_and_dquote(t_var *variables);
-void	pipe_and_rederaction_parceen(t_var *variables);
-char	*_get_env(t_list *head, int j, int trim, char *expande_variable);
-char	*my_getenv(t_list *head, char *var, int trim);
-char	*is_alphabet_after_dolar(t_var *variables, \
-		char *whotout_expande, char *my_string, int end);
-char	*variables_parceen(t_var *variables, \
-		char *whotout_expande, char *my_string);
-char	*other_character_after_dolar(char *whotout_expande, char *my_string,
-		t_var *variables);
-char	*expande_all(char *whotout_expande, char *my_string,
-		t_var *variables);
-char	*_not_alphanum_after_dolar(char *whotout_expande, char *my_string,
-		t_var *variables);
-char	*variables_parceen_utils(char *whotout_expande, char *my_string,
-		t_var *variables);
-int		change_quotes_and_pipe_and_rederaction(t_var *variables);
-int		parccen_part(t_var *variables);
-void	initialisaion(t_var *variables, int c_of_s);
-char	*expande_variables_insied_herdoc(t_var *indes, char *buffer,
-		char *herdoc);
-char	*what_insied_herdoc(t_var *indes, char *buffer,
-		char *herdoc);
-char	*fill_herdoc(char *buffer, t_var *indes, char *herdoc);
-char	*read_line_herdoc(int c_of_s, t_var *variables,
-		char *herdoc);
-void	parrcing_of_insied_herdoc(t_var *variables, int c_of_s);
-int		remove_quotes_and_expande_variables_in_input(t_var \
-		*variables, int cas, int if_error);
-void	syntax_error(t_var *variables);
-int		inistialisation_input(t_var *variables, int c_of_s);
-void	remove_quotes_and_expande_in_rederaction(t_var *variables, int c_of_s);
-int		if_multiple_argemnt_in_rederaction_files(t_var \
-		*variables, int c_of_s, int if_error);
-int		inistialisation_output(t_var *variables, int c_of_s);
 int		how_many_rederaction_output(t_var *variables, int c_of_s);
-void	rediraction_calculate_output(t_var *variables,
-		int c_of_s);
-int		how_many_rederaction_input(t_var *variables, int c_of_s);
-void	rediraction_calculate_input(t_var *variables,
-		int c_of_s);
-void	expande_variables_in_comande_parcen_part(t_var *variables);
-void	comande_parcen_part(t_var *variables);
-void	commande_and_args(t_var *variables);
-void	if_rediraction_is_existe(t_var *variables);
-int		commande_and_rederaction_parceen(t_var *variables,
-		int c_of_s);
-void	remove_double_quotes(t_var *variables, int c_of_s);
-void	remove_single_quotes(t_var *variables, int c_of_s);
-void	expande_variables(t_var *var, int cas);
-void	quotes(t_var *variables, int c_of_s);
 void	remove_double_quotes_in_commande_parccing_part(t_var *variables);
 void	remove_single_quotes_in_commande_parccing_part(t_var *variables);
-int		other_string_beffor_end_of_line(t_var *variables, int cas);
-void	splite_commande(t_var *variables);
 void	quotes_comnde(t_var *variables);
 int		partition_of_comande_and_rederaction(t_var *variables, int c_of_s);
-int		partition_part(t_var *variables);
 t_list	*searcher(t_list *list, char *old);
 t_list	*i_have(t_list *list, char *cmd);
-int	idont_have(t_list *list, char *cmd);
+int		idont_have(t_list *list, char *cmd);
 int		fix_arg(void);
-int	somting_in_readline(void);
-int	builtins_in_parent(int c_of_s);
+int		somting_in_readline(void);
+int		builtins_in_parent(int c_of_s);
 #endif

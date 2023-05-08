@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 14:19:24 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/08 11:29:47 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/08 14:06:12 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	**new_env(t_list *list)
 	}
 	list = ptr;
 	dst[i] = 0;
-	return (dst);
+	return (dst);//free_fter_use
 }
 
 // void	exicut_commande(int i, int c_of_s, int *pipe_n)

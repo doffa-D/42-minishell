@@ -6,7 +6,7 @@
 #    By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/03 12:19:16 by nouakhro          #+#    #+#              #
-#    Updated: 2023/05/08 23:51:08 by nouakhro         ###   ########.fr        #
+#    Updated: 2023/05/09 01:27:41 by nouakhro         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,6 @@ CCFLAGS = -Wall -Werror -Wextra $(OPTS)
 
 SRC = 	main.c\
 		utils.c\
-		free_all.c\
 		check_rediraction.c\
 		commande.c\
 		parccen.c\

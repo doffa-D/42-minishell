@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 15:02:29 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/05/08 11:54:31 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/09 01:11:24 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,30 +62,31 @@ void	last(t_list *list, char *cmd)
 		add_node_back(cmd, &list);
 }
 
-int    handle_export(char *cmd, int print, t_list *list)
+int	handle_export(char *cmd, int print, t_list *list)
 {
-    print = check_export_error(cmd);
-    if (print == 0)
-        return (print);
-    else if (cmd && cmd[ft_strlen(cmd) - 1] != '=' && ft_strchr(cmd, '=')
-        && !duplicate_check_export(list, cmd) && print != 2 && !(cmd[0] == '_' && cmd[1] == '='))
-    {
-        string_dakche(list);
-        if (replace_varible(list, cmd) == 0)
+	print = check_export_error(cmd);
+	if (print == 0)
+		return (print);
+	else if (cmd && cmd[ft_strlen(cmd) - 1] != '=' && ft_strchr(cmd, '=')
+		&& !duplicate_check_export(list, cmd) && print != 2
+		&& !(cmd[0] == '_' && cmd[1] == '='))
+	{
+		string_dakche(list);
+		if (replace_varible(list, cmd) == 0)
 		{
-            add_node_back(cmd, &list);
+			add_node_back(cmd, &list);
 		}
-    }
-    else if (cmd[ft_strlen(cmd) - 1] == '=' && !duplicate_check_export(list,
-            cmd) && print != 2 && !(cmd[0] == '_' && cmd[1] == '='))
-    {
-        if (mini_checker_export(list, cmd) == 0)
-            add_node_back(cmd, &list);
-    }
-    else if (!ft_strchr(cmd, '=' && !duplicate_check_export(list, cmd))
-        && check_varible_if_have(list, cmd) == 0 && print != 2 )
-        last(list, cmd);
-    return (print);
+	}
+	else if (cmd[ft_strlen(cmd) - 1] == '=' && !duplicate_check_export(list,
+			cmd) && print != 2 && !(cmd[0] == '_' && cmd[1] == '='))
+	{
+		if (mini_checker_export(list, cmd) == 0)
+			add_node_back(cmd, &list);
+	}
+	else if (!ft_strchr(cmd, '=' && !duplicate_check_export(list, cmd))
+		&& check_varible_if_have(list, cmd) == 0 && print != 2)
+		last(list, cmd);
+	return (print);
 }
 
 void	export_command(int c_of_s)
@@ -108,5 +109,4 @@ void	export_command(int c_of_s)
 	if (print == 1 && !g_struct.each_cmd[c_of_s].cmd[1])
 		print_export(g_struct.list);
 	g_struct.list = ptr;
-	
 }

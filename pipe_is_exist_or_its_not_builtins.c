@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 13:29:51 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/08 18:24:32 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/09 01:49:41 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,14 @@ void	pipe_is_exist_or_its_not_builtins(int c_of_s, int i)
 	while (g_struct.number_of_pipes > 0)
 	{
 		i = fork();
+			// signal(SIGINT, SIG_IGN);//ask_about_it
 		if (i == -1)
 		{
 			perror("fork");
 			exit(1);
 		}
 		if (i == 0)
-		{
-			// signal(SIGINT, SIG_IGN);//ask_about_it
 			check_error_and_excute_comande(c_of_s);
-		}
 		else
 			pid[c_of_s] = i;
 		if (g_struct.number_of_pipes > 1)
@@ -62,5 +60,5 @@ void	check_error_and_excute_comande(int c_of_s)
 	if (j != 1)
 		error_is_exist(c_of_s);
 	else
-		exicut_commande(i, c_of_s, 0);
+		exicut_commande(i, c_of_s);
 }

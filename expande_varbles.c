@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 14:22:56 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/08 22:01:22 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/09 01:19:57 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,25 @@ char	*split_variable_or_not(char *variable)
 	return (variable);
 }
 
+char	*expande_variable_utils(t_var *variables, \
+	char *whotout_expande, char *variable, int end)
+{
+	variable = ft_substr(whotout_expande, variables->index_j + 1, (end \
+		- (variables->index_j + 1)));
+	free_parccing_part_after_error(variable);
+	variable = split_variable_or_not(variable);
+	return (variable);
+}
+
 char	*is_alphabet_after_dolar(t_var *variables, \
-char *whotout_expande, char *my_string, int end)
+	char *whotout_expande, char *my_string, int end)
 {
 	char	*str;
 	char	*variable;
 
-	variable = ft_substr(whotout_expande, variables->index_j + 1, (end
-				- (variables->index_j + 1)));
-	free_parccing_part_after_error(variable);
-	variable = split_variable_or_not(variable);
+	variable = 0;
+	variable = expande_variable_utils(variables, \
+	whotout_expande, variable, end);
 	if (variable)
 	{
 		my_string = ft_strjoin(my_string, variable);
@@ -52,11 +61,27 @@ char *whotout_expande, char *my_string, int end)
 	return (my_string);
 }
 
+char	*in_single_quotes(t_var *variables, \
+	char *whotout_expande, char *my_string, int end)
+{
+	char	*variable;
+
+	if (g_struct.status == IN_COTE)
+	{
+		variable = ft_substr(whotout_expande, variables->index_j, (end \
+			- variables->index_j));
+		free_parccing_part_after_error(variable);
+		my_string = ft_strjoin_v2(my_string, variable);
+		free_parccing_part_after_error(my_string);
+		variables->index_j = end - 1;
+	}
+	return (my_string);
+}
+
 char	*variables_parceen(t_var *variables, \
-char *whotout_expande, char *my_string)
+	char *whotout_expande, char *my_string)
 {
 	int		end;
-	char	*variable;
 
 	end = variables->index_j + 1;
 	while (whotout_expande[end] && (ft_isalpha(whotout_expande[end]) \
@@ -71,14 +96,7 @@ char *whotout_expande, char *my_string)
 			my_string = is_alphabet_after_dolar(variables, \
 			whotout_expande, my_string, end);
 	}
-	if (g_struct.status == IN_COTE)
-	{
-		variable = ft_substr(whotout_expande, variables->index_j, (end \
-			- variables->index_j));
-		free_parccing_part_after_error(variable);
-		my_string = ft_strjoin_v2(my_string, variable);
-		free_parccing_part_after_error(my_string);
-		variables->index_j = end - 1;
-	}
+	my_string = in_single_quotes(variables, \
+	whotout_expande, my_string, end);
 	return (my_string);
 }

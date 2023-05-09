@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:07:52 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/08 23:50:57 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/09 01:22:18 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ void	handler(int sig)
 	if (sig == SIGQUIT)
 		return ;
 }
-
 
 int	after_parccing(int c_of_s)
 {
@@ -47,6 +46,15 @@ int	after_parccing(int c_of_s)
 	return (2);
 }
 
+void	del(void *node)
+{
+	free(node);
+}
+
+void	free_linked_list(void)
+{
+	ft_lstclear(&g_struct.list, del);
+}
 
 int	main(int argc, char **argv, char **env)
 {
@@ -62,7 +70,10 @@ int	main(int argc, char **argv, char **env)
 		g_struct.the_commande = 0;
 		g_struct.cmd = readline("escanour > ");
 		if (!g_struct.cmd)
+		{
+			free_linked_list();
 			exit(g_struct.exit_status);
+		}
 		if (ft_strlen(g_struct.cmd) != 0)
 			g_struct.exit_status = somting_in_readline();
 		free(g_struct.cmd);

@@ -6,23 +6,23 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 15:17:42 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/08 22:30:11 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/09 01:27:23 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"minishell.h"
+#include "minishell.h"
 
 void	initialisaion(t_var *variables, int c_of_s)
 {
-	g_struct.each_cmd[variables->index_i].files[c_of_s].OUTPUT = 0;
-	g_struct.each_cmd[variables->index_i].files[c_of_s].APPEND = 0;
-	g_struct.each_cmd[variables->index_i].files[c_of_s].number_of_O = 0;
-	g_struct.each_cmd[variables->index_i].files[c_of_s].number_of_I = 0;
-	g_struct.each_cmd[variables->index_i].files[c_of_s].INPUT = 0;
-	g_struct.each_cmd[variables->index_i].files[c_of_s].HERDOC = 0;
-	g_struct.each_cmd[variables->index_i].files[c_of_s].ERROR_SYNTACSO = 0;
-	g_struct.each_cmd[variables->index_i].files[c_of_s].ERROR_SYNTACSI = 0;
-	g_struct.each_cmd[variables->index_i].files[c_of_s].HERDOC_OPTION = 0;
+	g_struct.each_cmd[variables->index_i].files[c_of_s].output = 0;
+	g_struct.each_cmd[variables->index_i].files[c_of_s].append = 0;
+	g_struct.each_cmd[variables->index_i].files[c_of_s].number_of_o = 0;
+	g_struct.each_cmd[variables->index_i].files[c_of_s].number_of_i = 0;
+	g_struct.each_cmd[variables->index_i].files[c_of_s].input = 0;
+	g_struct.each_cmd[variables->index_i].files[c_of_s].herdoc = 0;
+	g_struct.each_cmd[variables->index_i].files[c_of_s].error_syntax_o = 0;
+	g_struct.each_cmd[variables->index_i].files[c_of_s].error_syntax_i = 0;
+	g_struct.each_cmd[variables->index_i].files[c_of_s].herdoc_option = 0;
 	g_struct.each_cmd[variables->index_i].files[c_of_s].ambiguous = 0;
 }
 
@@ -46,7 +46,8 @@ void	if_rediraction_is_existe(t_var *variables)
 			variables->index_j++;
 		}
 		g_struct.each_cmd[variables->index_i].files = \
-		ft_calloc(sizeof(t_files), (variables->end + 1));
-		free_parccing_part_after_error(g_struct.each_cmd[variables->index_i].files);
+			ft_calloc(sizeof(t_files), (variables->end + 1));
+		free_parccing_part_after_error \
+		(g_struct.each_cmd[variables->index_i].files);
 	}
 }

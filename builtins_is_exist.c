@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 13:37:40 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/08 13:38:23 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/09 00:30:16 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,23 +16,23 @@ int	if_builtins_in_parent(int c_of_s)
 {
 	if (g_struct.each_cmd[c_of_s].cmd[0]
 		&& ft_strlen(g_struct.each_cmd[c_of_s].cmd[0])
-		&& !ft_strncmp(g_struct.each_cmd[c_of_s].cmd[0], "cd",
+		&& !ft_strncmp(g_struct.each_cmd[c_of_s].cmd[0], "cd", \
 			ft_strlen(g_struct.each_cmd[c_of_s].cmd[0])))
 		return (1);
 	if (g_struct.each_cmd[c_of_s].cmd[0]
-		&& !ft_strncmp(g_struct.each_cmd[c_of_s].cmd[0], "export",
+		&& !ft_strncmp(g_struct.each_cmd[c_of_s].cmd[0], "export", \
 			ft_strlen("export") + 1))
 		return (1);
-	else if (g_struct.each_cmd[c_of_s].cmd[0]
-			&& !ft_strncmp(g_struct.each_cmd[c_of_s].cmd[0], "env",
+	else if (g_struct.each_cmd[c_of_s].cmd[0] \
+			&& !ft_strncmp(g_struct.each_cmd[c_of_s].cmd[0], "env", \
 				ft_strlen("env") + 1))
 		return (1);
-	else if (g_struct.each_cmd[c_of_s].cmd[0]
-			&& !ft_strncmp(g_struct.each_cmd[c_of_s].cmd[0], "unset",
+	else if (g_struct.each_cmd[c_of_s].cmd[0] \
+			&& !ft_strncmp(g_struct.each_cmd[c_of_s].cmd[0], "unset", \
 				ft_strlen("unset") + 1))
 		return (1);
-	else if (g_struct.each_cmd[c_of_s].cmd && g_struct.each_cmd[c_of_s].cmd[0]
-			&& !ft_strncmp(g_struct.each_cmd[c_of_s].cmd[0], "exit",
+	else if (g_struct.each_cmd[c_of_s].cmd && g_struct.each_cmd[c_of_s].cmd[0] \
+			&& !ft_strncmp(g_struct.each_cmd[c_of_s].cmd[0], "exit", \
 				ft_strlen("exit")))
 		return (1);
 	return (0);

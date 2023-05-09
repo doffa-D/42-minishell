@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 13:32:14 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/08 13:32:23 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/09 01:57:05 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,11 @@ void	_path_comanmde(void)
 	char	*path;
 	char	*str;
 
-	i = 0;
+	i = -1;
 	j = 0;
 	path = ft_strdup("");
 	str = my_getenv(g_struct.list, "PATH", 0);
-	while (str[i])
+	while (str[++i])
 	{
 		if (str[i] == ':' && (str[i + 1] != ':'))
 		{
@@ -36,7 +36,6 @@ void	_path_comanmde(void)
 				i++;
 			}
 		}
-		i++;
 	}
 	free(str);
 	g_struct.my_path = ft_split(path, ':');

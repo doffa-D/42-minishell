@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 13:40:28 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/08 13:40:43 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/09 00:29:07 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ void	some_builtins(int c_of_s)
 		exit(0);
 	}
 	if (g_struct.each_cmd[c_of_s].cmd[0] \
-	&& !ft_strncmp(g_struct.each_cmd[c_of_s].cmd[0], "echo", ft_strlen("echo")
-		+ 1))
+	&& !ft_strncmp(g_struct.each_cmd[c_of_s].cmd[0], "echo", \
+	ft_strlen("echo") + 1))
 	{
 		echo_command(c_of_s);
 		exit(0);

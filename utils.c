@@ -12,18 +12,21 @@
 
 #include "minishell.h"
 
-int get_the_path(int c_of_s)
+int	get_the_path(int c_of_s)
 {
-    int i = 0;
-    while (g_struct.my_path && g_struct.my_path[i])
-    {
-        if(g_struct.each_cmd[c_of_s].cmd && g_struct.each_cmd[c_of_s].cmd[0] \
-        && *g_struct.each_cmd[c_of_s].cmd[0])
-        {
-            g_struct.my_path[i] = ft_strjoin(g_struct.my_path[i], "/");
-	        g_struct.my_path[i] = ft_strjoin(g_struct.my_path[i], g_struct.each_cmd[c_of_s].cmd[0]);
-            i++;
-        }
+	int	i;
+
+	i = 0;
+	while (g_struct.my_path && g_struct.my_path[i])
+	{
+		if (g_struct.each_cmd[c_of_s].cmd && g_struct.each_cmd[c_of_s].cmd[0]
+			&& *g_struct.each_cmd[c_of_s].cmd[0])
+		{
+			g_struct.my_path[i] = ft_strjoin(g_struct.my_path[i], "/");
+			g_struct.my_path[i] = ft_strjoin(g_struct.my_path[i],
+					g_struct.each_cmd[c_of_s].cmd[0]);
+			i++;
+		}
 		else
 			return (1);
 	}

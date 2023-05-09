@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 13:46:18 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/08 13:50:09 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/09 01:46:10 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ int	change_quotes_and_pipe_and_rederaction(t_var *variables)
 	}
 	return (0);
 }
-
 
 int	quote_and_dquote(t_var *variables)
 {

@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 13:24:18 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/08 13:24:57 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/09 00:53:55 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	wait_and_close_all(int c_of_s, int *pid)
 	int	i;
 
 	i = 0;
-	if(g_struct.fils_descreprot != 0)
+	if (g_struct.fils_descreprot != 0)
 		close(g_struct.fils_descreprot);
 	while (i < c_of_s - 1)
 	{
@@ -40,7 +40,6 @@ void	wait_and_close_all(int c_of_s, int *pid)
 void	free_commande_whit_out_path(int i, int j)
 {
 	i = 0;
-	j = 0;
 	while (g_struct.each_cmd[i].files)
 	{
 		j = 0;

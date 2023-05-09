@@ -6,17 +6,18 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 13:52:38 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/08 22:30:48 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/09 01:48:13 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"minishell.h"
+#include "minishell.h"
 
-void free_parccing_part_after_error(void *malloc_error)
+void	free_parccing_part_after_error(void *malloc_error)
 {
-	int i;
+	int	i;
+
 	i = 0;
-	if(!malloc_error)
+	if (!malloc_error)
 	{
 		while (g_struct.splite_pipe[i])
 		{
@@ -42,8 +43,8 @@ int	partition_of_comande_and_rederaction(t_var *variables, int c_of_s)
 	while (g_struct.tmp_cmd[variables->index_j])
 	{
 		g_struct.parccer = 0;
-		c_of_s = commande_and_rederaction_parceen(variables,
-				c_of_s);
+		c_of_s = commande_and_rederaction_parceen(variables, \
+			c_of_s);
 		if (c_of_s < 0)
 			return (c_of_s);
 		variables->index_j++;

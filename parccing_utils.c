@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 15:18:12 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/08 22:17:08 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/09 01:46:43 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ char	*ft_strjoin_v2(char const *s1, char const *s2)
 	free((char *)s2);
 	return (b);
 }
-
 
 char	*expande_variables_insied_herdoc(t_var *indes, char *buffer,
 		char *herdoc)
@@ -73,7 +72,8 @@ int	other_string_beffor_end_of_line(t_var *variables, int cas)
 	{
 		g_struct.each_cmd[variables->index_i].cmd[cas] \
 		= ft_strdup(g_struct.tmp_cmd);
-		free_parccing_part_after_error(g_struct.each_cmd[variables->index_i].cmd[cas]);
+		free_parccing_part_after_error(g_struct.each_cmd \
+		[variables->index_i].cmd[cas]);
 		cas++;
 	}
 	free(g_struct.tmp_cmd);

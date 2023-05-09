@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 15:52:51 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/05/09 12:17:19 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/09 13:10:15 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 int	_only_cd(int pid, int c_of_s)
 {
-	char *cd_path;
+	char	*cd_path;
+
 	cd_path = my_getenv(g_struct.list, "HOME", 0);
 	if (chdir(cd_path) == -1)
 	{

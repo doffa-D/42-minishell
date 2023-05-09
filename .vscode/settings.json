@@ -1,6 +1,6 @@
 {
     "files.associations": {
-        "minishell.h": "c",
+        "library/minishell.h": "c",
         "readline.h": "c",
         "stdio.h": "c",
         "history.h": "c",
@@ -29,6 +29,7 @@
         "stdlib.h": "c",
         "__bit_reference": "c",
         "ios": "c",
-        "__mutex_base": "c"
+        "__mutex_base": "c",
+        "minishell.h": "c"
     }
 }

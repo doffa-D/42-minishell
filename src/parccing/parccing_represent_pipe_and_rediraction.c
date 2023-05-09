@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 13:46:18 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/09 15:51:46 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/09 23:59:22 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int	change_quotes_and_pipe_and_rederaction(t_var *variables)
 			|| (g_struct.fix_cmd[variables->index_i][variables->index_j
 			+ 1] == 0 && g_struct.fix_cmd[variables->index_i + 1] == 0)))
 		{
+			// ft_putstr_fd("minishell: syntax error |\n", 2);
 			ft_putstr_fd("minishell: syntax error\n", 2);
 			while (g_struct.fix_cmd[variables->index_i])
 			{

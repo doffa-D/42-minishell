@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 20:01:16 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/09 20:01:47 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/09 23:40:01 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	error_rederaction_utils(int c_of_s, int j)
 	if (!*g_struct.each_cmd[c_of_s].files[j].files)
 	{
 		j = fork();
-		error_fork(j);
+		error_fork(j, 1);
 		if (j == 0)
 		{
 			dup2(2, 1);
@@ -35,7 +35,7 @@ int	error_rediraction(int c_of_s, int j)
 	if (g_struct.each_cmd[c_of_s].files[j].ambiguous == 1)
 	{
 		j = fork();
-		error_fork(j);
+		error_fork(j, 1);
 		if (j == 0)
 		{
 			dup2(2, 1);

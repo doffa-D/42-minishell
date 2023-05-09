@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 13:29:51 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/09 19:57:11 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/09 23:38:36 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	pipe_is_exist_or_its_not_builtins(int c_of_s, int i)
 	{
 		i = fork();
 			// signal(SIGINT, SIG_IGN);//ask_about_it
-		error_fork(i);
+		error_fork(i, 1);
 		if (i == 0)
 			check_error_and_excute_comande(c_of_s);
 		else

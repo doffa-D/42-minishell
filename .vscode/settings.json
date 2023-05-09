@@ -30,6 +30,7 @@
         "__bit_reference": "c",
         "ios": "c",
         "__mutex_base": "c",
-        "minishell.h": "c"
+        "minishell.h": "c",
+        "ratio": "c"
     }
 }

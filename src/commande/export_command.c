@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 15:02:29 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/05/09 19:57:09 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/09 23:38:30 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	print_erro(void)
 	int	pid;
 
 	pid = fork();
-	error_fork(pid);
+	error_fork(pid, 1);
 	if (pid == 0)
 	{
 		dup2(2, 1);
@@ -51,7 +51,7 @@ void	last(t_list *list, char *cmd)
 	if (mini_check_export(cmd) == 1)
 	{
 		pid = fork();
-		error_fork(pid);
+		error_fork(pid, 1);
 		if (pid == 0)
 		{
 			dup2(2, 1);

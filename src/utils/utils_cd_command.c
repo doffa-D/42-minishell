@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 15:52:51 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/05/09 19:57:36 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/09 23:39:15 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	_only_cd(int pid, int c_of_s)
 	{
 		free(cd_path);
 		pid = fork();
-		error_fork(pid);
+		error_fork(pid, 1);
 		if (pid == 0)
 		{
 			dup2(2, 1);
@@ -46,7 +46,7 @@ int	_cd_whith_tilde(int c_of_s, int pid)
 	if (chdir(str) == -1)
 	{
 		pid = fork();
-		error_fork(pid);
+		error_fork(pid, 1);
 		if (pid == 0)
 		{
 			dup2(2, 1);
@@ -67,7 +67,7 @@ int	_cd_whith_somthing(int c_of_s, int pid)
 		&& chdir(g_struct.each_cmd[c_of_s].cmd[1]) == -1)
 	{
 		pid = fork();
-		error_fork(pid);
+		error_fork(pid, 1);
 		if (pid == 0)
 		{
 			dup2(2, 1);
@@ -86,7 +86,7 @@ int	_cd_whith_slash(int c_of_s, int pid)
 		&& chdir(g_struct.each_cmd[c_of_s].cmd[1]) == -1)
 	{
 		pid = fork();
-		error_fork(pid);
+		error_fork(pid, 1);
 		if (pid == 0)
 		{
 			dup2(2, 1);

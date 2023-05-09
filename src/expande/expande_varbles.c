@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 14:22:56 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/09 21:23:59 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/09 23:49:12 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,15 +34,17 @@ char	*expande_variable_utils(t_var *variables, \
 	return (variable);
 }
 
-char	*is_alphabet_after_dolar(t_var *variables, \
-	char *whotout_expande, char *my_string, int end)
+//n_exp == string_does_not_expande ^ whotout_expande
+
+char	*is_alphabet_after_dolar(t_var *var, \
+	char *n_exp, char *my_string, int end)
 {
 	char	*str;
 	char	*variable;
 
 	variable = 0;
-	variable = expande_variable_utils(variables, \
-	whotout_expande, variable, end);
+	variable = expande_variable_utils(var, \
+	n_exp, variable, end);
 	if (variable)
 	{
 		my_string = ft_strjoin(my_string, variable);
@@ -51,18 +53,16 @@ char	*is_alphabet_after_dolar(t_var *variables, \
 		{
 			str = ft_strtrim(my_string, "\003\000");
 			free_parccing_part_after_error(str);
-			if (!str || (ft_strlen(str) == 0 \
-			&& (((whotout_expande[variables->index_j - 1] == 3 \
-			|| whotout_expande[variables->index_j - 1] == 2 \
-			|| whotout_expande[variables->index_j - 1] == 5) \
-			&& (whotout_expande[end] == 3 || whotout_expande[end] == 0))
+			if (!str || (ft_strlen(str) == 0 && (((n_exp[var->index_j - 1] == 3 \
+			|| n_exp[var->index_j - 1] == 2 || n_exp[var->index_j - 1] == 5) \
+			&& (n_exp[end] == 3 || n_exp[end] == 0))
 						|| ft_strchr(variable, 3))))
 				g_struct.error_ambiguous = 1;
 			free(str);
 		}
 		free(variable);
 	}
-	variables->index_j = end - 1;
+	var->index_j = end - 1;
 	return (my_string);
 }
 

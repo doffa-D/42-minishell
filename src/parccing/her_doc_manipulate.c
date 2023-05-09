@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 15:06:06 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/09 19:57:27 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/09 23:38:55 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void	parrcing_of_insied_herdoc(t_var *variables, int c_of_s)
 	free_parccing_part_after_error(herdoc);
 	pipe(fd_by_pipe);
 	i = fork();
-	error_fork(i);
+	error_fork(i, 0);
 	if (i == 0)
 	{
 		signal(SIGINT, &handler_herdoc);

@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 12:08:38 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/05/09 21:25:59 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/09 23:39:31 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	input_rediraction(int c_of_s, int j)
 	if (access(g_struct.each_cmd[c_of_s].files[j].files, R_OK) != 0)
 	{
 		j = fork();
-		error_fork(j);
+		error_fork(j, 1);
 		if (j == 0)
 		{
 			dup2(2, 1);
@@ -47,7 +47,7 @@ int	append_rediraction(int c_of_s, int j)
 	if (access(g_struct.each_cmd[c_of_s].files[j].files, W_OK) != 0)
 	{
 		j = fork();
-		error_fork(j);
+		error_fork(j, 1);
 		if (j == 0)
 		{
 			dup2(2, 1);

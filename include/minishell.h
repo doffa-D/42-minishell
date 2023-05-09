@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 14:20:41 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/09 20:32:00 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/09 23:40:13 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -246,7 +246,7 @@ void				_rediraction_append_in_chiled(int c_of_s, int j);
 void				free_linked_list(void);
 void				del(void *node);
 void				free_excution_part_after_error(void *malloc_error);
-void				error_fork(int pid);
+void				error_fork(int pid, int fork_or_not);
 void				fd_error(int fd);
 
 #endif

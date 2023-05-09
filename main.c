@@ -6,11 +6,11 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:07:52 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/09 12:00:46 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/09 15:18:59 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "library/minishell.h"
 
 void	handler(int sig)
 {

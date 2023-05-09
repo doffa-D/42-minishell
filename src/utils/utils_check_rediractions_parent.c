@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 12:08:38 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/05/09 20:19:00 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/09 21:26:06 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ int	output_rediraction(int c_of_s, int j)
 		return (1);
 	fd = open(g_struct.each_cmd[c_of_s].files[j].files, \
 		O_CREAT | O_RDWR | O_TRUNC, 0777);
-	fd_error(fd);
 	if (access(g_struct.each_cmd[c_of_s].files[j].files, W_OK) != 0)
 	{
 		j = fork();
@@ -70,6 +69,7 @@ int	output_rediraction(int c_of_s, int j)
 		}
 		return (1);
 	}
+	fd_error(fd);
 	dup2(fd, STDOUT_FILENO);
 	close(fd);
 	return (0);

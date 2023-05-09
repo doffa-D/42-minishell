@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 12:08:38 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/05/09 20:18:53 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/09 21:25:59 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ int	input_rediraction(int c_of_s, int j)
 	int	fd;
 
 	fd = open(g_struct.each_cmd[c_of_s].files[j].files, O_RDWR, 0777);
-	fd_error(fd);
 	if (access(g_struct.each_cmd[c_of_s].files[j].files, R_OK) != 0)
 	{
 		j = fork();
@@ -31,6 +30,7 @@ int	input_rediraction(int c_of_s, int j)
 		}
 		return (1);
 	}
+	fd_error(fd);
 	dup2(fd, STDIN_FILENO);
 	close(fd);
 	return (0);
@@ -44,7 +44,6 @@ int	append_rediraction(int c_of_s, int j)
 		return (1);
 	fd = open(g_struct.each_cmd[c_of_s].files[j].files, \
 			O_CREAT | O_RDWR | O_APPEND, 0777);
-	fd_error(fd);
 	if (access(g_struct.each_cmd[c_of_s].files[j].files, W_OK) != 0)
 	{
 		j = fork();
@@ -58,6 +57,7 @@ int	append_rediraction(int c_of_s, int j)
 		}
 		return (1);
 	}
+	fd_error(fd);
 	dup2(fd, STDOUT_FILENO);
 	close(fd);
 	return (0);

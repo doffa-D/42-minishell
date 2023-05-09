@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 12:08:38 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/05/09 20:23:01 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/09 21:25:43 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ void	_rediraction_output_in_chiled(int c_of_s, int j)
 	}
 	fd = open(g_struct.each_cmd[c_of_s].files[j].files, \
 		O_CREAT | O_RDWR | O_TRUNC, 0777);
-	fd_error(fd);
 	if (access(g_struct.each_cmd[c_of_s].files[j].files, W_OK) != 0)
 	{
 		dup2(2, 1);
@@ -59,6 +58,7 @@ void	_rediraction_output_in_chiled(int c_of_s, int j)
 			g_struct.each_cmd[c_of_s].files[j].files);
 		exit(1);
 	}
+	fd_error(fd);
 	dup2(fd, STDOUT_FILENO);
 	close(fd);
 }
@@ -75,7 +75,6 @@ void	_rediraction_input_in_chiled(int c_of_s, int j)
 		exit(1);
 	}
 	fd = open(g_struct.each_cmd[c_of_s].files[j].files, O_RDWR, 0777);
-	fd_error(fd);
 	if (access(g_struct.each_cmd[c_of_s].files[j].files, R_OK) != 0)
 	{
 		dup2(2, 1);
@@ -83,6 +82,7 @@ void	_rediraction_input_in_chiled(int c_of_s, int j)
 			g_struct.each_cmd[c_of_s].files[j].files);
 		exit(1);
 	}
+	fd_error(fd);
 	dup2(fd, STDIN_FILENO);
 	close(fd);
 }
@@ -100,7 +100,6 @@ void	_rediraction_append_in_chiled(int c_of_s, int j)
 	}
 	fd = open(g_struct.each_cmd[c_of_s].files[j].files, \
 		O_CREAT | O_RDWR | O_APPEND, 0777);
-	fd_error(fd);
 	if (access(g_struct.each_cmd[c_of_s].files[j].files, W_OK) != 0)
 	{
 		dup2(2, 1);
@@ -108,6 +107,7 @@ void	_rediraction_append_in_chiled(int c_of_s, int j)
 			g_struct.each_cmd[c_of_s].files[j].files);
 		exit(1);
 	}
+	fd_error(fd);
 	dup2(fd, STDOUT_FILENO);
 	close(fd);
 }

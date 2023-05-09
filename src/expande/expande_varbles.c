@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 14:22:56 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/09 19:34:23 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/09 21:23:59 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,9 @@ char	*is_alphabet_after_dolar(t_var *variables, \
 			str = ft_strtrim(my_string, "\003\000");
 			free_parccing_part_after_error(str);
 			if (!str || (ft_strlen(str) == 0 \
-			&& ((whotout_expande[variables->index_j - 1] == 3 \
+			&& (((whotout_expande[variables->index_j - 1] == 3 \
+			|| whotout_expande[variables->index_j - 1] == 2 \
+			|| whotout_expande[variables->index_j - 1] == 5) \
 			&& (whotout_expande[end] == 3 || whotout_expande[end] == 0))
 						|| ft_strchr(variable, 3))))
 				g_struct.error_ambiguous = 1;

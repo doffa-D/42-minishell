@@ -6,36 +6,38 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 15:31:05 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/05/08 11:50:59 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/09 12:12:15 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
 int	mini_check_export(char *src)
 {
-	int i = 0;
+	int		i;
+	char	*variable;
+
+	i = 0;
 	while (src && src[i] && src[i] != '=')
 		i++;
-	char *variable = ft_substr(src , 0, i);
+	variable = ft_substr(src, 0, i);
 	if (!ft_isalpha(variable[0]) && variable[0] != '_')
 	{
 		free(variable);
 		return (1);
 	}
 	i = 1;
-	while(variable[i])
+	while (variable[i])
 	{
-		if(!ft_isalnum(variable[i]) && variable[i] != '_')
+		if (!ft_isalnum(variable[i]) && variable[i] != '_')
 		{
 			free(variable);
-			return 1;
+			return (1);
 		}
 		i++;
 	}
 	free(variable);
-	return 0;
+	return (0);
 }
 
 int	duplicate_check_export(t_list *list, char *dst)
@@ -88,7 +90,7 @@ void	string_dakche(t_list *list)
 	while (list != NULL)
 	{
 		i = 0;
-		old = calloc(sizeof(char), ft_strlen(list->content) + 1);
+		old = ft_calloc(sizeof(char), ft_strlen(list->content) + 1);
 		x = mini_search(list->content, '=');
 		while (i <= x)
 		{

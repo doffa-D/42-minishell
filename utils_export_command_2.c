@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 15:52:51 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/05/08 12:00:04 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/09 12:12:23 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@ void	fill_varible(int j, int x, t_list *list, char *cmd)
 	char	*old;
 	char	*backup;
 
-	backup = calloc(sizeof(char), ft_strlen(cmd) + 1);
+	backup = ft_calloc(sizeof(char), ft_strlen(cmd) + 1);
 	i = 0;
 	if (j == 1)
 	{
 		i = 0;
-		old = calloc(sizeof(char), ft_strlen(cmd) + 1);
+		old = ft_calloc(sizeof(char), ft_strlen(cmd) + 1);
 		x = mini_search(cmd, '=');
 		while (i <= x)
 		{

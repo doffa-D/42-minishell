@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 15:52:51 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/05/08 22:34:35 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/09 12:17:19 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,23 @@
 
 int	_only_cd(int pid, int c_of_s)
 {
-	if (chdir(my_getenv(g_struct.list, "HOME", 0)) == -1)
+	char *cd_path;
+	cd_path = my_getenv(g_struct.list, "HOME", 0);
+	if (chdir(cd_path) == -1)
 	{
+		free(cd_path);
 		pid = fork();
 		if (pid == 0)
 		{
 			dup2(2, 1);
 			printf("minishell: %s: HOME not set\n",
-					g_struct.each_cmd[c_of_s].cmd[0]);
+				g_struct.each_cmd[c_of_s].cmd[0]);
 			exit(1);
 		}
 		wait(&pid);
 		return (1);
 	}
+	free(cd_path);
 	return (0);
 }
 
@@ -34,8 +38,8 @@ int	_cd_whith_tilde(int c_of_s, int pid)
 {
 	char	*str;
 
-	str = ft_strjoin(my_getenv(g_struct.list, "HOME", 0),
-	&g_struct.each_cmd[c_of_s].cmd[1][1]);
+	str = ft_strjoin(my_getenv(g_struct.list, "HOME", 0), \
+		&g_struct.each_cmd[c_of_s].cmd[1][1]);
 	if (chdir(str) == -1)
 	{
 		pid = fork();

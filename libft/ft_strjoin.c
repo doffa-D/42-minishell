@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 18:38:28 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/06 21:33:34 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/09 12:10:05 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	char	*b;
 	int		i;
 	int		j;
+
 	if (s1 == 0 || s2 == 0)
 		return (0);
 	i = 0;

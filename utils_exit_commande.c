@@ -6,13 +6,13 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 13:42:37 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/09 00:20:58 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/09 12:06:04 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"minishell.h"
 
-void utils_of_exit(int c_of_s, long long i)
+void	utils_of_exit(int c_of_s, long long i)
 {
 	while (g_struct.each_cmd[c_of_s].cmd[1][i])
 	{

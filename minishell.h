@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 14:20:41 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/09 01:32:55 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/09 12:14:25 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,7 +153,6 @@ char				**new_env(t_list *list);
 void				rediraction_calculate_input(t_var *variables, int c_of_s);
 int					each_argemnt(int i, int j);
 void				rediraction_calculate_output(t_var *variables, int c_of_s);
-void				_path_comanmde(void);
 void				syntax_error(t_var *variables);
 char				*other_character_after_dolar(char *whotout_expande,
 						char *my_string, t_var *variables);
@@ -191,7 +190,7 @@ int					path_is_exist(int c_of_s, int j);
 void				handel_pipe_and_rederaction(int c_of_s);
 void				check_error_and_excute_comande(int c_of_s);
 int					rederaction_and_builtins(int c_of_s);
-void				_path_comanmde(void);
+void				_path_comanmde(int i);
 int					_parent_builtins(int c_of_s);
 int					after_parccing(int c_of_s);
 int					represent_between_each_argemnt(char splite_char, int i,

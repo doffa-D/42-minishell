@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:07:52 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/09 01:22:18 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/09 12:00:46 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	after_parccing(int c_of_s)
 	c_of_s = _parent_builtins(c_of_s);
 	if (c_of_s != 2)
 		return (c_of_s);
-	_path_comanmde();
+	_path_comanmde(i);
 	c_of_s = 0;
 	while (c_of_s < g_struct.number_of_pipes - 1)
 	{

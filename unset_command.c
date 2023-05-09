@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 15:05:18 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/05/08 22:58:10 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/09 12:04:39 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int	unset_command(int c_of_s)
 		{
 			printf("unset: `%s': not a valid identifier\n",
 				g_struct.each_cmd[c_of_s].cmd[i]);
-			return -1;
+			return (-1);
 			i++;
 		}
 		else
@@ -108,5 +108,5 @@ int	unset_command(int c_of_s)
 	}
 	g_struct.list = ptr;
 	i = 0;
-	return 0;
+	return (0);
 }

@@ -1,24 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_calloc.c                                        :+:      :+:    :+:   */
+/*   environment_creat_linked_list.c                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hdagdagu <hdagdagu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/04 12:36:27 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/08 23:16:52 by nouakhro         ###   ########.fr       */
+/*   Created: 2023/05/08 13:23:03 by nouakhro          #+#    #+#             */
+/*   Updated: 2023/05/09 13:27:28 by hdagdagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"libft.h"
-#include<stdio.h>
+#include "../library/minishell.h"
 
-void	*ft_calloc(size_t count, size_t size)
+void	fill_linked_list(char **dst, t_list **list)
 {
-	char	*b;
+	int		i;
+	t_list	*new_node;
 
-	b = malloc(size * count);
-	if (b)
-		ft_bzero(b, (size * count));
-	return (b);
+	i = 0;
+	while (dst[i])
+	{
+		new_node = ft_lstnew(ft_strdup(dst[i]));
+		ft_lstadd_back(list, new_node);
+		i++;
+	}
 }

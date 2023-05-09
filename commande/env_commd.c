@@ -1,24 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_calloc.c                                        :+:      :+:    :+:   */
+/*   env_commd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hdagdagu <hdagdagu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/04 12:36:27 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/08 23:16:52 by nouakhro         ###   ########.fr       */
+/*   Created: 2023/04/20 15:03:41 by hdagdagu          #+#    #+#             */
+/*   Updated: 2023/05/09 13:27:00 by hdagdagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"libft.h"
-#include<stdio.h>
+#include "../library/minishell.h"
 
-void	*ft_calloc(size_t count, size_t size)
+void	env_command(t_list *list)
 {
-	char	*b;
-
-	b = malloc(size * count);
-	if (b)
-		ft_bzero(b, (size * count));
-	return (b);
+	while (list != NULL)
+	{
+		if (mini_search(list->content, 61) != 0)
+			printf("%s\n", list->content);
+		list = list->next;
+	}
 }

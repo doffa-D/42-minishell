@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hdagdagu <hdagdagu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 14:20:41 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/09 01:32:55 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/09 12:41:05 by hdagdagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -231,4 +231,18 @@ int					somting_in_readline(void);
 int					builtins_in_parent(int c_of_s);
 char				*get_git_branch_name(void);
 void				free_parccing_part_after_error(void *malloc_error);
+int	input_rediraction(int c_of_s, int j);
+int	append_rediraction(int c_of_s, int j);
+int	_all_rediraction(int c_of_s, int j);
+int	check_rediractions_in_parent(int c_of_s);
+int	error_in_input(int c_of_s, int j);
+int	output_rediraction(int c_of_s, int j);
+int	error_in_output_and_append(int c_of_s, int j);
+int	error_rediraction(int c_of_s, int j);
+void	handler_herdoc(int sig);
+void	_error_rediraction_in_chiled(int c_of_s, int j);
+void	_rediraction_output_in_chiled(int c_of_s, int j);
+void	_rediraction_input_in_chiled(int c_of_s, int j);
+void	_rediraction_append_in_chiled(int c_of_s, int j);
+
 #endif

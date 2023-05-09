@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+         #
+#    By: hdagdagu <hdagdagu@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/03 12:19:16 by nouakhro          #+#    #+#              #
-#    Updated: 2023/05/09 01:27:41 by nouakhro         ###   ########.fr        #
+#    Updated: 2023/05/09 12:41:03 by hdagdagu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -68,6 +68,9 @@ SRC = 	main.c\
 		parccing_whith_just_represent.c\
 		split_commande_rederaction.c\
 		syntax_error.c\
+		utils_check_rediractions_parent_2.c\
+		utils_check_rediractions_parent.c\
+		utils_check_rediractions_chiled.c\
 
 
 

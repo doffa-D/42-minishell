@@ -1,6 +1,6 @@
 {
     "files.associations": {
-        "minishell.h": "c",
+        "library/minishell.h": "c",
         "readline.h": "c",
         "stdio.h": "c",
         "history.h": "c",

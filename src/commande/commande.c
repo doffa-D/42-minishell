@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 14:19:24 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/09 15:52:30 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/13 15:55:12 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	exicut_commande(int i, int c_of_s)
 			printf("minishell: %s: Is a directory\n", \
 			g_struct.each_cmd[c_of_s].cmd[0]);
 			free_env(env);
-			exit(127);
+			exit(126);
 		}
 	}
 	if (execve(g_struct.my_path[i], g_struct.each_cmd[c_of_s].cmd, env) == -1)

@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 13:30:52 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/09 15:52:22 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/14 04:28:52 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ int	rederaction_and_builtins(int c_of_s)
 		return (1);
 	}
 	c_of_s = exicut_bultins(c_of_s, output_buckup, input_buckup);
+	return_fils_to_default(output_buckup, input_buckup);
+	free_all_v2(0);
 	if (c_of_s != 0)
 		return (c_of_s);
 	return (0);

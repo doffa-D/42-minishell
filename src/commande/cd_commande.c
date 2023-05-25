@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 12:50:10 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/09 15:52:29 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/13 21:55:39 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	cd_commade(int c_of_s)
 	int		pid;
 
 	pid = 0;
-	old = getcwd(NULL, 255);
+	old = getcwd(NULL, 0);
 	if ((ft_strlen(g_struct.each_cmd[c_of_s].cmd[0]) == 2 \
 			&& g_struct.each_cmd[c_of_s].cmd[1] \
 			&& (g_struct.each_cmd[c_of_s].cmd[1][0] == '~' \

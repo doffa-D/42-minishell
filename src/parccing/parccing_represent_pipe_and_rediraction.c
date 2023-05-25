@@ -6,37 +6,40 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 13:46:18 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/09 23:59:22 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/14 15:04:45 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+int	utils_pipe(void)
+{
+	int	i;
+	int	x;
+
+	i = 0;
+	x = 0;
+	while (g_struct.the_commande[i])
+	{
+		if (i == 0 && g_struct.the_commande[i] == 4)
+			return (1);
+		if (x == 1 && g_struct.the_commande[i] == 4)
+			return (1);
+		if (g_struct.the_commande[i] != 3)
+			x = 0;
+		if (g_struct.the_commande[i] == 4)
+			x = 1;
+		i++;
+	}
+	return (x);
+}
 
 int	change_quotes_and_pipe_and_rederaction(t_var *variables)
 {
 	while (g_struct.fix_cmd[variables->index_i][variables->index_j])
 	{
 		quote_and_dquote(variables);
-		pipe_and_rederaction_parceen(variables);
-		if (g_struct.fix_cmd[variables->index_i][variables->index_j] == 4 &&
-			((variables->index_j == 0 && variables->index_i == 0) \
-			|| (variables->index_j - 1 >= 0 && g_struct.fix_cmd \
-			[variables->index_i][variables->index_j - 1] == 4)
-			|| (g_struct.fix_cmd[variables->index_i][variables->index_j
-			+ 1] == 0 && g_struct.fix_cmd[variables->index_i + 1] == 0)))
-		{
-			// ft_putstr_fd("minishell: syntax error |\n", 2);
-			ft_putstr_fd("minishell: syntax error\n", 2);
-			while (g_struct.fix_cmd[variables->index_i])
-			{
-				free(g_struct.fix_cmd[variables->index_i]);
-				variables->index_i++;
-			}
-			free(g_struct.fix_cmd);
-			if (g_struct.the_commande)
-				free(g_struct.the_commande);
-			return (258);
-		}
+		pipe_and_rederaction_parcing(variables);
 		variables->index_j++;
 	}
 	return (0);
@@ -67,7 +70,7 @@ int	quote_and_dquote(t_var *variables)
 	return (variables->start);
 }
 
-void	pipe_and_rederaction_parceen(t_var *variables)
+void	pipe_and_rederaction_parcing(t_var *variables)
 {
 	if (g_struct.fix_cmd[variables->index_i][variables->index_j] == '|'
 		&& g_struct.status == OUTSIDE)

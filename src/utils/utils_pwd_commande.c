@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 19:18:30 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/09 19:45:49 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/14 03:38:02 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,9 @@ t_list	*searcher(t_list *list, char *old)
 	t_list	*new_node;
 	t_list	*new;
 	t_list	*new_1;
+	char	*str;
 
+	str = 0;
 	old_list = list;
 	if (idont_have(list, "OLDPWD=") == 0)
 	{
@@ -112,9 +114,6 @@ t_list	*searcher(t_list *list, char *old)
 	free_excution_part_after_error(new->content);
 	list = old_list;
 	new_1 = i_have(list, "PWD");
-	free(new_1->content);
-	new_1->content = ft_strjoin_v2(ft_strdup("PWD="), getcwd(NULL, 255));
-	free_excution_part_after_error(new_1->content);
-	list = old_list;
+	_max_path_file(new_1, old_list, str, list);
 	return (list);
 }

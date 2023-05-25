@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 15:05:18 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/05/09 19:20:19 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/14 03:39:38 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ void	delete_node(t_list *list, t_list *head, int x)
 				break ;
 			back = back->next;
 		}
-		ft_lstdelone(list, del);
 		back->next = list->next;
+		ft_lstdelone(list, del);
 	}
 }
 
@@ -53,59 +53,32 @@ int	first_varible(char *str, char *cmd, t_list *list)
 	return (0);
 }
 
-void	unset_checker(t_list *list, char *cmd, t_list *head, int i)
+int	unset_utils(t_list *list, char *cmd)
 {
-	int	x;
-
-	x = 0;
-	if (first_varible(list->content, cmd, list) == 1)
-		return ;
-	while (list != NULL)
+	if (list && !list->next)
 	{
-		while (cmd[i])
-		{
-			if (((char *)list->content)[i]
-				&& ((char *)list->content)[i] == cmd[i])
-			{
-				i++;
-				if (((char *)list->content)[i] == '='
-					|| ((char *)list->content)[i] == 0)
-					x = 1;
-			}
-			else
-				break ;
-		}
-		if (x == 1)
-			break ;
-		list = list->next;
+		ft_lstdelone(list, del);
+		list = NULL;
+		return (1);
 	}
-	delete_node(list, head, x);
+	if (first_varible(list->content, cmd, list) == 1)
+		return (0);
+	return (0);
 }
 
-int	unset_command(int c_of_s)
+void	unset_utils_2(t_list *list, char *cmd, int *x, int i)
 {
-	t_list	*ptr;
-	int		i;
-
-	ptr = g_struct.list;
 	i = 0;
-	while (g_struct.each_cmd[c_of_s].cmd[i])
+	while (cmd[i])
 	{
-		if (mini_check_export(g_struct.each_cmd[c_of_s].cmd[i]) == 1
-			|| ft_strchr(g_struct.each_cmd[c_of_s].cmd[i], '='))
+		if (((char *)list->content)[i]
+			&& ((char *)list->content)[i] == cmd[i])
 		{
-			printf("unset: `%s': not a valid identifier\n",
-				g_struct.each_cmd[c_of_s].cmd[i]);
-			return (-1);
-			i++;
+			if (i++ && (((char *)list->content)[i] == '='
+				|| ((char *)list->content)[i] == 0))
+				*x = 1;
 		}
 		else
-		{
-			unset_checker(g_struct.list, g_struct.each_cmd[c_of_s].cmd[i],
-				ptr, 0);
-			i++;
-		}
+			break ;
 	}
-	g_struct.list = ptr;
-	return (0);
 }

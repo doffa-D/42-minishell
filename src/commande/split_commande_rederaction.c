@@ -6,13 +6,13 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 15:02:03 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/09 18:41:23 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/14 03:53:56 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	commande_and_rederaction_parceen(t_var *variables,
+int	commande_and_rederaction_parcing(t_var *variables,
 		int c_of_s)
 {
 	int	i;

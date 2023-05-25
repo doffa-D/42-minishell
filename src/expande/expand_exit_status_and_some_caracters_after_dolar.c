@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 14:23:53 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/09 15:53:17 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/14 03:53:56 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ char	*expande_all(char *whotout_expande, char *my_string,
 		if (whotout_expande[variables->index_j + 1])
 		{
 			variables->start++;
-			my_string = variables_parceen(variables, \
+			my_string = variables_parcing(variables, \
 			whotout_expande, my_string);
 			variables->start = variables->index_j;
 		}

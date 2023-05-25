@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 14:22:56 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/09 23:49:12 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/14 03:53:56 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ char	*in_single_quotes(t_var *variables, \
 	return (my_string);
 }
 
-char	*variables_parceen(t_var *variables, \
+char	*variables_parcing(t_var *variables, \
 	char *whotout_expande, char *my_string)
 {
 	int		end;

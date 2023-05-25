@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 13:50:48 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/09 15:52:59 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/14 14:19:52 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*_get_env(t_list *head, int j, int trim, char *expande_variable)
 	{
 		while (expande_variable[i])
 		{
-			if (expande_variable[i] == ' ')
+			if (expande_variable[i] == ' ' || expande_variable[i] == '\t')
 				expande_variable[i] = 3;
 			i++;
 		}

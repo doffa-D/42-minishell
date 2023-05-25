@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 13:40:28 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/09 15:52:20 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/12 21:49:20 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 void	some_builtins(int c_of_s)
 {
-	if (g_struct.each_cmd[c_of_s].cmd[0]
-		&& ft_strlen(g_struct.each_cmd[c_of_s].cmd[0])
-		&& !ft_strncmp(g_struct.each_cmd[c_of_s].cmd[0], "cd",
-			ft_strlen(g_struct.each_cmd[c_of_s].cmd[0])))
+	if (g_struct.each_cmd[c_of_s].cmd[0] && \
+	ft_strlen(g_struct.each_cmd[c_of_s].cmd[0]) \
+	&& !ft_strncmp(g_struct.each_cmd[c_of_s].cmd[0], \
+	"cd", ft_strlen("cd") + 1))
 	{
 		if (cd_commade(c_of_s))
 			exit(1);

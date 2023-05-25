@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 15:13:01 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/09 15:51:42 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/13 00:30:52 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,10 @@ int	if_multiple_argemnt_in_rederaction_files(t_var *variables,
 	str = ft_split(g_struct.each_cmd[variables->index_i]. \
 	files[c_of_s].files, 3);
 	free_parccing_part_after_error(str);
-	if (str[if_error])
+	while (str[if_error])
 	{
 		free(g_struct.each_cmd[variables->index_i].files[c_of_s].files);
 		g_struct.each_cmd[variables->index_i].files[c_of_s].files = 0;
-	}
-	while (str[if_error])
-	{
 		g_struct.each_cmd[variables->index_i].files[c_of_s].files = \
 		ft_strdup(str[if_error]);
 		free_parccing_part_after_error(g_struct.each_cmd \

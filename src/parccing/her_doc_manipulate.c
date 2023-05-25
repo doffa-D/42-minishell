@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 15:06:06 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/09 23:38:55 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/14 15:34:48 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,9 +94,8 @@ char	*read_line_herdoc(int c_of_s, t_var *variables, char *herdoc)
 	return (herdoc);
 }
 
-void	parrcing_of_insied_herdoc(t_var *variables, int c_of_s)
+void	parrcing_of_insied_herdoc(t_var *variables, int c_of_s, int i)
 {
-	int		i;
 	int		fd_by_pipe[2];
 	char	*herdoc;
 
@@ -105,11 +104,12 @@ void	parrcing_of_insied_herdoc(t_var *variables, int c_of_s)
 	herdoc = ft_strdup("");
 	free_parccing_part_after_error(herdoc);
 	pipe(fd_by_pipe);
+	signal(SIGINT, SIG_IGN);
 	i = fork();
 	error_fork(i, 0);
 	if (i == 0)
 	{
-		signal(SIGINT, &handler_herdoc);
+		signal(SIGINT, SIG_DFL);
 		herdoc = read_line_herdoc(c_of_s, variables, herdoc);
 		ft_putstr_fd(herdoc, fd_by_pipe[1]);
 		close(fd_by_pipe[1]);

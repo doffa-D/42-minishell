@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 14:21:05 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/09 19:39:49 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/13 00:30:43 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,8 @@ void	expande_variables(t_var *var, int cas)
 	(g_struct.each_cmd[var->index_i].files[cas].files);
 	if (g_struct.tmp_cmd[var->index_j + 1])
 		g_struct.each_cmd[var->index_i].files[cas].files = \
-		expande_all(g_struct.tmp_cmd, \
-		g_struct.each_cmd[var->index_i].files[cas].files, var);
+		expande_all(g_struct.tmp_cmd, g_struct.each_cmd \
+		[var->index_i].files[cas].files, var);
 }
 
 void	quotes(t_var *variables, int c_of_s)

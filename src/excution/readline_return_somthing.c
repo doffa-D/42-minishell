@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 13:44:05 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/09 20:23:31 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/14 04:27:18 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ int	somting_in_readline(void)
 	int	j;
 	int	c_of_s;
 
-	c_of_s = 0;
 	i = 0;
 	j = 0;
 	if (each_argemnt(i, j) != -1)
@@ -33,6 +32,7 @@ int	somting_in_readline(void)
 	i = fix_arg();
 	if (i != 0)
 		return (i);
+	c_of_s = 0;
 	i = after_parccing(c_of_s);
 	if (i != 2)
 		return (i);

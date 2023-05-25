@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:07:52 by nouakhro          #+#    #+#             */
-/*   Updated: 2023/05/09 15:50:18 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/14 15:53:43 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,11 @@ void	handler(int sig)
 {
 	if (sig == SIGINT)
 	{
-		// rl_replace_line("", 0);
+		rl_replace_line("", 0);
 		printf("\n");
 		rl_on_new_line();
 		rl_redisplay();
 	}
-	if (sig == SIGQUIT)
-		return ;
 }
 
 int	after_parccing(int c_of_s)
@@ -63,8 +61,8 @@ int	main(int argc, char **argv, char **env)
 	g_struct.list = NULL;
 	fill_linked_list(env, &g_struct.list);
 	g_struct.exit_status = 0;
-	// signal(SIGINT, &handler);
-	// signal(SIGQUIT, &handler);
+	signal(SIGINT, &handler);
+	signal(SIGQUIT, SIG_IGN);
 	while (1)
 	{
 		g_struct.the_commande = 0;

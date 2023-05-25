@@ -6,7 +6,7 @@
 /*   By: nouakhro <nouakhro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 12:31:35 by hdagdagu          #+#    #+#             */
-/*   Updated: 2023/05/09 19:39:27 by nouakhro         ###   ########.fr       */
+/*   Updated: 2023/05/14 03:54:27 by nouakhro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	fix_arg(void)
 	t_var	variables;
 
 	init(&variables);
-	variables.index_i = parccen_part(&variables);
+	variables.index_i = parcing_part(&variables);
 	if (variables.index_i != 1)
 		return (variables.index_i);
 	free(g_struct.fix_cmd);
